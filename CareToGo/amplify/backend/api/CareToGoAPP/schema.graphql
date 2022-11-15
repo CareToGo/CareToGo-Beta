@@ -1,0 +1,98 @@
+type Mutation {
+  createPaymentIntent(amount: Int!): PaymentIntent!
+    @function(name: "CreatePaymentIntent-${env}")
+}
+
+type PaymentIntent {
+  clientSecret: String!
+}
+
+type PSWService @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+}
+
+type NurseService @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  name: String!
+  description: String!
+  price: Float!
+}
+
+enum OrderStatus {
+  NEW
+  ARRIVED
+  COMPLETED
+  ACCEPTED
+}
+
+type Order @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  total: Float!
+  service: String!
+  lat: Float!
+  lng: Float!
+  name: String!
+  address: String!
+  status: OrderStatus
+  Worker: Worker @hasOne
+  userID: ID! @index(name: "byUser")
+}
+
+enum TransportationModes {
+  BICYCLE
+  CAR
+  WALK
+}
+
+enum CareType {
+  TOTALCARE
+  SOMEASSITANCE
+  INDEPENDENT
+}
+
+type User @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  ver: Int!
+  sub: String!
+  lat: Float!
+  lng: Float!
+  firstname: String!
+  lastname: String!
+  gender: String!
+  dob: String!
+  email: String!
+  contactnum: String!
+  emergency: String!
+  address: String!
+  detailedaddress: String
+  postalcode: String!
+  bio: String
+  mobility: CareType!
+  toileting: CareType!
+  feeding: CareType!
+  bathing: CareType!
+  mealprep: CareType!
+  allergies: String!
+  diagnosis: String!
+  Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
+}
+
+type Worker @model @auth(rules: [{ allow: public }]) {
+  id: ID!
+  firstName: String!
+  lastName: String!
+  rating: Float
+  lat: Float!
+  lng: Float!
+  services: String
+  gender: String!
+  profession: String
+  experienceDescription: String!
+  bio: String!
+  sub: String!
+  isVerified: Boolean!
+  transportationMode: TransportationModes
+}

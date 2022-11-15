@@ -1,0 +1,13 @@
+{
+  "resourceName": "caretogo",
+  "policyUUID": "845e404a",
+  "bucketName": "caretogoapp5d053f24a858425da76f3b413425ee64",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "CREATE_AND_UPDATE",
+    "READ"
+  ],
+  "triggerFunction": "NONE",
+  "groupAccess": {}
+}

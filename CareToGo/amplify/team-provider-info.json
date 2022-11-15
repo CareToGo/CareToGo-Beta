@@ -1,0 +1,38 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-caretogoapp-staging-234315-authRole",
+      "UnauthRoleArn": "arn:aws:iam::498517101212:role/amplify-caretogoapp-staging-234315-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::498517101212:role/amplify-caretogoapp-staging-234315-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-caretogoapp-staging-234315-deployment",
+      "UnauthRoleName": "amplify-caretogoapp-staging-234315-unauthRole",
+      "StackName": "amplify-caretogoapp-staging-234315",
+      "StackId": "arn:aws:cloudformation:us-east-1:498517101212:stack/amplify-caretogoapp-staging-234315/1c5a9390-6476-11ed-afee-121c8d736bc9",
+      "AmplifyAppId": "d39ldcc55x9n3z"
+    },
+    "categories": {
+      "auth": {
+        "CareToGoAPP": {}
+      },
+      "api": {
+        "CareToGoAPP": {},
+        "StripeWebhook": {}
+      },
+      "storage": {
+        "caretogo": {}
+      },
+      "function": {
+        "CreatePaymentIntent": {
+          "deploymentBucketName": "amplify-caretogoapp-staging-234315-deployment",
+          "s3Key": "amplify-builds/CreatePaymentIntent-585779546951442b5636-build.zip"
+        },
+        "StripeWebhook": {
+          "deploymentBucketName": "amplify-caretogoapp-staging-234315-deployment",
+          "s3Key": "amplify-builds/StripeWebhook-2b684b584c6b2f727045-build.zip"
+        },
+        "StripeWebhook2": {}
+      }
+    }
+  }
+}
