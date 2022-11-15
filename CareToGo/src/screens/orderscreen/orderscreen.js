@@ -107,12 +107,17 @@ const OrderScreen = () => {
     }
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: clientSecret,
+      customFlow: false,
+      merchantDisplayName: 'Example Inc.',
+      style: 'alwaysDark'
+
     });
     console.log("success");
     if (error) {
       Alert.alert(error);
     }
   };
+
   const openPaymentSheet = async () => {
     if (!clientSecret) {
       return;
@@ -126,9 +131,11 @@ const OrderScreen = () => {
       Alert.alert("Success", "Your order is confirmed!");
     }
   };
+
   const placeOrder = () => {
     openPaymentSheet();
   };
+
   return (
     <View style={styles.mainContainer}>
       <ScrollView nestedScrollEnabled={true} style={styles.container}>
