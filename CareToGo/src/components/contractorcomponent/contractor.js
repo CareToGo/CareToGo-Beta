@@ -23,7 +23,6 @@ const Contractor = ({ worker }) => {
 
   const pressHandler = () => {
     navigation.navigate("contractor-details", worker);
-    console.log(worker);
   };
 
   return (
