@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { FlatList } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import {
   SharedElement,
   SharedElementTransition,
@@ -61,7 +62,14 @@ const ContractorDetails = () => {
       <Text style={styles.name}>
         {route.params.firstName} {route.params.lastName} {`\u2022 `}
         {route.params.profession}
+        {`\u2022 `}
+        <Ionicons
+          name={route.params.transportationMode.toLowerCase()}
+          size={24}
+          color="black"
+        />
       </Text>
+
       <Text style={styles.jobTitle}>{route.params.profession}</Text>
       <Image
         source={{
@@ -102,7 +110,7 @@ const ContractorDetails = () => {
                 borderColor: "black",
               }}
             >
-              <AntDesign name="Trophy" size={24} color="white" />
+              <MaterialIcons name="work" size={24} color="white" />
             </View>
             <View
               style={{
@@ -114,11 +122,8 @@ const ContractorDetails = () => {
                 justifyContent: "center",
               }}
             >
-              <AntDesign name="customerservice" size={24} color="white" />
+              <MaterialIcons name="contacts" size={24} color="white" />
             </View>
-          </View>
-          <View>
-            <Text>{route.params.transportationMode}</Text>
           </View>
         </ScrollView>
       </View>

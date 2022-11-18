@@ -1,17 +1,10 @@
-type Mutation {
-  createPaymentIntent(amount: Int!): PaymentIntent!
-    @function(name: "CreatePaymentIntent-${env}")
-}
-
-type PaymentIntent {
-  clientSecret: String!
-}
-
 type PSWService @model @auth(rules: [{ allow: public }]) {
   id: ID!
   name: String!
   description: String!
   price: Float!
+  type: String!
+  isClicked: Boolean!
 }
 
 type NurseService @model @auth(rules: [{ allow: public }]) {
@@ -19,6 +12,8 @@ type NurseService @model @auth(rules: [{ allow: public }]) {
   name: String!
   description: String!
   price: Float!
+  type: String!
+  isClicked: Boolean!
 }
 
 enum OrderStatus {

@@ -31,6 +31,20 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "isClicked": {
+                    "name": "isClicked",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -101,6 +115,20 @@ export const schema = {
                     "name": "price",
                     "isArray": false,
                     "type": "Float",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "type": {
+                    "name": "type",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "isClicked": {
+                    "name": "isClicked",
+                    "isArray": false,
+                    "type": "Boolean",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -704,5 +732,5 @@ export const schema = {
         }
     },
     "codegenVersion": "3.3.1",
-    "version": "e399127add78409beb76c14509af2379"
+    "version": "08c02c3e964b2f35ba9c8ed36358c1f8"
 };

@@ -58,6 +58,8 @@ type EagerPSWService = {
   readonly name: string;
   readonly description: string;
   readonly price: number;
+  readonly type: string;
+  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -67,6 +69,8 @@ type LazyPSWService = {
   readonly name: string;
   readonly description: string;
   readonly price: number;
+  readonly type: string;
+  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -82,6 +86,8 @@ type EagerNurseService = {
   readonly name: string;
   readonly description: string;
   readonly price: number;
+  readonly type: string;
+  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -91,6 +97,8 @@ type LazyNurseService = {
   readonly name: string;
   readonly description: string;
   readonly price: number;
+  readonly type: string;
+  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
