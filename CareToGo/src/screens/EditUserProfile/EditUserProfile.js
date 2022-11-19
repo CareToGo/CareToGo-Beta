@@ -22,7 +22,6 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
   Dimensions.get("window");
 
 const EditUserProfile = ({ route }) => {
-  const { thelink, passed } = route.params;
   const { dbUser, sub, setDbUser } = useAuthContext();
   const [firstname, setFName] = useState(dbUser?.firstname || "");
   const [lastname, setLName] = useState(dbUser?.lastname || "");
@@ -33,6 +32,7 @@ const EditUserProfile = ({ route }) => {
   const [emergency, setEmer] = useState(dbUser?.emergency || "");
   const [address, setAddress] = useState(dbUser?.address || "");
   const [da, setDA] = useState(dbUser?.detailedaddress || "");
+  const [postal, setPostal] = useState(dbUser?.postalcode || "");
   const [lat, setLat] = useState(dbUser?.lat + "" || "0");
   const [lng, setLng] = useState(dbUser?.lng + "" || "0");
   const [date, setDate] = useState(new Date('1996-12-25'));
@@ -42,11 +42,13 @@ const EditUserProfile = ({ route }) => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const _map = useRef(null);
 
-
+  useEffect(() => {
+    console.log('---------', GOOGLE_MAPS_APIKEY)
+  }, []);
 
   useEffect(() => {
     if (_map.current) {
-      console.log('animating the camera to', lat, lng)
+      // console.log('animating the camera to', lat, lng)
       _map.current.fitToCoordinates([{
         latitude: lat,
         longitude: lng,
@@ -62,9 +64,19 @@ const EditUserProfile = ({ route }) => {
     }
   }, [lat, lng]);
 
-  useEffect(() => {
-    console.log('---------', dbUser.address)
-  }, []);
+  const validateInput = () => {
+    var phoneregex = /^(\+1)?(\d){10}$/;
+    var emailregex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!phoneregex.test(contactnum)) {
+      alert('Please enter a valid phone number (+1)')
+    } else if (!phoneregex.test(emergency)) {
+      alert('Please enter a valid emergency number (+1)')
+    } else if (!emailregex.test(email)) {
+      alert('Please enter a valid email address')
+    } else if (phoneregex.test(contactnum) && phoneregex.test(emergency) && emailregex.test(email)) {
+      onSave()
+    }
+  }
 
   const pickAddy = () => {
     setAddyShow(true);
@@ -184,6 +196,7 @@ const EditUserProfile = ({ route }) => {
         updated.contactnum = contactnum;
         updated.address = address;
         updated.detailedaddress = da;
+        updated.postalcode = postal;
         updated.lat = parseFloat(lat);
         updated.lng = parseFloat(lng);
         updated._version = parseInt(dbUser.ver);
@@ -302,7 +315,7 @@ const EditUserProfile = ({ route }) => {
                 style={{
                   flex: 1,
                   color: "black",
-                  fontSize: SCREEN_WIDTH * 1.0 / email.length
+                  fontSize: (SCREEN_WIDTH * 1.0 / email.length > 18) ? (18) : (SCREEN_WIDTH * 1.0 / email.length)
                 }}
                 onChangeText={setEmail}
                 value={email}
@@ -328,6 +341,7 @@ const EditUserProfile = ({ route }) => {
                 }}
                 onChangeText={setNum}
                 value={contactnum}
+                placeholder='Required'
               />
             </View>
 
@@ -360,7 +374,7 @@ const EditUserProfile = ({ route }) => {
 
           <View style={{ ...styles.inputContainer }}>
             <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="edit-location" size={30} color="#001A72" />
+              <Entypo name="location" size={30} color="#001A72" />
             </View>
 
             <TouchableOpacity style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }} onPress={pickAddy} >
@@ -396,11 +410,34 @@ const EditUserProfile = ({ route }) => {
               <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>ADDRESS 2</Text>
             </View>
           </View>
+
+          <View style={{ ...styles.inputContainer }}>
+            <View style={{ justifyContent: 'center', width: 30 }}>
+              <MaterialCommunityIcons name="mailbox" size={30} color="#001A72" />
+            </View>
+
+            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
+              <TextInput
+                style={{
+                  flex: 1,
+                  color: "black",
+                  fontSize: 15
+                }}
+                onChangeText={setPostal}
+                value={postal}
+                placeholder='Unit, Apartment...'
+              />
+            </View>
+
+            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
+              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>POSTAL CODE</Text>
+            </View>
+          </View>
         </View>
 
         <TouchableOpacity
           style={{ backgroundColor: '#3b5092', padding: 10, borderRadius: 10, marginVertical: 10, width: '90%', height:SCREEN_HEIGHT/15, justifyContent:'center'  }}
-          onPress={onSave}
+          onPress={validateInput}
           underlayColor='#FFFFFF'>
           <Text style={{ color: '#ffde59', fontSize: 18, textAlign: 'center' }}>SAVE</Text>
         </TouchableOpacity>
@@ -488,7 +525,7 @@ const EditUserProfile = ({ route }) => {
             style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 10, marginVertical: 10 }}
             onPress={closeAddy}
             underlayColor='#FFFFFF'>
-            <Text style={{ color: 'white', fontSize: 18 }}>Close</Text>
+            <Text style={{ color: 'white', fontSize: 18 }}>Confirm</Text>
           </TouchableOpacity>
         </Animated.View>
       )}

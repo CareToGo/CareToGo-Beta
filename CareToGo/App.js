@@ -1,12 +1,13 @@
 import { KeyboardAvoidingView, Platform } from "react-native";
 import { StripeProvider } from "@stripe/stripe-react-native";
 import SplashNav from "./src/navigation/SplashNavigator/SplashNav";
-import { Amplify } from "aws-amplify";
+import { Amplify, DataStore } from "aws-amplify";
 import config from "./src/aws-exports";
 import { withAuthenticator } from "aws-amplify-react-native/dist/Auth";
 import AuthContextProvider from "./src/contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import BasketContextProvider from "./src/contexts/BasketContext";
+import { useEffect } from "react";
 
 Amplify.configure({
   ...config,

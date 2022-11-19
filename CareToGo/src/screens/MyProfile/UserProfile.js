@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView, Text, View, StyleSheet, TouchableHighlight, Image, Dimensions, Linking, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
@@ -147,9 +147,9 @@ export default function UserProfile() {
   };
 
   return (
-    <SafeAreaView style={{ paddingHorizontal: "0%", paddingVertical: 0, backgroundColor: "#FFFFFF" }}>
+    <SafeAreaView style={{ backgroundColor: "#FFFFFF" }}>
       {/* STATIC TOP HALF */}
-      <View style={{ backgroundColor: "#FFFFFF", paddingBottom: "3%", paddingHorizontal:"6%" ,paddingTop: "6%", justifyContent: "center", alignItems: 'center' }}>
+      <View style={styles.topContainer}>
         {/* TOP BRIEF COMPONENT */}
         <View style={{ borderWidth: 0, width: '100%', flexDirection: "row" }}>
           <View style={{ width: "30%", justifyContent: "center", alignItems: "center" }}>
@@ -201,7 +201,7 @@ export default function UserProfile() {
         {/* TOP BRIEF COMPONENT */}
 
         {/* UPLOAD PROGRESS BAR */}
-        <View style={{ width: '100%', height: 20, borderWidth: 0, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: '100%', height: 20, alignItems: 'center', justifyContent: 'center' }}>
           {percentage !== 0 && (
             <Progress.Bar progress={percentage / 100} width={SCREEN_WIDTH * 0.75} color='#001A72' />
           )}
@@ -209,7 +209,7 @@ export default function UserProfile() {
         {/* UPLOAD PROGRESS BAR */}
 
         {/* BIO COMPONENT */}
-        <View style={{ width: '95%', borderRadius: 10 }}>
+        <View style={{ width: '97%', borderRadius: 10 }}>
           <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'lightgray', width: '90%' }}>
             BIO
           </Text>
@@ -268,10 +268,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="account-edit" size={30} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Edit Profile</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -282,10 +282,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialIcons name="favorite" size={30} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Favorites</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -296,10 +296,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <FontAwesome5 name="history" size={27} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Request History</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -310,10 +310,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialIcons name="accessible" size={33} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Accessibility Settings</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -324,10 +324,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="file-document" size={30} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Terms of Services</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -338,10 +338,10 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="web" size={30} color="#001A72" />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16 }}>Visit Our Website!</Text>
                 </View>
-                <View style={{ width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
+                <View style={styles.menuArrow}>
                   <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
                 </View>
               </View>
@@ -352,12 +352,12 @@ export default function UserProfile() {
                 <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
                   <MaterialCommunityIcons name="logout-variant" size={30} color='#E87272' />
                 </View>
-                <View style={{ width: "75%", borderBottomWidth: 0, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center' }}>
+                <View style={styles.menuTitle}>
                   <Text style={{ fontSize: 16, color: '#E87272' }}>Log Out</Text>
                 </View>
-                {/* <View style={{ width: "10%", borderBottomWidth: 0, borderBottomColor: "lightgray", paddingVertical: 3, justifyContent: 'center', alignItems: 'center' }}>
-                <MaterialIcons name="keyboard-arrow-right" size={24} color="gray" />
-              </View> */}
+                <View style={styles.menuArrow}>
+                <MaterialIcons name="keyboard-arrow-right" size={24} color="#E87272" />
+              </View>
               </View>
             </TouchableHighlight>
           </View>
@@ -378,10 +378,17 @@ export default function UserProfile() {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 0,
-    flexDirection: "row",
+  topContainer: {
+    backgroundColor: "#FFFFFF", paddingBottom: "3%", paddingHorizontal:"6%",
+    paddingTop: "6%", justifyContent: "center", alignItems: 'center'
+  },
+  menuTitle: {
+    width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", 
+    paddingVertical: 3, justifyContent: 'center'
+  },
+  menuArrow: {
+    width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", 
+    paddingVertical: 3, justifyContent: 'center', alignItems: 'center' 
   },
   shadowProp: {
     shadowColor: '#CDB050',
