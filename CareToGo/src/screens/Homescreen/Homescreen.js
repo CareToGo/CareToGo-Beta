@@ -7,6 +7,7 @@ import {
   StatusBar,
   SafeAreaView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 import Contractor from "../../components/contractorcomponent/contractor";
 import { useBasketContext } from "../../contexts/BasketContext";
@@ -14,8 +15,8 @@ import c2g from "../../../assets/homespage/C2G.png";
 import tw from "tailwind-react-native-classnames";
 import { AntDesign } from "@expo/vector-icons";
 
-const height = 900;
-const width = 428;
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 export default function Homescreen() {
   const { workers } = useBasketContext();
 
@@ -49,7 +50,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor:'#FFFFFF'
   },
   bg: {
     position: "absolute",
