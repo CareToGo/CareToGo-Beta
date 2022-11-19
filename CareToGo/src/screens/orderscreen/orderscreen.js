@@ -70,18 +70,6 @@ const OrderScreen = () => {
 
   const [selected, setSelected] = useState({});
 
-  const sheetRef = useRef(null);
-  const snapPoints = useMemo(() => [370], []);
-
-  const handleSheetChange = useCallback((index) => {
-    console.log("handleSheetChange", index);
-  }, []);
-  const handleSnapPress = useCallback((index) => {
-    sheetRef.current?.snapToIndex(index);
-  }, []);
-  const handleClosePress = useCallback(() => {
-    sheetRef.current?.close();
-  }, []);
   const amount = Math.floor(100);
   useEffect(() => {
     fetchPaymentIntent();
@@ -108,9 +96,8 @@ const OrderScreen = () => {
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: clientSecret,
       customFlow: false,
-      merchantDisplayName: 'Example Inc.',
-      style: 'alwaysDark'
-
+      merchantDisplayName: "Example Inc.",
+      style: "alwaysDark",
     });
     console.log("success");
     if (error) {
@@ -187,57 +174,6 @@ const OrderScreen = () => {
           </Pressable>
         </View>
       </ScrollView>
-      <BottomSheet
-        ref={sheetRef}
-        snapPoints={snapPoints}
-        enablePanDownToClose={true}
-      >
-        <BottomSheetView>
-          <View style={styles.name}>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Your First Name"
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Enter Your Last Name"
-            />
-          </View>
-          <CardForm
-            onFormComplete={(cardDetails) => {
-              console.log("card details", cardDetails);
-              setCard(cardDetails);
-            }}
-            style={{ height: 200, marginHorizontal: 10, top: 10 }}
-          />
-          <View style={styles.buttonContainer}>
-            <Pressable onPress={placeOrder} style={styles.placeOrder}>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 17,
-                  color: "#FFDE59",
-                  textAlign: "center",
-                }}
-              >
-                Place Order
-              </Text>
-            </Pressable>
-            <Pressable onPress={() => handleClosePress()} style={styles.close}>
-              <Text
-                style={{
-                  fontWeight: "bold",
-                  fontSize: 17,
-                  color: "#FFFFFF",
-                  textAlign: "center",
-                }}
-              >
-                Close
-              </Text>
-            </Pressable>
-          </View>
-        </BottomSheetView>
-      </BottomSheet>
     </View>
   );
 };

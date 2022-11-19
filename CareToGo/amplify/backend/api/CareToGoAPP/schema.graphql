@@ -1,19 +1,17 @@
-type PSWService @model @auth(rules: [{ allow: public }]) {
+type PSWService @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   description: String!
   price: Float!
   type: String!
-  isClicked: Boolean!
 }
 
-type NurseService @model @auth(rules: [{ allow: public }]) {
+type NurseService @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
   description: String!
   price: Float!
   type: String!
-  isClicked: Boolean!
 }
 
 enum OrderStatus {
@@ -23,7 +21,7 @@ enum OrderStatus {
   ACCEPTED
 }
 
-type Order @model @auth(rules: [{ allow: public }]) {
+type Order @model @auth(rules: [{allow: public}]) {
   id: ID!
   total: Float!
   service: String!
@@ -48,7 +46,7 @@ enum CareType {
   INDEPENDENT
 }
 
-type User @model @auth(rules: [{ allow: public }]) {
+type User @model @auth(rules: [{allow: public}]) {
   id: ID!
   ver: Int!
   sub: String!
@@ -75,19 +73,21 @@ type User @model @auth(rules: [{ allow: public }]) {
   Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
-type Worker @model @auth(rules: [{ allow: public }]) {
+type Worker @model @auth(rules: [{allow: public}]) {
   id: ID!
   firstName: String!
   lastName: String!
   rating: Float
   lat: Float!
   lng: Float!
-  services: String
-  gender: String!
+  pswServices: String
+  nursingServices: String
   profession: String
   experienceDescription: String!
   bio: String!
   sub: String!
   isVerified: Boolean!
   transportationMode: TransportationModes
+  gender: String!
 }
+ 

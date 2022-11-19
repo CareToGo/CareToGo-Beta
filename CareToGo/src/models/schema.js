@@ -38,13 +38,6 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "isClicked": {
-                    "name": "isClicked",
-                    "isArray": false,
-                    "type": "Boolean",
-                    "isRequired": true,
-                    "attributes": []
-                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -122,13 +115,6 @@ export const schema = {
                     "name": "type",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "isClicked": {
-                    "name": "isClicked",
-                    "isArray": false,
-                    "type": "Boolean",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -359,18 +345,18 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "services": {
-                    "name": "services",
+                "pswServices": {
+                    "name": "pswServices",
                     "isArray": false,
                     "type": "String",
                     "isRequired": false,
                     "attributes": []
                 },
-                "gender": {
-                    "name": "gender",
+                "nursingServices": {
+                    "name": "nursingServices",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "profession": {
@@ -415,6 +401,13 @@ export const schema = {
                         "enum": "TransportationModes"
                     },
                     "isRequired": false,
+                    "attributes": []
+                },
+                "gender": {
+                    "name": "gender",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
                     "attributes": []
                 },
                 "createdAt": {
@@ -717,20 +710,7 @@ export const schema = {
             ]
         }
     },
-    "nonModels": {
-        "PaymentIntent": {
-            "name": "PaymentIntent",
-            "fields": {
-                "clientSecret": {
-                    "name": "clientSecret",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
-                }
-            }
-        }
-    },
+    "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "08c02c3e964b2f35ba9c8ed36358c1f8"
+    "version": "e27ab0938ab384d280f31e6eaad8d19e"
 };

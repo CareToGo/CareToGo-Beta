@@ -3,15 +3,14 @@ import {
   View,
   Text,
   Image,
-  Pressable,
-  ScrollView,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
-import Map from "../../../assets/contractor-details-page/contractorDetailsMap.png";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { FlatList } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import {
   SharedElement,
@@ -19,13 +18,12 @@ import {
   nodeFromRef,
 } from "react-native-shared-element";
 
-const height = 900;
-const width = 428;
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const ContractorDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
-  const services = route.params.service;
 
   const pressHandler = () => {
     navigation.navigate("orders", {
@@ -41,8 +39,8 @@ const ContractorDetails = () => {
         style={{
           padding: 12,
           position: "absolute",
-          top: 20 * 2,
-          left: 10,
+          top: height * 0.04,
+          left: "2%",
           zIndex: 2,
         }}
         onPress={() => {
@@ -63,14 +61,13 @@ const ContractorDetails = () => {
         {route.params.firstName} {route.params.lastName} {`\u2022 `}
         {route.params.profession}
         {`\u2022 `}
-        <Ionicons
+        <FontAwesome
           name={route.params.transportationMode.toLowerCase()}
           size={24}
-          color="black"
+          color="white"
         />
       </Text>
 
-      <Text style={styles.jobTitle}>{route.params.profession}</Text>
       <Image
         source={{
           uri: "http://www.by-lee.com/nurse0.jpg",
@@ -79,53 +76,54 @@ const ContractorDetails = () => {
       />
 
       <View style={styles.bg}>
-        <ScrollView>
-          <View
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-evenly",
+          }}
+        >
+          <TouchableOpacity
             style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
+              backgroundColor: "#A6C4DD",
+              height: 64,
+              width: 64,
+              borderRadius: 32,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <TouchableOpacity
-              onPress={pressHandler}
-              style={{
-                backgroundColor: "#A6C4DD",
-                height: 64,
-                width: 64,
-                borderRadius: 32,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <MaterialIcons name="medical-services" size={24} color="white" />
-            </TouchableOpacity>
-            <View
-              style={{
-                backgroundColor: "#A6C4DD",
-                height: 64,
-                width: 64,
-                borderRadius: 32,
-                alignItems: "center",
-                justifyContent: "center",
-                borderColor: "black",
-              }}
-            >
-              <MaterialIcons name="work" size={24} color="white" />
-            </View>
-            <View
-              style={{
-                backgroundColor: "#A6C4DD",
-                height: 64,
-                width: 64,
-                borderRadius: 32,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <MaterialIcons name="contacts" size={24} color="white" />
-            </View>
-          </View>
-        </ScrollView>
+            <MaterialIcons name="contacts" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: "#A6C4DD",
+              height: 64,
+              width: 64,
+              borderRadius: 32,
+              alignItems: "center",
+              justifyContent: "center",
+              borderColor: "black",
+            }}
+          >
+            <MaterialIcons name="work" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={pressHandler}
+            style={{
+              backgroundColor: "#A6C4DD",
+              height: 64,
+              width: 64,
+              borderRadius: 32,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <MaterialIcons name="medical-services" size={24} color="white" />
+          </TouchableOpacity>
+        </View>
+        <View>
+          <Entypo name="dot-single" size={24} color="black" />
+        </View>
       </View>
     </View>
   );
@@ -143,11 +141,11 @@ const styles = StyleSheet.create({
     paddingTop: 32 + 10,
   },
   image: {
-    width: 120,
-    height: 120,
+    width: width * 0.3,
+    height: height * 0.13,
     resizeMode: "contain",
     position: "absolute",
-    top: height / 6,
+    top: height / 5.8,
     right: 15,
     borderRadius: 32,
   },
@@ -157,6 +155,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: height / 4,
     left: "5%",
+    color: "white",
   },
 });
 

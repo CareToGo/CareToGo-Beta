@@ -21,7 +21,7 @@ const CareType = {
   "INDEPENDENT": "INDEPENDENT"
 };
 
-const { PSWService, NurseService, Order, Worker, User, PaymentIntent } = initSchema(schema);
+const { PSWService, NurseService, Order, Worker, User } = initSchema(schema);
 
 export {
   PSWService,
@@ -31,6 +31,5 @@ export {
   User,
   OrderStatus,
   TransportationModes,
-  CareType,
-  PaymentIntent
+  CareType
 };

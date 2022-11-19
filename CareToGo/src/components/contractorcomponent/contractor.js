@@ -5,6 +5,7 @@ import {
   Image,
   TouchableOpacity,
   SafeAreaView,
+  Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
@@ -14,13 +15,14 @@ import {
   SharedElementTransition,
   nodeFromRef,
 } from "react-native-shared-element";
+import StarRating from "react-native-star-rating";
 
-const height = 900;
-const width = 428;
+const width = Dimensions.get("window").width;
+const height = Dimensions.get("window").height;
 
 const Contractor = ({ worker }) => {
   const navigation = useNavigation();
-
+  console.log(width, height);
   const pressHandler = () => {
     navigation.navigate("contractor-details", worker);
   };
@@ -46,11 +48,15 @@ const Contractor = ({ worker }) => {
         <SharedElement id={`${worker.id}.name`}>
           <Text style={styles.nurseTitle}>
             {worker.firstName} {worker.lastName} {`\u2022 `}
+            <FontAwesome
+              name={worker.transportationMode.toLowerCase()}
+              size={25}
+              color="white"
+            />{" "}
+            {`\u2022 `}
             {worker.profession}
           </Text>
         </SharedElement>
-        <Text style={styles.details}>{worker.experienceDescription}</Text>
-
         <SharedElement id={`${worker.id}.image`}>
           <Image
             source={{
@@ -59,6 +65,11 @@ const Contractor = ({ worker }) => {
             style={styles.image}
           />
         </SharedElement>
+
+        <Text style={styles.details}>
+          {worker.experienceDescription} years of Experience
+        </Text>
+
         <View
           style={{
             flexDirection: "row",
@@ -66,17 +77,24 @@ const Contractor = ({ worker }) => {
             alignItems: "center",
           }}
         >
-          <View style={{ padding: 5 }}>
-            <FontAwesome name="bicycle" size={40} color="white" />
-          </View>
-          <View style={{ flexDirection: "column", padding: 5 }}>
-            <Text style={{ color: "white" }}> Distance: 5 Km</Text>
-            <Text style={{ color: "white", alignItems: "center" }}>
-              <AntDesign name="staro" size={12} color="white" />
-              4.98
+          <View
+            style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
+          >
+            <Text style={{ color: "white", padding: 0 }}>
+              {" "}
+              5 Km {`\u2022 `} 20 min {`\u2022 `}
             </Text>
+            <StarRating
+              disabled={true}
+              fullStarColor={"#A6C4DD"}
+              maxStars={5}
+              rating={4.5}
+              starSize={18}
+              containerStyle={{ width: 100 }}
+            />
           </View>
         </View>
+        <View style={{ padding: 5 }}></View>
         <View style={styles.bg} />
       </TouchableOpacity>
     </SafeAreaView>
@@ -87,13 +105,13 @@ export default Contractor;
 
 const styles = StyleSheet.create({
   image: {
-    width: 120,
-    height: 120,
+    width: width * 0.3,
+    height: height * 0.13,
     resizeMode: "contain",
     position: "absolute",
     bottom: -115,
     right: 15,
-    borderRadius: 32,
+    borderRadius: 30,
   },
 
   nurseTitle: {
@@ -106,7 +124,7 @@ const styles = StyleSheet.create({
 
   details: {
     color: "white",
-    fontSize: 11,
+    fontSize: 15,
     opacity: 0.7,
     marginVertical: 5,
     marginHorizontal: 10,

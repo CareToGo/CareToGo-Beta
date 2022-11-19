@@ -21,18 +21,6 @@ export enum CareType {
   INDEPENDENT = "INDEPENDENT"
 }
 
-type EagerPaymentIntent = {
-  readonly clientSecret: string;
-}
-
-type LazyPaymentIntent = {
-  readonly clientSecret: string;
-}
-
-export declare type PaymentIntent = LazyLoading extends LazyLoadingDisabled ? EagerPaymentIntent : LazyPaymentIntent
-
-export declare const PaymentIntent: (new (init: ModelInit<PaymentIntent>) => PaymentIntent)
-
 type PSWServiceMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
@@ -59,7 +47,6 @@ type EagerPSWService = {
   readonly description: string;
   readonly price: number;
   readonly type: string;
-  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -70,7 +57,6 @@ type LazyPSWService = {
   readonly description: string;
   readonly price: number;
   readonly type: string;
-  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -87,7 +73,6 @@ type EagerNurseService = {
   readonly description: string;
   readonly price: number;
   readonly type: string;
-  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -98,7 +83,6 @@ type LazyNurseService = {
   readonly description: string;
   readonly price: number;
   readonly type: string;
-  readonly isClicked: boolean;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -154,14 +138,15 @@ type EagerWorker = {
   readonly rating?: number | null;
   readonly lat: number;
   readonly lng: number;
-  readonly services?: string | null;
-  readonly gender: string;
+  readonly pswServices?: string | null;
+  readonly nursingServices?: string | null;
   readonly profession?: string | null;
   readonly experienceDescription: string;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
+  readonly gender: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -173,14 +158,15 @@ type LazyWorker = {
   readonly rating?: number | null;
   readonly lat: number;
   readonly lng: number;
-  readonly services?: string | null;
-  readonly gender: string;
+  readonly pswServices?: string | null;
+  readonly nursingServices?: string | null;
   readonly profession?: string | null;
   readonly experienceDescription: string;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
+  readonly gender: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

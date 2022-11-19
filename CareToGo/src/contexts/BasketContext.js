@@ -15,13 +15,16 @@ const BasketContextProvider = ({ children }) => {
     const subscription = DataStore.observeQuery(Worker).subscribe(
       (snapshot) => {
         const { items } = snapshot;
+        setWorker(null);
         setWorkers(items);
+        console.log(items);
       }
     );
   };
 
   useEffect(() => {
     queryWorkers();
+    console.log(workers);
   }, []);
 
   const createOrder = async (Service, price) => {
