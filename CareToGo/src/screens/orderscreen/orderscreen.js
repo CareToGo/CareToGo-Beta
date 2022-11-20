@@ -96,13 +96,8 @@ const OrderScreen = () => {
     const { error } = await initPaymentSheet({
       paymentIntentClientSecret: clientSecret,
       customFlow: false,
-<<<<<<< Updated upstream
       merchantDisplayName: "Example Inc.",
       style: "alwaysDark",
-=======
-      merchantDisplayName: 'Example Inc.',
-      style: 'alwaysDark'
->>>>>>> Stashed changes
     });
     console.log("success");
     if (error) {
