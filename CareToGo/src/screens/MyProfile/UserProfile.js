@@ -18,8 +18,6 @@ import { configureFonts, TextInput } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
 
-
-
 export default function UserProfile() {
   const { dbUser, sub, setDbUser } = useAuthContext();
   const navigation = useNavigation();

@@ -14,10 +14,7 @@ import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, route } from "@react-navigation/native";
 import { GOOGLE_MAPS_APIKEY } from "@env";
-import { Storage } from "aws-amplify";
-import Constants from "expo-constants";
-import * as Progress from 'react-native-progress';
-import { CognitoUserPool } from "amazon-cognito-identity-js";
+
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
   Dimensions.get("window");
 
