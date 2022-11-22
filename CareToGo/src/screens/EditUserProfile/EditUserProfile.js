@@ -33,7 +33,7 @@ import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 import { Picker } from "@react-native-picker/picker";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useNavigation, route } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { GOOGLE_MAPS_APIKEY } from "@env";
 import { Storage } from "aws-amplify";
 import Constants from "expo-constants";
@@ -42,6 +42,7 @@ import { CognitoUserPool } from "amazon-cognito-identity-js";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const EditUserProfile = () => {
+  const navigation = useNavigation();
   const { dbUser, sub, setDbUser } = useAuthContext();
   const [firstname, setFName] = useState(dbUser?.firstname || "");
   const [lastname, setLName] = useState(dbUser?.lastname || "");
@@ -68,7 +69,6 @@ const EditUserProfile = () => {
 
   useEffect(() => {
     if (_map.current) {
-      // console.log('animating the camera to', lat, lng)
       _map.current.fitToCoordinates(
         [
           {
@@ -114,6 +114,10 @@ const EditUserProfile = () => {
       useNativeDriver: true,
       duration: 500,
     }).start();
+  };
+
+  const editcareprofile = () => {
+    navigation.navigate("EditCareProfile");
   };
 
   const closeAddy = () => {
@@ -210,6 +214,7 @@ const EditUserProfile = () => {
   const onSave = async () => {
     if (dbUser) {
       await updateUser();
+      navigation.goBack();
     } else {
       await createUser();
     }
@@ -260,10 +265,10 @@ const EditUserProfile = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "#FFFFFF" }}>
-      <ScrollView
-        contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}
-      >
+    <SafeAreaView style={{ backgroundColor: "#FFFFFF"}}>
+      <ScrollView contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}>
+
+        {/* FORM */}
         <View style={{ ...styles.mainContainer }}>
           <View style={{ ...styles.inputContainer }}>
             <View style={{ justifyContent: "center", width: 30 }}>
@@ -277,9 +282,10 @@ const EditUserProfile = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
-                width: SCREEN_WIDTH * 0.9 - 75,
+                width: SCREEN_WIDTH * 0.9 - 60,
                 borderColor: "lightgray",
                 borderBottomWidth: 1,
+                borderTopWidth: 1
               }}
             >
               <TextInput
@@ -319,6 +325,7 @@ const EditUserProfile = () => {
                 justifyContent: "center",
                 borderColor: "lightgray",
                 borderBottomWidth: 1,
+                borderTopWidth: 1
               }}
             >
               <Text
@@ -657,7 +664,9 @@ const EditUserProfile = () => {
             </View>
           </View>
         </View>
-
+        {/* FORM */}
+        
+        {/* SAVEBTN */}
         <TouchableOpacity
           style={{
             backgroundColor: "#3b5092",
@@ -675,7 +684,9 @@ const EditUserProfile = () => {
             SAVE
           </Text>
         </TouchableOpacity>
+        {/* SAVEBTN */}
 
+        {/* CAREPROFILE */}
         <TouchableOpacity
           style={{
             backgroundColor: "#3b5092",
@@ -686,13 +697,14 @@ const EditUserProfile = () => {
             height: SCREEN_HEIGHT / 15,
             justifyContent: "center",
           }}
-          onPress={onSave}
+          onPress={editcareprofile}
           underlayColor="#FFFFFF"
         >
           <Text style={{ color: "#ffde59", fontSize: 18, textAlign: "center" }}>
-            SAVE & NEXT
+            EDIT CARE PROFILE
           </Text>
         </TouchableOpacity>
+        {/* CAREPROFILE */} 
 
         {Platform.OS == "ios" && show && (
           <Animated.View
@@ -816,7 +828,8 @@ const EditUserProfile = () => {
           </TouchableOpacity>
         </Animated.View>
       )}
-    </View>
+
+    </SafeAreaView >
   );
 };
 
@@ -825,9 +838,8 @@ export default EditUserProfile;
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#FFFFFF",
-    borderWidth: 0,
     paddingBottom: 10,
-    paddingHorizontal: "5%",
+    paddingHorizontal: "3%",
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
