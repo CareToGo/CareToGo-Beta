@@ -567,8 +567,8 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "mobility": {
-                    "name": "mobility",
+                "grooming": {
+                    "name": "grooming",
                     "isArray": false,
                     "type": {
                         "enum": "CareType"
@@ -612,10 +612,12 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "allergies": {
-                    "name": "allergies",
+                "mobility": {
+                    "name": "mobility",
                     "isArray": false,
-                    "type": "String",
+                    "type": {
+                        "enum": "CareType"
+                    },
                     "isRequired": true,
                     "attributes": []
                 },
@@ -639,6 +641,13 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "userID"
                     }
+                },
+                "allergies": {
+                    "name": "allergies",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": true,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -705,12 +714,12 @@ export const schema = {
             "name": "CareType",
             "values": [
                 "TOTALCARE",
-                "SOMEASSITANCE",
+                "SOMEASSISTANCE",
                 "INDEPENDENT"
             ]
         }
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "e27ab0938ab384d280f31e6eaad8d19e"
+    "version": "c4c81b2d06bb60520eb23ab0e66d956e"
 };

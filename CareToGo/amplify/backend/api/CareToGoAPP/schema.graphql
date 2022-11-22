@@ -42,7 +42,7 @@ enum TransportationModes {
 
 enum CareType {
   TOTALCARE
-  SOMEASSITANCE
+  SOMEASSISTANCE
   INDEPENDENT
 }
 
@@ -63,14 +63,15 @@ type User @model @auth(rules: [{allow: public}]) {
   detailedaddress: String
   postalcode: String!
   bio: String
-  mobility: CareType!
+  grooming: CareType!
   toileting: CareType!
   feeding: CareType!
   bathing: CareType!
   mealprep: CareType!
-  allergies: String!
+  mobility: CareType!
   diagnosis: String!
   Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
+  allergies: String!
 }
 
 type Worker @model @auth(rules: [{allow: public}]) {

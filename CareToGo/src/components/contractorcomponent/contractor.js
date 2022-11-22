@@ -22,7 +22,6 @@ const height = Dimensions.get("window").height;
 
 const Contractor = ({ worker }) => {
   const navigation = useNavigation();
-  console.log(width, height);
   const pressHandler = () => {
     navigation.navigate("contractor-details", worker);
   };

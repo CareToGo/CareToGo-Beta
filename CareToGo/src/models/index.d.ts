@@ -17,7 +17,7 @@ export enum TransportationModes {
 
 export enum CareType {
   TOTALCARE = "TOTALCARE",
-  SOMEASSITANCE = "SOMEASSITANCE",
+  SOMEASSISTANCE = "SOMEASSISTANCE",
   INDEPENDENT = "INDEPENDENT"
 }
 
@@ -194,14 +194,15 @@ type EagerUser = {
   readonly detailedaddress?: string | null;
   readonly postalcode: string;
   readonly bio?: string | null;
-  readonly mobility: CareType | keyof typeof CareType;
+  readonly grooming: CareType | keyof typeof CareType;
   readonly toileting: CareType | keyof typeof CareType;
   readonly feeding: CareType | keyof typeof CareType;
   readonly bathing: CareType | keyof typeof CareType;
   readonly mealprep: CareType | keyof typeof CareType;
-  readonly allergies: string;
+  readonly mobility: CareType | keyof typeof CareType;
   readonly diagnosis: string;
   readonly Orders?: (Order | null)[] | null;
+  readonly allergies: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -223,14 +224,15 @@ type LazyUser = {
   readonly detailedaddress?: string | null;
   readonly postalcode: string;
   readonly bio?: string | null;
-  readonly mobility: CareType | keyof typeof CareType;
+  readonly grooming: CareType | keyof typeof CareType;
   readonly toileting: CareType | keyof typeof CareType;
   readonly feeding: CareType | keyof typeof CareType;
   readonly bathing: CareType | keyof typeof CareType;
   readonly mealprep: CareType | keyof typeof CareType;
-  readonly allergies: string;
+  readonly mobility: CareType | keyof typeof CareType;
   readonly diagnosis: string;
   readonly Orders: AsyncCollection<Order>;
+  readonly allergies: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
