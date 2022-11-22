@@ -14,7 +14,7 @@ PODS:
   - EXImageLoader (3.2.0):
     - ExpoModulesCore
     - React-Core
-  - Expo (45.0.6):
+  - Expo (45.0.8):
     - ExpoModulesCore
   - ExpoClipboard (3.0.1):
     - ExpoModulesCore
@@ -245,11 +245,11 @@ PODS:
   - React-jsinspector (0.68.2)
   - React-logger (0.68.2):
     - glog
-  - react-native-image-picker (4.10.0):
+  - react-native-image-picker (4.10.1):
     - React-Core
   - react-native-maps (0.30.2):
     - React-Core
-  - react-native-netinfo (8.2.0):
+  - react-native-netinfo (8.3.1):
     - React-Core
   - react-native-safe-area-context (4.2.4):
     - RCT-Folly
@@ -326,7 +326,7 @@ PODS:
     - React-Core
   - RNCAsyncStorage (1.17.11):
     - React-Core
-  - RNCPicker (2.4.0):
+  - RNCPicker (2.4.8):
     - React-Core
   - RNDateTimePicker (6.1.2):
     - React-Core
@@ -603,7 +603,7 @@ SPEC CHECKSUMS:
   EXFileSystem: 2aa2d9289f84bca9532b9ccbd81504fa31eb1ded
   EXFont: 04235cc22e6fef86028feb67db452978dc6f240f
   EXImageLoader: b88e053d760f85a82405b1db2de4abf11978fc9f
-  Expo: 3df4af520db4f37f9821ba732ce9ac0dc67bb7b8
+  Expo: 1133eaf0e12dc265ac82a256f3815401b7570f96
   ExpoClipboard: e2dda22be0524595a5eeead51665f60729829123
   ExpoImagePicker: d9d6b4f29db437fc7796f13cee5f133f5b4b5f7c
   ExpoKeepAwake: c0c494b442ecd8122974c13b93ccfb57bd408e88
@@ -626,9 +626,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: b7b553412f2ec768fe6c8f27cd6bafdb9d8719e6
   React-jsinspector: c5989c77cb89ae6a69561095a61cce56a44ae8e8
   React-logger: a0833912d93b36b791b7a521672d8ee89107aff1
-  react-native-image-picker: 4bc9ed38c8be255b515d8c88babbaf74973f91a8
+  react-native-image-picker: f2ab1215d17bcfe27b0eb6417cc236fd1f4775e7
   react-native-maps: df7b9fca1b1c8d356fadbf5b8a63a5f8cf32fc73
-  react-native-netinfo: e922cb2e3eaf9ccdf16b8d4744a89657377aa4a1
+  react-native-netinfo: 1a6035d3b9780221d407c277ebfb5722ace00658
   react-native-safe-area-context: f98b0b16d1546d208fc293b4661e3f81a895afd9
   React-perflogger: a18b4f0bd933b8b24ecf9f3c54f9bf65180f3fe6
   React-RCTActionSheet: 547fe42fdb4b6089598d79f8e1d855d7c23e2162
@@ -644,7 +644,7 @@ SPEC CHECKSUMS:
   ReactCommon: 095366164a276d91ea704ce53cb03825c487a3f2
   RNAWSCognito: 8b90597e928a8e336af19c879aff0e9142afe9ff
   RNCAsyncStorage: 8616bd5a58af409453ea4e1b246521bb76578d60
-  RNCPicker: 6d5d64e7b90c240c779ee0938ec433c11e2dd758
+  RNCPicker: 0bf8ef8f7800524f32d2bb2a8bcadd53eda0ecd1
   RNDateTimePicker: 6f1f0b4cf7c71b6e2aea7a3aa62969111084bbd1
   RNGestureHandler: 1dc1ea9d4b64f999042afafbaccf5b143f0b2fa2
   RNImageCropPicker: 648356d68fbf9911a1016b3e3723885d28373eda

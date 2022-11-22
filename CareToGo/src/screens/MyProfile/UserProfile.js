@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { SafeAreaView, Text, View, StyleSheet, TouchableHighlight, Image, Dimensions, Linking, Platform, Keyboard, TouchableWithoutFeedback } from "react-native";
+import {
+  SafeAreaView,
+  Text,
+  View,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  Dimensions,
+  Linking,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+} from "react-native";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome5 } from '@expo/vector-icons';
-import { FontAwesome } from '@expo/vector-icons';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import { Auth } from "aws-amplify";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { Auth, Hub } from "aws-amplify";
 import Constants from "expo-constants";
 import { Storage } from "aws-amplify";
 import * as ImagePicker from "expo-image-picker";
-import * as Progress from 'react-native-progress'
+import * as Progress from "react-native-progress";
 import { DataStore } from "aws-amplify";
 import { User } from "../../models";
-import { Feather } from '@expo/vector-icons';
+import { Feather } from "@expo/vector-icons";
 import { configureFonts, TextInput } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
@@ -23,9 +35,10 @@ export default function UserProfile() {
   const navigation = useNavigation();
   const [imageLink, setImageLink] = useState();
   const [percentage, setPercentage] = useState(0);
-  const [userbio, setUserBio] = useState(dbUser?.bio || '');
+  const [userbio, setUserBio] = useState(dbUser?.bio || "");
   const [editingbio, setEditBio] = useState(false);
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+    Dimensions.get("window");
 
   const startEdit = () => {
     setEditBio(true);
@@ -38,15 +51,18 @@ export default function UserProfile() {
 
   const fetchLink = async () => {
     Storage.get(`${sub}.jpg`)
-      .then((mylink) =>
-        setImageLink(mylink)
-      )
-      .catch((e) => console.log(e))
-  }
+      .then((mylink) => setImageLink(mylink))
+      .catch((e) => console.log(e));
+  };
 
   useEffect(() => {
     fetchLink();
   }, []);
+
+  const signOut = async () => {
+    await DataStore.clear();
+    await Auth.signOut();
+  };
 
   useEffect(() => {
     (async () => {
@@ -129,8 +145,11 @@ export default function UserProfile() {
   };
 
   const editprofile = () => {
-    navigation.navigate('EditUserProfile', { thelink: imageLink, passed: true });
-  }
+    navigation.navigate("EditUserProfile", {
+      thelink: imageLink,
+      passed: true,
+    });
+  };
 
   const updateUser = async () => {
     const user = await DataStore.save(
@@ -149,49 +168,81 @@ export default function UserProfile() {
       {/* STATIC TOP HALF */}
       <View style={styles.topContainer}>
         {/* TOP BRIEF COMPONENT */}
-        <View style={{ borderWidth: 0, width: '100%', flexDirection: "row" }}>
-          <View style={{ width: "30%", justifyContent: "center", alignItems: "center" }}>
+        <View style={{ borderWidth: 0, width: "100%", flexDirection: "row" }}>
+          <View
+            style={{
+              width: "30%",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
             <Image
               source={{ uri: imageLink }}
-              style={{ width: "95%", height: undefined, aspectRatio: 1, borderRadius: 100 }}
+              style={{
+                width: "95%",
+                height: undefined,
+                aspectRatio: 1,
+                borderRadius: 100,
+              }}
             />
             <MaterialCommunityIcons
               onPress={pickImage}
               name="image-edit"
-              size={24} color="#001A72"
-              style={{ position: 'absolute', bottom: 0, right: 0 }}
+              size={24}
+              color="#001A72"
+              style={{ position: "absolute", bottom: 0, right: 0 }}
             />
           </View>
 
-          <View style={{ width: "70%", marginLeft: 15, justifyContent: "flex-end", borderLeftWidth: 1, paddingHorizontal: '6%', borderLeftColor: 'lightgray' }}>
-
+          <View
+            style={{
+              width: "70%",
+              marginLeft: 15,
+              justifyContent: "flex-end",
+              borderLeftWidth: 1,
+              paddingHorizontal: "6%",
+              borderLeftColor: "lightgray",
+            }}
+          >
             <Text
-              style={{ fontSize: 12, fontWeight: "bold", color: "gray", textAlign: 'right' }}>
+              style={{
+                fontSize: 12,
+                fontWeight: "bold",
+                color: "gray",
+                textAlign: "right",
+              }}
+            >
               WELCOME!
             </Text>
             <Text
               style={{
-                textAlign: 'right',
+                textAlign: "right",
                 color: "#001A72",
-                fontSize: ((SCREEN_WIDTH * 0.9 / dbUser.firstname.length) > 33 ? 33 : (SCREEN_WIDTH * 0.9 / dbUser.firstname.length)),
-                fontWeight: "bold"
-              }}>
+                fontSize:
+                  (SCREEN_WIDTH * 0.9) / dbUser.firstname.length > 33
+                    ? 33
+                    : (SCREEN_WIDTH * 0.9) / dbUser.firstname.length,
+                fontWeight: "bold",
+              }}
+            >
               {dbUser.firstname}
             </Text>
             <Text
               style={{
-                textAlign: 'right',
+                textAlign: "right",
                 color: "#001A72",
                 fontSize: 12,
-              }}>
+              }}
+            >
               {dbUser.contactnum}
             </Text>
             <Text
               style={{
                 color: "#001A72",
                 fontSize: 12,
-                textAlign: 'right'
-              }}>
+                textAlign: "right",
+              }}
+            >
               {dbUser.email}
             </Text>
           </View>
@@ -199,31 +250,68 @@ export default function UserProfile() {
         {/* TOP BRIEF COMPONENT */}
 
         {/* UPLOAD PROGRESS BAR */}
-        <View style={{ width: '100%', height: 20, alignItems: 'center', justifyContent: 'center' }}>
+        <View
+          style={{
+            width: "100%",
+            height: 20,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
           {percentage !== 0 && (
-            <Progress.Bar progress={percentage / 100} width={SCREEN_WIDTH * 0.75} color='#001A72' />
+            <Progress.Bar
+              progress={percentage / 100}
+              width={SCREEN_WIDTH * 0.75}
+              color="#001A72"
+            />
           )}
         </View>
         {/* UPLOAD PROGRESS BAR */}
 
         {/* BIO COMPONENT */}
-        <View style={{ width: '97%', borderRadius: 10 }}>
-          <Text style={{ fontWeight: 'bold', fontSize: 12, color: 'lightgray', width: '90%' }}>
+        <View style={{ width: "97%", borderRadius: 10 }}>
+          <Text
+            style={{
+              fontWeight: "bold",
+              fontSize: 12,
+              color: "lightgray",
+              width: "90%",
+            }}
+          >
             BIO
           </Text>
           {editingbio ? (
-            <View style={{ height: SCREEN_HEIGHT / 3, backgroundColor: 'lightgray', borderRadius: 10, padding: '6%', flexDirection: 'row', width: '100%' }}>
-              <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss() }}>
-                <View style={{ width: "85%", justifyContent: 'center', alignItems: 'flex-start' }}>
+            <View
+              style={{
+                height: SCREEN_HEIGHT / 3,
+                backgroundColor: "lightgray",
+                borderRadius: 10,
+                padding: "6%",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <TouchableWithoutFeedback
+                onPress={() => {
+                  Keyboard.dismiss();
+                }}
+              >
+                <View
+                  style={{
+                    width: "85%",
+                    justifyContent: "center",
+                    alignItems: "flex-start",
+                  }}
+                >
                   <TextInput
                     minHeight={SCREEN_HEIGHT / 5}
                     editable={true}
                     multiline
                     style={{
-                      width: '100%',
+                      width: "100%",
                       backgroundColor: "lightgray",
                       fontSize: 15,
-                      color: 'black'
+                      color: "black",
                     }}
                     numberOfLines={8}
                     onChangeText={setUserBio}
@@ -231,26 +319,75 @@ export default function UserProfile() {
                   />
                 </View>
               </TouchableWithoutFeedback>
-              <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center', marginLeft: 5 }} >
-                <TouchableHighlight style={{ width: "100%", height: undefined, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }} underlayColor='white' onPress={() => saveEdit()}>
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 5,
+                }}
+              >
+                <TouchableHighlight
+                  style={{
+                    width: "100%",
+                    height: undefined,
+                    aspectRatio: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 10,
+                  }}
+                  underlayColor="white"
+                  onPress={() => saveEdit()}
+                >
                   <MaterialIcons name="done" size={30} color="#001A72" />
-                </TouchableHighlight >
-              </View >
+                </TouchableHighlight>
+              </View>
             </View>
           ) : (
-            <View style={{ height: SCREEN_HEIGHT / 6.3, backgroundColor: 'lightgray', borderRadius: 10, padding: '6%', flexDirection: 'row', width: '100%' }}>
-              <View style={{ width: "85%", justifyContent: 'center', alignItems: 'flex-start' }}>
-                <ScrollView style={{ width: '100%', paddingHorizontal: "3%" }}>
-                  <Text>
-                    {userbio}
-                  </Text>
+            <View
+              style={{
+                height: SCREEN_HEIGHT / 6.3,
+                backgroundColor: "lightgray",
+                borderRadius: 10,
+                padding: "6%",
+                flexDirection: "row",
+                width: "100%",
+              }}
+            >
+              <View
+                style={{
+                  width: "85%",
+                  justifyContent: "center",
+                  alignItems: "flex-start",
+                }}
+              >
+                <ScrollView style={{ width: "100%", paddingHorizontal: "3%" }}>
+                  <Text>{userbio}</Text>
                 </ScrollView>
               </View>
-              <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center', marginLeft: 5 }} >
-                <TouchableHighlight style={{ width: "100%", height: undefined, aspectRatio: 1, justifyContent: 'center', alignItems: 'center', borderRadius: 10 }} underlayColor='white' onPress={() => startEdit()}>
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginLeft: 5,
+                }}
+              >
+                <TouchableHighlight
+                  style={{
+                    width: "100%",
+                    height: undefined,
+                    aspectRatio: 1,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    borderRadius: 10,
+                  }}
+                  underlayColor="white"
+                  onPress={() => startEdit()}
+                >
                   <FontAwesome name="edit" size={30} color="#001A72" />
-                </TouchableHighlight >
-              </View >
+                </TouchableHighlight>
+              </View>
             </View>
           )}
         </View>
@@ -259,114 +396,294 @@ export default function UserProfile() {
       {/* STATIC TOP HALF */}
 
       {/* SCROLLED LOWER HALF */}
-      <ScrollView contentContainerstyle={{ alignItems: 'center', width: '100%', justifyContent: 'center' }}>
-        <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => editprofile()} >
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="account-edit" size={30} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Edit Profile</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+      <ScrollView
+        contentContainerstyle={{
+          alignItems: "center",
+          width: "100%",
+          justifyContent: "center",
+        }}
+      >
+        <View
+          style={{
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => editprofile()}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="account-edit"
+                  size={30}
+                  color="#001A72"
+                />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Edit Profile</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => editprofile()} >
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialIcons name="favorite" size={30} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Favorites</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => editprofile()}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialIcons name="favorite" size={30} color="#001A72" />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Favorites</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => editprofile()} >
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <FontAwesome5 name="history" size={27} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Request History</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => editprofile()}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <FontAwesome5 name="history" size={27} color="#001A72" />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Request History</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => sizeOnTouch()} >
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialIcons name="accessible" size={33} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Accessibility Settings</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => sizeOnTouch()}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialIcons name="accessible" size={33} color="#001A72" />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Accessibility Settings</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => sizeOnTouch()}>
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="file-document" size={30} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Terms of Services</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => sizeOnTouch()}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="file-document"
+                  size={30}
+                  color="#001A72"
+                />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Terms of Services</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => { Linking.openURL('https://caretogo.ca') }}>
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="web" size={30} color="#001A72" />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16 }}>Visit Our Website!</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                  <MaterialIcons name="keyboard-arrow-up" size={24} color="gray" />
-                </View>
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={() => {
+              Linking.openURL("https://caretogo.ca");
+            }}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialCommunityIcons name="web" size={30} color="#001A72" />
               </View>
-            </TouchableHighlight>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16 }}>Visit Our Website!</Text>
+              </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-up"
+                  size={24}
+                  color="gray"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
 
-            <TouchableHighlight style={{ width: "100%", backgroundColor: '#FFFFFF' }} underlayColor="lightgray" onPress={() => Auth.signOut()} >
-              <View style={{ width: "100%", flexDirection: "row", height: SCREEN_HEIGHT / 10 }}>
-                <View style={{ width: "15%", justifyContent: 'center', alignItems: 'center' }}>
-                  <MaterialCommunityIcons name="logout-variant" size={30} color='#E87272' />
-                </View>
-                <View style={styles.menuTitle}>
-                  <Text style={{ fontSize: 16, color: '#E87272' }}>Log Out</Text>
-                </View>
-                <View style={styles.menuArrow}>
-                <MaterialIcons name="keyboard-arrow-right" size={24} color="#E87272" />
+          <TouchableHighlight
+            style={{ width: "100%", backgroundColor: "#FFFFFF" }}
+            underlayColor="lightgray"
+            onPress={signOut}
+          >
+            <View
+              style={{
+                width: "100%",
+                flexDirection: "row",
+                height: SCREEN_HEIGHT / 10,
+              }}
+            >
+              <View
+                style={{
+                  width: "15%",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <MaterialCommunityIcons
+                  name="logout-variant"
+                  size={30}
+                  color="#E87272"
+                />
               </View>
+              <View style={styles.menuTitle}>
+                <Text style={{ fontSize: 16, color: "#E87272" }}>Log Out</Text>
               </View>
-            </TouchableHighlight>
-          </View>
+              <View style={styles.menuArrow}>
+                <MaterialIcons
+                  name="keyboard-arrow-right"
+                  size={24}
+                  color="#E87272"
+                />
+              </View>
+            </View>
+          </TouchableHighlight>
+        </View>
 
         <View style={{ height: 300 }} />
-        <View style={{ marginTop: SCREEN_HEIGHT / 10, justifyContent: 'center', alignItems: 'center' }}>
-          <Text style={{ fontSize: SCREEN_HEIGHT / 70, color: "lightgray" }}>CareToGo V. 1.0.0</Text>
-          <Text style={{ fontSize: SCREEN_HEIGHT / 70, color: "lightgray" }}>© 2022 BelairCareMedical All Rights Reserved</Text>
+        <View
+          style={{
+            marginTop: SCREEN_HEIGHT / 10,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Text style={{ fontSize: SCREEN_HEIGHT / 70, color: "lightgray" }}>
+            CareToGo V. 1.0.0
+          </Text>
+          <Text style={{ fontSize: SCREEN_HEIGHT / 70, color: "lightgray" }}>
+            © 2022 BelairCareMedical All Rights Reserved
+          </Text>
           <Image
-            source={{ uri: 'https://i.ibb.co/xFGw8GR/BCM.png' }}
-            style={{ width: SCREEN_HEIGHT / 30, height: undefined, aspectRatio: 0.87 }}
+            source={{ uri: "https://i.ibb.co/xFGw8GR/BCM.png" }}
+            style={{
+              width: SCREEN_HEIGHT / 30,
+              height: undefined,
+              aspectRatio: 0.87,
+            }}
           />
         </View>
       </ScrollView>
@@ -377,22 +694,32 @@ export default function UserProfile() {
 
 const styles = StyleSheet.create({
   topContainer: {
-    backgroundColor: "#FFFFFF", paddingBottom: "3%", paddingHorizontal:"6%",
-    paddingTop: "6%", justifyContent: "center", alignItems: 'center'
+    backgroundColor: "#FFFFFF",
+    paddingBottom: "3%",
+    paddingHorizontal: "6%",
+    paddingTop: "6%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   menuTitle: {
-    width: "75%", borderBottomWidth: 1, borderBottomColor: "lightgray", 
-    paddingVertical: 3, justifyContent: 'center'
+    width: "75%",
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    paddingVertical: 3,
+    justifyContent: "center",
   },
   menuArrow: {
-    width: "10%", borderBottomWidth: 1, borderBottomColor: "lightgray", 
-    paddingVertical: 3, justifyContent: 'center', alignItems: 'center' 
+    width: "10%",
+    borderBottomWidth: 1,
+    borderBottomColor: "lightgray",
+    paddingVertical: 3,
+    justifyContent: "center",
+    alignItems: "center",
   },
   shadowProp: {
-    shadowColor: '#CDB050',
+    shadowColor: "#CDB050",
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.3,
     shadowRadius: 3,
   },
 });
-

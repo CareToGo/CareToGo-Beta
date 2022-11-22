@@ -24,11 +24,9 @@ const BasketContextProvider = ({ children }) => {
 
   useEffect(() => {
     queryWorkers();
-    console.log(workers);
   }, []);
 
   const createOrder = async (Service, price) => {
-    console.log(worker);
     const newOrder = await DataStore.save(
       new Order({
         userID: dbUser.id,
