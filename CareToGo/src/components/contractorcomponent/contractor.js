@@ -31,7 +31,7 @@ const Contractor = ({ worker }) => {
     <SafeAreaView style={{ padding: 10 }}>
       <TouchableOpacity
         onPress={pressHandler}
-        style={{ marginBottom: 10, height: 200, padding: 10 }}
+        style={{ marginBottom: 10, height: height * 0.216, padding: 10 }}
       >
         <SharedElement id={`${worker.id}.bg`}>
           <View

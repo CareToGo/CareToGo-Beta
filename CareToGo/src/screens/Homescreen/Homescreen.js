@@ -30,7 +30,10 @@ export default function Homescreen() {
           alignItems: "center",
         }}
       >
-        <Image style={{ width: 200, resizeMode: "contain" }} source={c2g} />
+        <Image
+          style={{ width: width / 2, resizeMode: "contain" }}
+          source={c2g}
+        />
         <TouchableOpacity>
           <AntDesign name="search1" size={24} color="black" />
         </TouchableOpacity>
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
-    backgroundColor:'#FFFFFF'
+    backgroundColor: "#FFFFFF",
   },
   bg: {
     position: "absolute",

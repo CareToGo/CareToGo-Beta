@@ -12,6 +12,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
+import ViewCart from "../../components/ViewCart";
 import {
   SharedElement,
   SharedElementTransition,
@@ -25,8 +26,11 @@ const height = Dimensions.get("window").height;
 const ContractorDetails = () => {
   const navigation = useNavigation();
   const route = useRoute();
+  const [dict, setDict] = useState({});
   const [stage, setStage] = useState("Contact");
   const [selected, setSelected] = useState([]);
+  const [total, setTotal] = useState(0);
+
   const pressNurse = () => {
     setStage("Nurse");
   };
@@ -191,6 +195,14 @@ const ContractorDetails = () => {
                     let newSelected = { ...selected };
                     newSelected[item.id] = !newSelected[item.id];
                     setSelected(newSelected);
+
+                    if (newSelected[item.id]) {
+                      setTotal(total + price);
+                      dict[item.name] = price;
+                    } else {
+                      setTotal(total - price);
+                      delete dict[item.name];
+                    }
                   }}
                   style={tw`flex-row items-center justify-evenly p-3 ${
                     selected[id] && "bg-gray-200"
@@ -291,6 +303,13 @@ const ContractorDetails = () => {
                     let newSelected = { ...selected };
                     newSelected[item.id] = !newSelected[item.id];
                     setSelected(newSelected);
+                    if (newSelected[item.id]) {
+                      setTotal(total + price);
+                      dict[item.name] = price;
+                    } else {
+                      setTotal(total - price);
+                      delete dict[item.name];
+                    }
                   }}
                   style={tw`flex-row items-center justify-evenly p-3 ${
                     selected[id] && "bg-gray-200"
@@ -353,6 +372,7 @@ const ContractorDetails = () => {
         style={styles.image}
       />
       <Split />
+      <ViewCart dict={dict} total={total} info={route.params} />
     </View>
   );
 };
@@ -388,4 +408,3 @@ const styles = StyleSheet.create({
 });
 
 export default ContractorDetails;
-
