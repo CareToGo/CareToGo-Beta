@@ -62,7 +62,7 @@ const EditUserProfile = () => {
   const [addyshow, setAddyShow] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const _map = useRef(null);
-
+  
   useEffect(() => {
     console.log("---------", GOOGLE_MAPS_APIKEY);
   }, []);
@@ -265,11 +265,12 @@ const EditUserProfile = () => {
   };
 
   return (
-    <SafeAreaView style={{ backgroundColor: "#FFFFFF"}}>
+    <View style={{ backgroundColor: "#FFFFFF", paddingTop: 10}}>
       <ScrollView contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}>
 
         {/* FORM */}
         <View style={{ ...styles.mainContainer }}>
+
           <View style={{ ...styles.inputContainer }}>
             <View style={{ justifyContent: "center", width: 30 }}>
               <MaterialIcons
@@ -284,8 +285,7 @@ const EditUserProfile = () => {
                 justifyContent: "center",
                 width: SCREEN_WIDTH * 0.9 - 60,
                 borderColor: "lightgray",
-                borderBottomWidth: 1,
-                borderTopWidth: 1
+                borderBottomWidth: 1
               }}
             >
               <TextInput
@@ -295,10 +295,7 @@ const EditUserProfile = () => {
                   flex: 1,
                   color: "black",
                   paddingHorizontal: 10,
-                  fontSize:
-                    (SCREEN_WIDTH * 0.5) / firstname.length > 18
-                      ? 18
-                      : (SCREEN_WIDTH * 0.5) / firstname.length,
+                  fontSize: 15
                 }}
                 autoCapitalize="words"
                 onChangeText={setFName}
@@ -309,10 +306,7 @@ const EditUserProfile = () => {
                   flex: 1,
                   color: "black",
                   paddingHorizontal: 10,
-                  fontSize:
-                    (SCREEN_WIDTH * 0.5) / firstname.length > 18
-                      ? 18
-                      : (SCREEN_WIDTH * 0.5) / firstname.length,
+                  fontSize: 15
                 }}
                 autoCapitalize="words"
                 onChangeText={setLName}
@@ -324,12 +318,11 @@ const EditUserProfile = () => {
               style={{
                 justifyContent: "center",
                 borderColor: "lightgray",
-                borderBottomWidth: 1,
-                borderTopWidth: 1
+                borderBottomWidth: 1
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 NAME
               </Text>
@@ -351,7 +344,7 @@ const EditUserProfile = () => {
               }}
               onPress={changeGender}
             >
-              <Text style={{ color: "black", fontSize: 21 }}>{gender}</Text>
+              <Text style={{ color: "black", fontSize: 15 }}>{gender}</Text>
             </TouchableOpacity>
 
             <View
@@ -362,7 +355,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 GENDER
               </Text>
@@ -383,7 +376,7 @@ const EditUserProfile = () => {
               }}
               onPress={fadeIn}
             >
-              <Text style={{ color: "black", fontSize: 21 }}>{dob}</Text>
+              <Text style={{ color: "black", fontSize: 15 }}>{dob}</Text>
               {Platform.OS == "android" && show && (
                 <DateTimePicker
                   diplay="spinner"
@@ -403,7 +396,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 BIRTHDAY
               </Text>
@@ -432,10 +425,7 @@ const EditUserProfile = () => {
                 style={{
                   flex: 1,
                   color: "black",
-                  fontSize:
-                    (SCREEN_WIDTH * 1.0) / email.length > 18
-                      ? 18
-                      : (SCREEN_WIDTH * 1.0) / email.length,
+                  fontSize: 15
                 }}
                 onChangeText={setEmail}
                 value={email}
@@ -450,7 +440,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 EMAIL
               </Text>
@@ -475,7 +465,7 @@ const EditUserProfile = () => {
                 style={{
                   flex: 1,
                   color: "black",
-                  fontSize: 18,
+                  fontSize: 15,
                 }}
                 onChangeText={setNum}
                 value={contactnum}
@@ -491,7 +481,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 PHONE
               </Text>
@@ -516,7 +506,7 @@ const EditUserProfile = () => {
                 style={{
                   flex: 1,
                   color: "black",
-                  fontSize: 18,
+                  fontSize: 15,
                 }}
                 onChangeText={setEmer}
                 value={emergency}
@@ -531,7 +521,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 EMERGENCY
               </Text>
@@ -554,9 +544,10 @@ const EditUserProfile = () => {
               onPress={pickAddy}
             >
               <Text
+                numberOfLines={1}
                 style={{
                   color: "black",
-                  fontSize: (SCREEN_WIDTH * 1.1) / address.length,
+                  fontSize: 15
                 }}
               >
                 {address}
@@ -571,7 +562,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 ADDRESS
               </Text>
@@ -612,7 +603,7 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 ADDRESS 2
               </Text>
@@ -657,12 +648,13 @@ const EditUserProfile = () => {
               }}
             >
               <Text
-                style={{ color: "lightgray", fontSize: 12, textAlign: "right" }}
+                style={{ color: "lightgray", fontSize: 9, textAlign: "right" }}
               >
                 POSTAL CODE
               </Text>
             </View>
           </View>
+
         </View>
         {/* FORM */}
         
@@ -685,26 +677,6 @@ const EditUserProfile = () => {
           </Text>
         </TouchableOpacity>
         {/* SAVEBTN */}
-
-        {/* CAREPROFILE */}
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#3b5092",
-            padding: 10,
-            borderRadius: 10,
-            marginVertical: 10,
-            width: "90%",
-            height: SCREEN_HEIGHT / 15,
-            justifyContent: "center",
-          }}
-          onPress={editcareprofile}
-          underlayColor="#FFFFFF"
-        >
-          <Text style={{ color: "#ffde59", fontSize: 18, textAlign: "center" }}>
-            EDIT CARE PROFILE
-          </Text>
-        </TouchableOpacity>
-        {/* CAREPROFILE */} 
 
         {Platform.OS == "ios" && show && (
           <Animated.View
@@ -829,7 +801,7 @@ const EditUserProfile = () => {
         </Animated.View>
       )}
 
-    </SafeAreaView >
+    </View >
   );
 };
 

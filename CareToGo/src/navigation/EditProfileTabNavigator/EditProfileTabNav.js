@@ -1,25 +1,30 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import UserProfile from "../../screens/MyProfile/UserProfile";
 import EditUserProfile from "../../screens/EditUserProfile/EditUserProfile";
 import EditCareProfile from "../../screens/EditCareProfile/EditCareProfile";
-import { Text, View, ScrollView, StyleSheet, TouchableHighlight, Image, Dimensions, Pressable } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useNavigation } from "@react-navigation/native";
-import { useAuthContext } from "../../contexts/AuthContext";
-import { Entypo } from '@expo/vector-icons';
+import {  Dimensions } from "react-native";
 
 const EditProfileTab = createMaterialTopTabNavigator();
 
 const EditProfileNav = () => {
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
+  const insets = useSafeAreaInsets();
+
   return (
     <EditProfileTab.Navigator
-      style={{ backgroundColor:"#FFFFFF", paddingTop: 20 }} 
+      style={{ backgroundColor:"#FFFFFF" }} 
       screenOptions={{
       tabBarLabelStyle: { fontSize: 12 },
-      tabBarItemStyle: { width: 100 },
-      tabBarStyle: { backgroundColor: 'powderblue' },
-    }}>
+      tabBarItemStyle: { width: SCREEN_WIDTH*0.45 },
+      tabBarStyle: { backgroundColor: "#FFFFFF", marginTop: insets.top, height: 45, shadowOffset: { height: 2 }, shadowOpacity: 0.1, shadowRadius: 1 },
+      tabBarContentContainerStyle: { alignItems:'center', justifyContent:'center', width: SCREEN_WIDTH },
+      tabBarIndicatorContainerStyle: { alignItems:'center', justifyContent:'center', width: SCREEN_WIDTH },
+      tabBarIndicatorStyle: { width:SCREEN_WIDTH*0.45, height: 4, justifyContent:'center', alignItems:'center', marginLeft: SCREEN_WIDTH*0.05, borderRadius: 10 },
+      tabBarPressOpacity: 0.2,
+      tabBarPressColor: '#004cff',
+      tabBarBounces: true
+      }}
+    >
       <EditProfileTab.Screen
         name="EditUserInfo"
         component={EditUserProfile}
@@ -38,7 +43,7 @@ const EditProfileNav = () => {
         name="EditCareProfile"
         component={EditCareProfile}
         options={{
-          tabBarLabel: 'Basic Profile',
+          tabBarLabel: 'Care Profile',
           headerStyle: {
             backgroundColor: "#FFFFFF",
           },

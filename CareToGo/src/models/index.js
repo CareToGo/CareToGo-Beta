@@ -17,7 +17,7 @@ const TransportationModes = {
 
 const CareType = {
   "TOTALCARE": "TOTALCARE",
-  "SOMEASSITANCE": "SOMEASSITANCE",
+  "SOMEASSISTANCE": "SOMEASSISTANCE",
   "INDEPENDENT": "INDEPENDENT"
 };
 

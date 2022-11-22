@@ -57,7 +57,7 @@
     "react-native-shared-element": "0.8.4",
     "react-native-star-rating": "^1.1.0",
     "react-native-svg": "12.3.0",
-    "react-native-tab-view": "^3.3.0",
+    "react-native-tab-view": "^2.16.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "0.17.7",
     "react-redux": "^8.0.2",

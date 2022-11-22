@@ -18,6 +18,7 @@ import { GOOGLE_MAPS_APIKEY } from "@env";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
 const EditCareProfile = () => {
+  const navigation = useNavigation();
   const { dbUser, sub, setDbUser } = useAuthContext();
   const [mobility, setMobility] = useState(dbUser?.mobility || "");
   const [feeding, setFeeding] = useState(dbUser?.feeding || "");
@@ -44,7 +45,6 @@ const EditCareProfile = () => {
     { key: '2', value: 'SOMEASSISTANCE' },
     { key: '3', value: 'INDEPENDENT' },
   ]
-
 
   useEffect(() => {
     console.log('---------', dbUser.feeding)
@@ -249,10 +249,10 @@ const EditCareProfile = () => {
                 data={data}
                 save="value"
                 placeholder={dbUser.feeding}
-                boxStyles={{ width: '100%', backgroundColor:'#3b5092' }}
-                inputStyles={{ color:'#ffde59' }}
-                dropdownStyles={{ backgroundColor: '#3b5092', height: 135, position:'absolute', width: '100%', top: 40 }}
-                dropdownTextStyles={{ color:'#ffde59' }}
+                boxStyles={{ width: '100%', borderWidth: 0, borderBottomWidth: 1, borderRadius: 0 }}
+                inputStyles={{ color:'black' }}
+                dropdownStyles={{ backgroundColor: 'white', height: 135, position:'absolute', width: '100%', top: 36, borderWidth: 1, borderRadius: 0 }}
+                dropdownTextStyles={{ color:'#001A72' }}
                 search={false}
               />
             </View>
