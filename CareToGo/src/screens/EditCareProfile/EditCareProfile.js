@@ -1,4 +1,5 @@
 import { TouchableOpacity, ImageBackground, Animated, View, Text, TextInput, StyleSheet, Button, Alert, ScrollView, Dimensions, Image, Platform, Pressable } from "react-native";
+import { SelectList } from 'react-native-dropdown-select-list'
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { User } from "../../models";
 import { useAuthContext } from "../../contexts/AuthContext";
@@ -14,14 +15,14 @@ import { Picker } from '@react-native-picker/picker';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, route } from "@react-navigation/native";
 import { GOOGLE_MAPS_APIKEY } from "@env";
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
-  Dimensions.get("window");
-
-const EditUserProfile = () => {
+const EditCareProfile = () => {
+  const navigation = useNavigation();
   const { dbUser, sub, setDbUser } = useAuthContext();
-  const [firstname, setFName] = useState(dbUser?.firstname || "");
-  const [lastname, setLName] = useState(dbUser?.lastname || "");
+  const [mobility, setMobility] = useState(dbUser?.mobility || "");
+  const [feeding, setFeeding] = useState(dbUser?.feeding || "");
+  const [mealprep, setMealprep] = useState(dbUser?.mealprep || "");
   const [gender, setGender] = useState(dbUser?.gender || "");
   const [dob, setDOB] = useState(dbUser?.dob || "");
   const [email, setEmail] = useState(dbUser?.email || "");
@@ -38,9 +39,15 @@ const EditUserProfile = () => {
   const [addyshow, setAddyShow] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const _map = useRef(null);
+  const [selected, setSelected] = React.useState("");
+  const data = [
+    { key: '1', value: 'TOTALCARE' },
+    { key: '2', value: 'SOMEASSISTANCE' },
+    { key: '3', value: 'INDEPENDENT' },
+  ]
 
   useEffect(() => {
-    console.log('---------', GOOGLE_MAPS_APIKEY)
+    console.log('---------', dbUser.feeding)
   }, []);
 
   useEffect(() => {
@@ -231,366 +238,72 @@ const EditUserProfile = () => {
     <View style={{ backgroundColor: '#FFFFFF' }}>
       <ScrollView contentContainerStyle={{ alignItems: 'center', height: SCREEN_HEIGHT }}>
         <View style={{ ...styles.mainContainer }}>
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="drive-file-rename-outline" size={30} color="#001A72" />
+
+          <View style={{ width: '90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', marginBottom: 30, zIndex: 100 }}>
+            <View style={{ width: '25%' }}>
+              <Text>Mobility</Text>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', width: SCREEN_WIDTH * 0.9 - 75, borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  borderRightWidth: 1,
-                  borderColor: 'lightgray',
-                  flex: 1,
-                  color: "black",
-                  paddingHorizontal: 10,
-                  fontSize: SCREEN_WIDTH * 0.5 / firstname.length > 18 ? 18 : SCREEN_WIDTH * 0.5 / firstname.length
-                }}
-                autoCapitalize='words'
-                onChangeText={setFName}
-                value={firstname}
-              />
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  paddingHorizontal: 10,
-                  fontSize: SCREEN_WIDTH * 0.5 / firstname.length > 18 ? 18 : SCREEN_WIDTH * 0.5 / firstname.length
-                }}
-                autoCapitalize='words'
-                onChangeText={setLName}
-                value={lastname}
+            <View style={{ width: '75%' }}>
+              <SelectList
+                setSelected={(val) => setSelected(val)}
+                data={data}
+                save="value"
+                placeholder={dbUser.feeding}
+                boxStyles={{ width: '100%', borderWidth: 0, borderBottomWidth: 1, borderRadius: 0 }}
+                inputStyles={{ color:'black' }}
+                dropdownStyles={{ backgroundColor: 'white', height: 135, position:'absolute', width: '100%', top: 36, borderWidth: 1, borderRadius: 0 }}
+                dropdownTextStyles={{ color:'#001A72' }}
+                search={false}
               />
             </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>NAME</Text>
-            </View>
           </View>
 
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="person-pin" size={30} color="#001A72" />
+          <View style={{ width: '90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', zIndex: 99 }}>
+            <View style={{ width: '25%' }}>
+              <Text>Mobility</Text>
             </View>
-
-            <TouchableOpacity style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }} onPress={changeGender}>
-              <Text style={{ color: 'black', fontSize: 21 }}>{gender}</Text>
-            </TouchableOpacity>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>GENDER</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <FontAwesome name="birthday-cake" size={30} color="#001A72" />
-            </View>
-            <TouchableOpacity style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1, }} onPress={fadeIn}>
-              <Text style={{ color: 'black', fontSize: 21 }}>{dob}</Text>
-              {Platform.OS == 'android' && show && (
-                <DateTimePicker
-                  diplay="spinner"
-                  testID="dateTimePicker"
-                  value={date}
-                  mode={mode}
-                  is24Hour={true}
-                  onChange={onChange} />
-              )}
-            </TouchableOpacity>
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>BIRTHDAY</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialCommunityIcons name="email-edit" size={30} color="#001A72" />
-            </View>
-
-            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  fontSize: (SCREEN_WIDTH * 1.0 / email.length > 18) ? (18) : (SCREEN_WIDTH * 1.0 / email.length)
-                }}
-                onChangeText={setEmail}
-                value={email}
+            <View style={{ width: '75%' }}>
+              <SelectList
+                setSelected={(val) => setSelected(val)}
+                data={data}
+                save="value"
+                placeholder={dbUser.feeding}
+                boxStyles={{ width: '100%' }}
+                inputStyles={{ fontSize: 10 }}
+                dropdownStyles={{ backgroundColor: '#FFFFFF', height: 135, position:'absolute' }}
+                dropdownTextStyles={{ color:'#ffde59' }}
+                search={false}
               />
             </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>EMAIL</Text>
-            </View>
           </View>
 
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="smartphone" size={30} color="#001A72" />
-            </View>
 
-            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  fontSize: 18
-                }}
-                onChangeText={setNum}
-                value={contactnum}
-                placeholder='Required'
-              />
-            </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>PHONE</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="contact-phone" size={30} color="#001A72" />
-            </View>
-
-            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  fontSize: 18
-                }}
-                onChangeText={setEmer}
-                value={emergency}
-              />
-            </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>EMERGENCY</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <Entypo name="location" size={30} color="#001A72" />
-            </View>
-
-            <TouchableOpacity style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }} onPress={pickAddy} >
-              <Text style={{ color: 'black', fontSize: SCREEN_WIDTH * 1.1 / address.length }}>
-                {address}
-              </Text>
-            </TouchableOpacity>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>ADDRESS</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialIcons name="edit-location" size={30} color="#001A72" />
-            </View>
-
-            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  fontSize: 15
-                }}
-                onChangeText={setDA}
-                value={da}
-                placeholder='Unit, Apartment...'
-              />
-            </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>ADDRESS 2</Text>
-            </View>
-          </View>
-
-          <View style={{ ...styles.inputContainer }}>
-            <View style={{ justifyContent: 'center', width: 30 }}>
-              <MaterialCommunityIcons name="mailbox" size={30} color="#001A72" />
-            </View>
-
-            <View style={{ flex: 1, paddingLeft: 10, justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <TextInput
-                style={{
-                  flex: 1,
-                  color: "black",
-                  fontSize: 15
-                }}
-                onChangeText={setPostal}
-                value={postal}
-                placeholder='Unit, Apartment...'
-              />
-            </View>
-
-            <View style={{ justifyContent: 'center', borderColor: 'lightgray', borderBottomWidth: 1 }}>
-              <Text style={{ color: 'lightgray', fontSize: 12, textAlign: 'right' }}>POSTAL CODE</Text>
-            </View>
-          </View>
         </View>
 
+        <View style={{ height: 300 }}/>
+
         <TouchableOpacity
-          style={{ backgroundColor: '#3b5092', padding: 10, borderRadius: 10, marginVertical: 10, width: '90%', height:SCREEN_HEIGHT/15, justifyContent:'center'  }}
+          style={{ backgroundColor: '#3b5092', padding: 10, borderRadius: 10, marginVertical: 10, width: '90%', height: SCREEN_HEIGHT / 15, justifyContent: 'center' }}
           onPress={validateInput}
           underlayColor='#FFFFFF'>
           <Text style={{ color: '#ffde59', fontSize: 18, textAlign: 'center' }}>SAVE</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
-          style={{ backgroundColor: '#3b5092', padding: 10, borderRadius: 10, marginVertical: 10, width: '90%', height:SCREEN_HEIGHT/15, justifyContent:'center' }}
-          onPress={onSave}
-          underlayColor='#FFFFFF'>
-          <Text style={{ color: '#ffde59', fontSize: 18, textAlign: 'center' }}>SAVE & NEXT</Text>
-        </TouchableOpacity>
-
-        {(Platform.OS == 'ios' && show &&
-          <Animated.View style={{ opacity: fadeAnim, position: 'absolute', top: '10%', alignItems: 'center', width: "90%", backgroundColor: 'lightgray', borderRadius: 10, borderWidth: 3, borderColor: 'lightgray' }}>
-            <DateTimePicker style={{ width: '100%', backgroundColor: 'white' }}
-              testID="dateTimePicker"
-              display="spinner"
-              value={new Date(date)}
-              mode={mode}
-              is24Hour={true}
-              onChange={onChange} />
-            <TouchableOpacity
-              style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 10, marginVertical: 10 }}
-              onPress={closePicker}
-              underlayColor='#FFFFFF'>
-              <Text style={{ color: 'white', fontSize: 18 }}>Close</Text>
-            </TouchableOpacity>
-          </Animated.View>
-        )}
       </ScrollView>
-
-
-      {(addyshow &&
-        <Animated.View style={{ ...styles.addressInputContainer, opacity: fadeAnim, padding: '1%' }}>
-          <MapView
-            style={styles.map}
-            ref={_map}
-            initialRegion={{
-              latitude: 43.651070,
-              longitude: -79.347015,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-          >
-            <MapView.Marker coordinate={{ latitude: parseFloat(lat), longitude: parseFloat(lng) }} />
-          </MapView>
-
-          <GooglePlacesAutocomplete
-            placeholder={dbUser ? dbUser.address : "Address"}
-            styles={{
-              textInputContainer: {
-                width: '100%',
-                backgroundColor: '',
-              },
-              textInput: {
-                height: SCREEN_HEIGHT / 15,
-                width: '100%',
-                color: 'black',
-                fontSize: 15,
-                borderWidth: 1,
-                borderColor: 'lightgray'
-              },
-              predefinedPlacesDescription: {
-                color: '#1faadb',
-              },
-            }}
-            nearbyPlacesAPI="GooglePlacesSearch"
-            onPress={(data, detail = null) => {
-              console.log('---------------------', data.description)
-              console.log('---------------------', detail.geometry.location.lat)
-              console.log('---------------------', detail.geometry.location.lng)
-              setAddress(data.description);
-              setLat(detail.geometry.location.lat);
-              setLng(detail.geometry.location.lng);
-            }}
-            fetchDetails={true}
-            enablePoweredByContainer={false}
-            minLength={2}
-            query={{
-              key: "AIzaSyAwqJ3mR3salkuJ6noO2q9RvslWxIX5t3Y",
-              language: "en",
-            }}
-            debounce={400}
-          />
-          <TouchableOpacity
-            style={{ backgroundColor: '#007AFF', padding: 10, borderRadius: 10, marginVertical: 10 }}
-            onPress={closeAddy}
-            underlayColor='#FFFFFF'>
-            <Text style={{ color: 'white', fontSize: 18 }}>Confirm</Text>
-          </TouchableOpacity>
-        </Animated.View>
-      )}
-
     </View>
   );
 };
 
 
 
-export default EditUserProfile;
+export default EditCareProfile;
 
 const styles = StyleSheet.create({
   mainContainer: {
     backgroundColor: "#FFFFFF",
-    borderWidth: 0,
-    paddingBottom: 10,
-    paddingHorizontal: '5%',
+    padding: '5%',
     width: "100%",
     justifyContent: "center",
     alignItems: 'center',
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    borderColor: 'lightgray',
-    paddingBottom: 0,
-    borderRadius: 10,
-    paddingHorizontal: 5,
-    height: SCREEN_HEIGHT / 12,
-    justifyContent: 'center'
-  },
-  addressInputContainer: {
-    position: 'absolute',
-    top: '10%',
-    width: "100%",
-    height: SCREEN_HEIGHT * 0.5,
-    borderWidth: 3,
-    borderColor: 'lightgray',
-    backgroundColor: 'white',
-    borderRadius: 10,
-    alignItems: 'center',
-    padding: '3%'
-  },
-  map: {
-    left: 0,
-    right: 0,
-    top: 0,
-    bottom: 0,
-    position: 'absolute',
-    borderRadius: 10,
-    backgroundColor: 'white'
-  },
-  cardinput: {
-    borderRadius: 10,
-    width: '90%',
-    height: 30,
-    margin: 5,
-    borderBottomWidth: 1,
-    paddingVertical: 0,
-    color: 'white',
-    textAlignVertical: 'bottom',
-    paddingVertical: 0,
-    paddingLeft: 30
-  },
-  shadowProp: {
-    shadowColor: '#001A72',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
   }
 });

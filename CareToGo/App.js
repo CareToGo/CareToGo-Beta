@@ -7,7 +7,7 @@ import { withAuthenticator } from "aws-amplify-react-native/dist/Auth";
 import AuthContextProvider from "./src/contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import BasketContextProvider from "./src/contexts/BasketContext";
-import { useEffect } from "react";
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 Amplify.configure({
   ...config,
@@ -21,25 +21,27 @@ const PUBLISHABLE_KEY =
 
 function App() {
   return (
-    <NavigationContainer>
-      <AuthContextProvider>
-        <BasketContextProvider>
-          <StripeProvider
-            publishableKey={
-              "pk_test_51LPvpUDNDwI2KDMrrnp2QTRXShgLkjMZME7p8cSlhOvGa9XxXtMPbfJiLCgCLWE7z2PcDvULJdoiP5rpW9u7KMD200dEKnJAmM"
-            }
-          >
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={{ flex: 1 }}
-              keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+    <SafeAreaProvider>
+      <NavigationContainer>
+        <AuthContextProvider>
+          <BasketContextProvider>
+            <StripeProvider
+              publishableKey={
+                "pk_test_51LPvpUDNDwI2KDMrrnp2QTRXShgLkjMZME7p8cSlhOvGa9XxXtMPbfJiLCgCLWE7z2PcDvULJdoiP5rpW9u7KMD200dEKnJAmM"
+              }
             >
-              <SplashNav />
-            </KeyboardAvoidingView>
-          </StripeProvider>
-        </BasketContextProvider>
-      </AuthContextProvider>
-    </NavigationContainer>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                style={{ flex: 1 }}
+                keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
+              >
+                <SplashNav />
+              </KeyboardAvoidingView>
+            </StripeProvider>
+          </BasketContextProvider>
+        </AuthContextProvider>
+      </NavigationContainer>
+    </SafeAreaProvider>
   );
 }
 
