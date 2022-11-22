@@ -17,7 +17,6 @@ const BasketContextProvider = ({ children }) => {
         const { items } = snapshot;
         setWorker(null);
         setWorkers(items);
-        console.log(items);
       }
     );
   };
@@ -26,14 +25,18 @@ const BasketContextProvider = ({ children }) => {
     queryWorkers();
   }, []);
 
-  const createOrder = async (Service, price) => {
+  const createOrder = async (services, total, worker) => {
     const newOrder = await DataStore.save(
       new Order({
         userID: dbUser.id,
         Worker: worker,
         status: "NEW",
-        total: price,
-        service: JSON.stringify(Service),
+        name: dbUser.firstname,
+        address: dbUser.address,
+        lat: dbUser.lat,
+        lng: dbUser.lng,
+        total: total,
+        service: JSON.stringify(services),
       })
     );
   };
