@@ -1,17 +1,15 @@
-import { TouchableOpacity, ImageBackground, Animated, View, Text, TextInput, StyleSheet, Button, Alert, ScrollView, Dimensions, Image, Platform, Pressable } from "react-native";
+import { TouchableOpacity, View, Text, TextInput, StyleSheet, Button, Alert, ScrollView, Dimensions, Image, Platform, Pressable } from "react-native";
 import { SelectList } from 'react-native-dropdown-select-list'
 import React, { useEffect, useState, useCallback, useRef, useMemo } from "react";
 import { User } from "../../models";
 import { useAuthContext } from "../../contexts/AuthContext";
 import { DataStore } from "aws-amplify";
-import { FontAwesome } from '@expo/vector-icons';
-import { MaterialIcons } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import MapView, { Marker } from 'react-native-maps';
+import { AntDesign } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
-import { Picker } from '@react-native-picker/picker';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
+import { Fontisto } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation, route } from "@react-navigation/native";
 import { GOOGLE_MAPS_APIKEY } from "@env";
@@ -21,166 +19,21 @@ const EditCareProfile = () => {
   const navigation = useNavigation();
   const { dbUser, sub, setDbUser } = useAuthContext();
   const [mobility, setMobility] = useState(dbUser?.mobility || "");
+  const [grooming, setGrooming] = useState(dbUser?.grooming || "");
   const [feeding, setFeeding] = useState(dbUser?.feeding || "");
   const [mealprep, setMealprep] = useState(dbUser?.mealprep || "");
-  const [gender, setGender] = useState(dbUser?.gender || "");
-  const [dob, setDOB] = useState(dbUser?.dob || "");
-  const [email, setEmail] = useState(dbUser?.email || "");
-  const [contactnum, setNum] = useState(dbUser?.contactnum || "");
-  const [emergency, setEmer] = useState(dbUser?.emergency || "");
-  const [address, setAddress] = useState(dbUser?.address || "");
-  const [da, setDA] = useState(dbUser?.detailedaddress || "");
-  const [postal, setPostal] = useState(dbUser?.postalcode || "");
-  const [lat, setLat] = useState(dbUser?.lat + "" || "0");
-  const [lng, setLng] = useState(dbUser?.lng + "" || "0");
-  const [date, setDate] = useState(new Date('1996-12-25'));
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
-  const [addyshow, setAddyShow] = useState(false);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  const _map = useRef(null);
-  const [selected, setSelected] = React.useState("");
+  const [bathing, setBathing] = useState(dbUser?.bathing || "");
+  const [toileting, setToileting] = useState(dbUser?.toileting || "");
+  const [allergies, setAllergies] = useState(dbUser?.allergies || "");
+  const [diagnosis, setDiagnosis] = useState(dbUser?.diagnosis || "");
   const data = [
-    { key: '1', value: 'TOTALCARE' },
-    { key: '2', value: 'SOMEASSISTANCE' },
+    { key: '1', value: 'TOTAL CARE' },
+    { key: '2', value: 'SOME ASSISTANCE' },
     { key: '3', value: 'INDEPENDENT' },
   ]
 
   useEffect(() => {
-    console.log('---------', dbUser.feeding)
   }, []);
-
-  useEffect(() => {
-    if (_map.current) {
-      // console.log('animating the camera to', lat, lng)
-      _map.current.fitToCoordinates([{
-        latitude: lat,
-        longitude: lng,
-      }], {
-        edgePadding: {
-          bottom: 300,
-          right: 300,
-          top: 300,
-          left: 300,
-        },
-        animated: true,
-      })
-    }
-  }, [lat, lng]);
-
-  const validateInput = () => {
-    var phoneregex = /^(\+1)?(\d){10}$/;
-    var emailregex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!phoneregex.test(contactnum)) {
-      alert('Please enter a valid phone number (+1)')
-    } else if (!phoneregex.test(emergency)) {
-      alert('Please enter a valid emergency number (+1)')
-    } else if (!emailregex.test(email)) {
-      alert('Please enter a valid email address')
-    } else if (phoneregex.test(contactnum) && phoneregex.test(emergency) && emailregex.test(email)) {
-      onSave()
-    }
-  }
-
-  const pickAddy = () => {
-    setAddyShow(true);
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-      duration: 500
-    }).start();
-  }
-
-  const closeAddy = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-    const timeId = setTimeout(() => {
-      setAddyShow(false);
-    }, 500)
-    return () => {
-      clearTimeout(timeId)
-    }
-  }
-
-  const changeGender = () => {
-    if (gender == 'Male') {
-      setGender('Female')
-    } else if (gender == 'Female') {
-      setGender('Other')
-    } else if (gender == 'Other') {
-      setGender('Male')
-    }
-  };
-
-  const fadeIn = () => {
-    showDatepicker();
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      useNativeDriver: true,
-      duration: 500
-    }).start();
-  };
-
-  const fadeOut = () => {
-    Animated.timing(fadeAnim, {
-      toValue: 0,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
-  };
-
-  const closePicker = () => {
-    if (Platform.OS === 'ios') {
-      fadeOut();
-      const timeId = setTimeout(() => {
-        setShow(false);
-      }, 500)
-      return () => {
-        clearTimeout(timeId)
-      }
-    }
-  }
-
-  const onChange = (event, selectedDate) => {
-    if (Platform.OS === 'android') {
-      setShow(false);
-      const currentDate = selectedDate;
-      var year = currentDate.getFullYear();
-      var month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-      var day = currentDate.getDate().toString().padStart(2, "0");
-      var bday = year + '-' + month + '-' + day;
-      console.log(year + '-' + month + '-' + day);
-      setDOB(bday);
-      setDate(new Date(currentDate));
-    }
-    if (Platform.OS === 'ios') {
-      const currentDate = selectedDate;
-      var year = currentDate.getFullYear();
-      var month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
-      var day = currentDate.getDate().toString().padStart(2, "0");
-      var bday = year + '-' + month + '-' + day;
-      console.log(year + '-' + month + '-' + day);
-      setDOB(bday);
-      setDate(new Date(currentDate));
-    }
-  };
-
-  const showMode = (currentMode) => {
-    if (Platform.OS === 'android') {
-      setShow(true);
-    } else if (Platform.OS === 'ios') {
-      setShow(true);
-    }
-    setMode(currentMode);
-  };
-
-  const showDatepicker = () => {
-    showMode('date');
-    console.log('pressed')
-  };
 
   const onSave = async () => {
     if (dbUser) {
@@ -193,16 +46,14 @@ const EditCareProfile = () => {
   const updateUser = async () => {
     const user = await DataStore.save(
       User.copyOf(dbUser, (updated) => {
-        updated.firstname = firstname;
-        updated.lastname = lastname;
-        updated.dob = dob;
-        updated.email = email;
-        updated.contactnum = contactnum;
-        updated.address = address;
-        updated.detailedaddress = da;
-        updated.postalcode = postal;
-        updated.lat = parseFloat(lat);
-        updated.lng = parseFloat(lng);
+        updated.mobility = mobility;
+        updated.grooming = grooming;
+        updated.feeding = feeding;
+        updated.mealprep = mealprep;
+        updated.bathing = bathing;
+        updated.toileting = toileting;
+        updated.allergies = allergies;
+        updated.diagnosis = diagnosis;
         updated._version = parseInt(dbUser.ver);
         updated.ver = parseInt(dbUser.ver + 1);
       })
@@ -211,83 +62,291 @@ const EditCareProfile = () => {
     setDbUser(user);
   };
 
-  const createUser = async () => {
-    try {
-      const user = await DataStore.save(
-        new User({
-          sub,
-          address: 'supernintendo',
-          lat: parseFloat(lat),
-          lng: parseFloat(lng),
-          firstname,
-          lastname,
-          ver: 1,
-          dob,
-          email,
-          contactnum,
-          image: imageData,
-        })
-      );
-      setDbUser(user);
-    } catch (e) {
-      Alert.alert("Error", e.message);
+  const changeMobility = (val) => {
+    if (val == 1) {
+      setMobility('TOTALCARE');
+    } else if (val == 2) {
+      setMobility('SOMEASSISTANCE');
+    } else {
+      setMobility('INDEPENDENT');
+    }
+  };
+
+  const changeGrooming = (val) => {
+    if (val == 1) {
+      setGrooming('TOTALCARE');
+    } else if (val == 2) {
+      setGrooming('SOMEASSISTANCE');
+    } else {
+      setGrooming('INDEPENDENT');
+    }
+  };
+
+  const changeFeeding = (val) => {
+    if (val == 1) {
+      setFeeding('TOTALCARE');
+    } else if (val == 2) {
+      setFeeding('SOMEASSISTANCE');
+    } else {
+      setFeeding('INDEPENDENT');
+    }
+  };
+
+  const changeMealprep = (val) => {
+    if (val == 1) {
+      setMealprep('TOTALCARE');
+    } else if (val == 2) {
+      setMealprep('SOMEASSISTANCE');
+    } else {
+      setMealprep('INDEPENDENT');
+    }
+  };
+
+  const changeBathing = (val) => {
+    if (val == 1) {
+      setBathing('TOTALCARE');
+    } else if (val == 2) {
+      setBathing('SOMEASSISTANCE');
+    } else {
+      setBathing('INDEPENDENT');
+    }
+  };
+
+  const changeToileting = (val) => {
+    if (val == 1) {
+      setToileting('TOTALCARE');
+    } else if (val == 2) {
+      setToileting('SOMEASSISTANCE');
+    } else {
+      setToileting('INDEPENDENT');
     }
   };
 
   return (
     <View style={{ backgroundColor: '#FFFFFF' }}>
-      <ScrollView contentContainerStyle={{ alignItems: 'center', height: SCREEN_HEIGHT }}>
+      <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
         <View style={{ ...styles.mainContainer }}>
 
-          <View style={{ width: '90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', marginBottom: 30, zIndex: 100 }}>
-            <View style={{ width: '25%' }}>
-              <Text>Mobility</Text>
+          <View style={{ width: '100%', zIndex: 99, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Mobility</Text>
             </View>
-            <View style={{ width: '75%' }}>
-              <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={data}
-                save="value"
-                placeholder={dbUser.feeding}
-                boxStyles={{ width: '100%', borderWidth: 0, borderBottomWidth: 1, borderRadius: 0 }}
-                inputStyles={{ color:'black' }}
-                dropdownStyles={{ backgroundColor: 'white', height: 135, position:'absolute', width: '100%', top: 36, borderWidth: 1, borderRadius: 0 }}
-                dropdownTextStyles={{ color:'#001A72' }}
-                search={false}
-              />
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <MaterialIcons name="wheelchair-pickup" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeMobility(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(mobility == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (mobility == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
             </View>
           </View>
 
-          <View style={{ width: '90%', flexDirection:'row', justifyContent:'space-between', alignItems:'center', zIndex: 99 }}>
-            <View style={{ width: '25%' }}>
-              <Text>Mobility</Text>
+          <View style={{ width: '100%', zIndex: 98, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Grooming</Text>
             </View>
-            <View style={{ width: '75%' }}>
-              <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={data}
-                save="value"
-                placeholder={dbUser.feeding}
-                boxStyles={{ width: '100%' }}
-                inputStyles={{ fontSize: 10 }}
-                dropdownStyles={{ backgroundColor: '#FFFFFF', height: 135, position:'absolute' }}
-                dropdownTextStyles={{ color:'#ffde59' }}
-                search={false}
-              />
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <Entypo name="scissors" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeGrooming(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(grooming == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (grooming == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
             </View>
           </View>
 
+          <View style={{ width: '100%', zIndex: 97, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Feeding</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <MaterialCommunityIcons name="food-variant" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeFeeding(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(feeding == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (grooming == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={{ width: '100%', zIndex: 96, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>MealPrep</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <MaterialCommunityIcons name="chef-hat" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeMealprep(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(mealprep == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (mealprep == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={{ width: '100%', zIndex: 95, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Bathing</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <MaterialCommunityIcons name="bathtub" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeBathing(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(bathing == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (bathing == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={{ width: '100%', zIndex: 94, height: 90 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Toileting</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <FontAwesome5 name="toilet-paper" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%' }}>
+                <SelectList
+                  setSelected={(val) => changeToileting(val)}
+                  data={data}
+                  save="key"
+                  placeholder={(toileting == 'SOMEASSISTANCE') ? 'SOME ASSISTANCE' : (toileting == 'TOTALCARE') ? 'TOTCAL CARE' : 'INDEPENDENT'}
+                  boxStyles={{ width: '100%', borderWidth: 0 }}
+                  dropdownStyles={styles.dropdownContainer}
+                  dropdownItemStyles={{ height: 36 }}
+                  search={false}
+                  arrowicon={<AntDesign name="caretdown" size={15} color="#007AFF" />}
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={{ width: '100%', zIndex: 93 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Allergies</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <FontAwesome5 name="allergies" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%', marginLeft: 20, paddingVertical: 20, borderLeftWidth: 1, borderColor:'lightgray' }}>
+                <TextInput
+                  minHeight={48}
+                  editable={true}
+                  multiline={true}
+                  style={{
+                    paddingLeft: 10,
+                    paddingRight: 30,
+                    color: "black",
+                    fontSize: 15,
+                    textAlignVertical: "top"
+                  }}
+                  onChangeText={setAllergies}
+                  value={allergies}
+                  placeholder="any allergies that your healthcare provider should know about?"
+                />
+              </View>
+            </View>
+          </View>
+
+          <View style={{ width: '100%', zIndex: 92, marginTop: 20 }}>
+            <View style={{ height: 30, paddingLeft: 6 }}>
+              <Text style={{ fontSize: 15 }}>Diagnosis</Text>
+            </View>
+
+            <View style={styles.selectorContainer}>
+              <View style={{ width: '15%', alignItems: 'center', paddingLeft: '5%' }}>
+                <Fontisto name="doctor" size={24} color="#001A72" />
+              </View>
+              <View style={{ width: '85%', marginLeft: 20, paddingVertical: 20, borderLeftWidth: 1, borderColor:'lightgray' }}>
+                <TextInput
+                  minHeight={48}
+                  editable={true}
+                  multiline={true}
+                  style={{
+                    paddingLeft: 10,
+                    paddingRight: 30,
+                    color: "black",
+                    fontSize: 15,
+                    textAlignVertical: "top"
+                  }}
+                  onChangeText={setDiagnosis}
+                  value={diagnosis}
+                  placeholder="any allergies that your healthcare provider should know about?"
+                />
+              </View>
+            </View>
+          </View>
 
         </View>
 
-        <View style={{ height: 300 }}/>
+        <View style={{ height: 10 }} />
 
         <TouchableOpacity
           style={{ backgroundColor: '#3b5092', padding: 10, borderRadius: 10, marginVertical: 10, width: '90%', height: SCREEN_HEIGHT / 15, justifyContent: 'center' }}
-          onPress={validateInput}
+          onPress={onSave}
           underlayColor='#FFFFFF'>
           <Text style={{ color: '#ffde59', fontSize: 18, textAlign: 'center' }}>SAVE</Text>
         </TouchableOpacity>
+
+        <View style={{ height: 100 }} />
 
       </ScrollView>
     </View>
@@ -300,10 +359,17 @@ export default EditCareProfile;
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: "#FFFFFF",
-    padding: '5%',
-    width: "100%",
-    justifyContent: "center",
-    alignItems: 'center',
+    backgroundColor: "#FFFFFF", paddingBottom: 10, paddingHorizontal: "6%",
+    width: "100%", justifyContent: "center", alignItems: "center", paddingTop: 30
+  },
+  selectorContainer: {
+    width: '100%', flexDirection: 'row', justifyContent: 'space-between',
+    alignItems: 'center', borderWidth: 1, borderColor: 'lightgray',
+    borderRadius: 10, marginTop: -6
+  },
+  dropdownContainer: {
+    backgroundColor: '#F9FCFF', position: 'absolute', width: '118.5%',
+    top: '80%', left: '-18%', borderWidth: 1,
+    paddingHorizontal: 10, borderColor: 'lightgray'
   }
 });

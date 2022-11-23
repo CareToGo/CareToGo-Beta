@@ -29,7 +29,7 @@ const EditProfileNav = () => {
         name="EditUserInfo"
         component={EditUserProfile}
         options={{
-          tabBarLabel: 'Basic Profile',
+          tabBarLabel: 'User Profile',
           headerStyle: {
             backgroundColor: "#FFFFFF",
           },

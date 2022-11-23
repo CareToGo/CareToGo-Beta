@@ -17,6 +17,7 @@ const BasketContextProvider = ({ children }) => {
         const { items } = snapshot;
         setWorker(null);
         setWorkers(items);
+        // console.log(items)
       }
     );
   };
