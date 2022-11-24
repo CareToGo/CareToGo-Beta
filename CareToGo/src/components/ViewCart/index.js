@@ -19,6 +19,7 @@ const ViewCart = (prop) => {
   useEffect(() => {
     const worker = prop.info;
     fetchPaymentIntent();
+    console.log(JSON.parse(worker.nursingServices));
     const nS = JSON.parse(worker.nursingServices);
     const pS = JSON.parse(worker.pswServices);
 
