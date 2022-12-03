@@ -9,21 +9,35 @@ import {
 } from "@stripe/stripe-react-native";
 import { useBasketContext } from "../../contexts/BasketContext";
 import { createPaymentIntent } from "../../graphql/mutations";
-const ViewCart = (prop) => {
+import tw from "tailwind-react-native-classnames";
+import { AntDesign } from "@expo/vector-icons";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
+
+const ServiceCart = (prop) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [clientSecret, setClientSecret] = useState(null);
   const { createOrder } = useBasketContext();
   const [services, setServices] = useState([]);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [date, setDate] = useState(new Date());
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+    setModalVisible(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (data) => {
+    hideDatePicker();
+    setDate(data);
+  };
 
   useEffect(() => {
-    const worker = prop.info;
     fetchPaymentIntent();
-    console.log(JSON.parse(worker.nursingServices));
-    const nS = JSON.parse(worker.nursingServices);
-    const pS = JSON.parse(worker.pswServices);
-
-    setServices([...nS, ...pS]);
   }, []);
 
   useEffect(() => {
@@ -94,10 +108,41 @@ const ViewCart = (prop) => {
         ></TouchableOpacity>
         <View style={styles.modalCheckoutContainer}>
           <Text style={styles.modalCheckoutButton}>Order</Text>
+
           <OrderItem dict={prop.dict} />
+
           <View style={styles.subtotalContainer}>
             <Text style={styles.subtotalText}>Subtotal</Text>
             <Text>${prop.total}</Text>
+          </View>
+          <View
+            style={tw`flex-row justify-evenly pt-4 pb-2 mt-auto border-t border-gray-100`}
+          >
+            <Text>{date.toLocaleString()}</Text>
+            <TouchableOpacity
+              onPress={() => setDate(new Date())}
+              style={[
+                tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full`,
+                { backgroundColor: "#A6C4DD" },
+              ]}
+            >
+              <AntDesign name="check" size={15} color="white" />
+              <Text style={tw`text-white text-center`}>Now </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={showDatePicker}
+              style={tw`flex bg-gray-100 flex-row justify-between w-24 px-4 py-3 rounded-full shadow-lg`}
+            >
+              <AntDesign name="clockcircleo" size={15} color="black" />
+              <Text style={tw`text-black text-center`}>Later</Text>
+            </TouchableOpacity>
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="datetime"
+              onConfirm={handleConfirm}
+              onCancel={hideDatePicker}
+              minimumDate={date}
+            />
           </View>
           <View style={{ flexDirection: "row", justifyContent: "center" }}>
             <TouchableOpacity
@@ -181,7 +226,7 @@ const ViewCart = (prop) => {
   );
 };
 
-export default ViewCart;
+export default ServiceCart;
 
 const styles = StyleSheet.create({
   modalContainer: {
@@ -191,8 +236,8 @@ const styles = StyleSheet.create({
   },
   modalCheckoutContainer: {
     backgroundColor: "white",
-    padding: 16,
-    height: 500,
+    padding: 28,
+    height: "70%",
     borderWidth: 1,
   },
   modalCheckoutButton: {

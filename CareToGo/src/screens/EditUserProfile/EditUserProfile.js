@@ -56,13 +56,13 @@ const EditUserProfile = () => {
   const [postal, setPostal] = useState(dbUser?.postalcode || "");
   const [lat, setLat] = useState(dbUser?.lat + "" || "0");
   const [lng, setLng] = useState(dbUser?.lng + "" || "0");
-  const [date, setDate] = useState(new Date("1996-12-25"));
+  const [date, setDate] = useState(new Date(dbUser?.dob));
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [addyshow, setAddyShow] = useState(false);
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const _map = useRef(null);
-  
+
   useEffect(() => {
     console.log("---------", GOOGLE_MAPS_APIKEY);
   }, []);
@@ -265,12 +265,12 @@ const EditUserProfile = () => {
   };
 
   return (
-    <View style={{ backgroundColor: "#FFFFFF", paddingTop: 10}}>
-      <ScrollView contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}>
-
+    <View style={{ backgroundColor: "#FFFFFF", paddingTop: 10 }}>
+      <ScrollView
+        contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}
+      >
         {/* FORM */}
         <View style={{ ...styles.mainContainer }}>
-
           <View style={{ ...styles.inputContainer }}>
             <View style={{ justifyContent: "center", width: 30 }}>
               <MaterialIcons
@@ -285,7 +285,7 @@ const EditUserProfile = () => {
                 justifyContent: "center",
                 width: SCREEN_WIDTH * 0.9 - 60,
                 borderColor: "lightgray",
-                borderBottomWidth: 1
+                borderBottomWidth: 1,
               }}
             >
               <TextInput
@@ -295,7 +295,7 @@ const EditUserProfile = () => {
                   flex: 1,
                   color: "black",
                   paddingHorizontal: 10,
-                  fontSize: 15
+                  fontSize: 15,
                 }}
                 autoCapitalize="words"
                 onChangeText={setFName}
@@ -306,7 +306,7 @@ const EditUserProfile = () => {
                   flex: 1,
                   color: "black",
                   paddingHorizontal: 10,
-                  fontSize: 15
+                  fontSize: 15,
                 }}
                 autoCapitalize="words"
                 onChangeText={setLName}
@@ -318,7 +318,7 @@ const EditUserProfile = () => {
               style={{
                 justifyContent: "center",
                 borderColor: "lightgray",
-                borderBottomWidth: 1
+                borderBottomWidth: 1,
               }}
             >
               <Text
@@ -425,7 +425,7 @@ const EditUserProfile = () => {
                 style={{
                   flex: 1,
                   color: "black",
-                  fontSize: 15
+                  fontSize: 15,
                 }}
                 onChangeText={setEmail}
                 value={email}
@@ -547,7 +547,7 @@ const EditUserProfile = () => {
                 numberOfLines={1}
                 style={{
                   color: "black",
-                  fontSize: 15
+                  fontSize: 15,
                 }}
               >
                 {address}
@@ -654,10 +654,9 @@ const EditUserProfile = () => {
               </Text>
             </View>
           </View>
-
         </View>
         {/* FORM */}
-        
+
         {/* SAVEBTN */}
         <TouchableOpacity
           style={{
@@ -800,8 +799,7 @@ const EditUserProfile = () => {
           </TouchableOpacity>
         </Animated.View>
       )}
-
-    </View >
+    </View>
   );
 };
 

@@ -2,8 +2,6 @@ import { Image, View, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Homescreen from "../../screens/Homescreen/Homescreen";
 import ContractorDetails from "../../screens/contractordetails/contractordetails";
-import OrderScreen from "../../screens/orderscreen/orderscreen";
-import Datepicker from "../../screens/datepicker/datepicker";
 import Appointments from "../../screens/appointments/appointments";
 import C2G from "../../../assets/homespage/C2G.png";
 import { Ionicons } from "@expo/vector-icons";
@@ -39,16 +37,11 @@ const ProvidersNav = () => {
         component={ContractorDetails}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="orders"
-        component={OrderScreen}
-        options={{ headerShown: false }}
-      />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         name="date-picker"
         component={Datepicker}
         options={{ headerShown: false }}
-      />
+      /> */}
       <HomeStack.Screen
         name="appointment-order"
         component={Appointments}

@@ -1,3 +1,15 @@
+type LaterOrder @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  service: String!
+  date: String!
+  lat: Float!
+  lng: Float!
+  address: String!
+  name: String!
+  status: OrderStatus
+  userID: ID! @index(name: "byUser")
+}
+
 type PSWService @model @auth(rules: [{allow: public}]) {
   id: ID!
   name: String!
@@ -32,6 +44,7 @@ type Order @model @auth(rules: [{allow: public}]) {
   status: OrderStatus
   Worker: Worker @hasOne
   userID: ID! @index(name: "byUser")
+  time: String!
 }
 
 enum TransportationModes {
@@ -72,6 +85,7 @@ type User @model @auth(rules: [{allow: public}]) {
   diagnosis: String!
   Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
   allergies: String!
+  LaterOrders: [LaterOrder] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 type Worker @model @auth(rules: [{allow: public}]) {
