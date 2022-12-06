@@ -21,7 +21,7 @@ export enum CareType {
   INDEPENDENT = "INDEPENDENT"
 }
 
-type LaterOrderMetaData = {
+type OrderViewMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
@@ -45,38 +45,36 @@ type UserMetaData = {
   readOnlyFields: 'createdAt' | 'updatedAt';
 }
 
-type EagerLaterOrder = {
+type EagerOrderView = {
   readonly id: string;
-  readonly service: string;
   readonly date: string;
   readonly lat: number;
   readonly lng: number;
   readonly address: string;
   readonly name: string;
-  readonly status?: OrderStatus | keyof typeof OrderStatus | null;
   readonly userID: string;
+  readonly services: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-type LazyLaterOrder = {
+type LazyOrderView = {
   readonly id: string;
-  readonly service: string;
   readonly date: string;
   readonly lat: number;
   readonly lng: number;
   readonly address: string;
   readonly name: string;
-  readonly status?: OrderStatus | keyof typeof OrderStatus | null;
   readonly userID: string;
+  readonly services: string;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
 
-export declare type LaterOrder = LazyLoading extends LazyLoadingDisabled ? EagerLaterOrder : LazyLaterOrder
+export declare type OrderView = LazyLoading extends LazyLoadingDisabled ? EagerOrderView : LazyOrderView
 
-export declare const LaterOrder: (new (init: ModelInit<LaterOrder, LaterOrderMetaData>) => LaterOrder) & {
-  copyOf(source: LaterOrder, mutator: (draft: MutableModel<LaterOrder, LaterOrderMetaData>) => MutableModel<LaterOrder, LaterOrderMetaData> | void): LaterOrder;
+export declare const OrderView: (new (init: ModelInit<OrderView, OrderViewMetaData>) => OrderView) & {
+  copyOf(source: OrderView, mutator: (draft: MutableModel<OrderView, OrderViewMetaData>) => MutableModel<OrderView, OrderViewMetaData> | void): OrderView;
 }
 
 type EagerPSWService = {
@@ -181,12 +179,14 @@ type EagerWorker = {
   readonly pswServices?: string | null;
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
-  readonly experienceDescription: string;
+  readonly experience: number;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
   readonly gender: string;
+  readonly isInsured: boolean;
+  readonly languages?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -201,12 +201,14 @@ type LazyWorker = {
   readonly pswServices?: string | null;
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
-  readonly experienceDescription: string;
+  readonly experience: number;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
   readonly gender: string;
+  readonly isInsured: boolean;
+  readonly languages?: string | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -243,7 +245,7 @@ type EagerUser = {
   readonly diagnosis: string;
   readonly Orders?: (Order | null)[] | null;
   readonly allergies: string;
-  readonly LaterOrders?: (LaterOrder | null)[] | null;
+  readonly OrderViews?: (OrderView | null)[] | null;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -274,7 +276,7 @@ type LazyUser = {
   readonly diagnosis: string;
   readonly Orders: AsyncCollection<Order>;
   readonly allergies: string;
-  readonly LaterOrders: AsyncCollection<LaterOrder>;
+  readonly OrderViews: AsyncCollection<OrderView>;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

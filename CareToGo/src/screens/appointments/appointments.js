@@ -40,6 +40,9 @@ export default function Appointments() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <View style={tw`flex-row justify-end px-5`}>
+        <Text style={tw`text-lg font-semibold`}>Past Order</Text>
+      </View>
       <Text style={styles.title}> Requests</Text>
       <View style={{ flex: 1 }}>
         <FlatList

@@ -7,9 +7,11 @@ import {
   SafeAreaView,
   Dimensions,
 } from "react-native";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons";
-import { AntDesign } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Storage } from "aws-amplify";
 import {
   SharedElement,
   SharedElementTransition,
@@ -25,14 +27,23 @@ const Contractor = ({ worker }) => {
   const pressHandler = () => {
     navigation.navigate("contractor-details", worker);
   };
+  const [imageLink, setImageLink] = useState();
 
+  const fetchLink = async () => {
+    Storage.get(`${worker.sub}.jpg`)
+      .then((mylink) => setImageLink(mylink))
+      .catch((e) => console.log(e));
+  };
+  useEffect(() => {
+    fetchLink();
+  }, []);
   return (
     <SafeAreaView style={{ padding: 10 }}>
       <TouchableOpacity
         onPress={pressHandler}
         style={{ marginBottom: 10, height: height * 0.216, padding: 10 }}
       >
-        <SharedElement id={`${worker.id}.bg`}>
+        <SharedElement id={`${worker?.id}.bg`}>
           <View
             style={[
               StyleSheet.absoluteFillObject,
@@ -44,29 +55,29 @@ const Contractor = ({ worker }) => {
             ]}
           />
         </SharedElement>
-        <SharedElement id={`${worker.id}.name`}>
+        <SharedElement id={`${worker?.id}.name`}>
           <Text style={styles.nurseTitle}>
-            {worker.firstName} {worker.lastName} {`\u2022 `}
-            <FontAwesome
-              name={worker.transportationMode.toLowerCase()}
+            {worker?.firstName} {worker?.lastName} {`\u2022 `}
+            <MaterialCommunityIcons
+              name={worker?.transportationMode.toLowerCase()}
               size={25}
               color="white"
             />{" "}
             {`\u2022 `}
-            {worker.profession}
+            {worker?.profession}
           </Text>
         </SharedElement>
-        <SharedElement id={`${worker.id}.image`}>
+        <SharedElement id={`${worker?.id}.image`}>
           <Image
             source={{
-              uri: "http://www.by-lee.com/nurse0.jpg",
+              uri: imageLink,
             }}
             style={styles.image}
           />
         </SharedElement>
 
         <Text style={styles.details}>
-          {worker.experienceDescription} years of Experience
+          {worker?.experience} years of Experience
         </Text>
 
         <View
@@ -87,7 +98,7 @@ const Contractor = ({ worker }) => {
               disabled={true}
               fullStarColor={"#A6C4DD"}
               maxStars={5}
-              rating={4.5}
+              rating={worker?.rating}
               starSize={18}
               containerStyle={{ width: 100 }}
             />

@@ -1,13 +1,12 @@
-type LaterOrder @model @auth(rules: [{allow: public}]) {
+type OrderView @model @auth(rules: [{allow: public}]) {
   id: ID!
-  service: String!
   date: String!
   lat: Float!
   lng: Float!
   address: String!
   name: String!
-  status: OrderStatus
   userID: ID! @index(name: "byUser")
+  services: String!
 }
 
 type PSWService @model @auth(rules: [{allow: public}]) {
@@ -85,7 +84,7 @@ type User @model @auth(rules: [{allow: public}]) {
   diagnosis: String!
   Orders: [Order] @hasMany(indexName: "byUser", fields: ["id"])
   allergies: String!
-  LaterOrders: [LaterOrder] @hasMany(indexName: "byUser", fields: ["id"])
+  OrderViews: [OrderView] @hasMany(indexName: "byUser", fields: ["id"])
 }
 
 type Worker @model @auth(rules: [{allow: public}]) {
@@ -98,11 +97,13 @@ type Worker @model @auth(rules: [{allow: public}]) {
   pswServices: String
   nursingServices: String
   profession: String
-  experienceDescription: String!
+  experience: Int!
   bio: String!
   sub: String!
   isVerified: Boolean!
   transportationMode: TransportationModes
   gender: String!
+  isInsured: Boolean!
+  languages: String
 }
  

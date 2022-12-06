@@ -7,12 +7,13 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
 import ViewCart from "../../components/ViewCart";
+import { Storage } from "aws-amplify";
 import {
   SharedElement,
   SharedElementTransition,
@@ -30,7 +31,16 @@ const ContractorDetails = () => {
   const [stage, setStage] = useState("Contact");
   const [selected, setSelected] = useState([]);
   const [total, setTotal] = useState(0);
+  const [imageLink, setImageLink] = useState();
 
+  const fetchLink = async () => {
+    Storage.get(`${route.params.sub}.jpg`)
+      .then((mylink) => setImageLink(mylink))
+      .catch((e) => console.log(e));
+  };
+  useEffect(() => {
+    fetchLink();
+  }, []);
   const pressNurse = () => {
     setStage("Nurse");
   };
@@ -181,7 +191,7 @@ const ContractorDetails = () => {
           </View>
           <View style={{ flex: 1 }}>
             <FlatList
-              data={JSON.parse(route.params.nursingServices)}
+              data={JSON.parse(route.params?.nursingServices)}
               keyExtractor={(item) => item.id}
               ItemSeparatorComponent={() => (
                 <View style={tw` border-t border-gray-200 flex-shrink py-0`} />
@@ -289,7 +299,7 @@ const ContractorDetails = () => {
           </View>
           <View style={{ flex: 1 }}>
             <FlatList
-              data={JSON.parse(route.params.pswServices)}
+              data={JSON.parse(route.params?.pswServices)}
               keyExtractor={(item) => item.id}
               ItemSeparatorComponent={() => (
                 <View style={tw` border-t border-gray-200 flex-shrink py-0`} />
@@ -358,7 +368,7 @@ const ContractorDetails = () => {
         {route.params.firstName} {route.params.lastName} {`\u2022 `}
         {route.params.profession}
         {`\u2022 `}
-        <FontAwesome
+        <MaterialCommunityIcons
           name={route.params.transportationMode.toLowerCase()}
           size={24}
           color="white"
@@ -367,7 +377,7 @@ const ContractorDetails = () => {
 
       <Image
         source={{
-          uri: "http://www.by-lee.com/nurse0.jpg",
+          uri: imageLink,
         }}
         style={styles.image}
       />
@@ -385,8 +395,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     transform: [{ translateY: height * 0.3 }],
     borderRadius: 32,
-
-    paddingTop: 32 + 10,
+    paddingTop: height * 0.04535,
   },
   image: {
     width: width * 0.3,
@@ -394,7 +403,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     position: "absolute",
     top: height / 5.8,
-    right: 15,
+    right: width * 0.035,
     borderRadius: 32,
   },
   name: {

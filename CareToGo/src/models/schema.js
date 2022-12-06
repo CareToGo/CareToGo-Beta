@@ -1,19 +1,12 @@
 export const schema = {
     "models": {
-        "LaterOrder": {
-            "name": "LaterOrder",
+        "OrderView": {
+            "name": "OrderView",
             "fields": {
                 "id": {
                     "name": "id",
                     "isArray": false,
                     "type": "ID",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "service": {
-                    "name": "service",
-                    "isArray": false,
-                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -52,19 +45,17 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "status": {
-                    "name": "status",
-                    "isArray": false,
-                    "type": {
-                        "enum": "OrderStatus"
-                    },
-                    "isRequired": false,
-                    "attributes": []
-                },
                 "userID": {
                     "name": "userID",
                     "isArray": false,
                     "type": "ID",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "services": {
+                    "name": "services",
+                    "isArray": false,
+                    "type": "String",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -86,7 +77,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "LaterOrders",
+            "pluralName": "OrderViews",
             "attributes": [
                 {
                     "type": "model",
@@ -492,10 +483,10 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
-                "experienceDescription": {
-                    "name": "experienceDescription",
+                "experience": {
+                    "name": "experience",
                     "isArray": false,
-                    "type": "String",
+                    "type": "Int",
                     "isRequired": true,
                     "attributes": []
                 },
@@ -534,6 +525,20 @@ export const schema = {
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
+                    "attributes": []
+                },
+                "isInsured": {
+                    "name": "isInsured",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": true,
+                    "attributes": []
+                },
+                "languages": {
+                    "name": "languages",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
                     "attributes": []
                 },
                 "createdAt": {
@@ -775,11 +780,11 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "LaterOrders": {
-                    "name": "LaterOrders",
+                "OrderViews": {
+                    "name": "OrderViews",
                     "isArray": true,
                     "type": {
-                        "model": "LaterOrder"
+                        "model": "OrderView"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -861,5 +866,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "0bddf26c8e828b561e49d2d8e6d54081"
+    "version": "bc2e3c687653a85a8cf6ca0ab78af338"
 };

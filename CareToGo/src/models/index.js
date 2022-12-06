@@ -21,10 +21,10 @@ const CareType = {
   "INDEPENDENT": "INDEPENDENT"
 };
 
-const { LaterOrder, PSWService, NurseService, Order, Worker, User } = initSchema(schema);
+const { OrderView, PSWService, NurseService, Order, Worker, User } = initSchema(schema);
 
 export {
-  LaterOrder,
+  OrderView,
   PSWService,
   NurseService,
   Order,

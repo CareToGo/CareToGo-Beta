@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, TouchableOpacity, Modal } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  Modal,
+  ScrollView,
+} from "react-native";
 import React, { useState, useEffect } from "react";
 import OrderItem from "../../screens/OrderItem/OrderItem";
 import {
@@ -17,10 +24,11 @@ const ServiceCart = (prop) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
   const [clientSecret, setClientSecret] = useState(null);
-  const { createOrder } = useBasketContext();
+  const { createOrderView } = useBasketContext();
   const [services, setServices] = useState([]);
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [date, setDate] = useState(new Date());
+  const [datenow, setDateNow] = useState(new Date());
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -45,6 +53,7 @@ const ServiceCart = (prop) => {
       initializePaymentSheet();
     }
   }, [clientSecret]);
+
   const onAddToOrder = async () => {
     const keys = Object.keys(prop.dict);
     let service_array = [];
@@ -52,7 +61,7 @@ const ServiceCart = (prop) => {
       .filter((service) => keys.includes(service.name))
       .map((service) => service);
 
-    await createOrder(service_array, prop.total, prop.info);
+    await createOrderView(service_array, prop.total, prop.info);
   };
 
   const fetchPaymentIntent = async () => {
@@ -106,60 +115,72 @@ const ServiceCart = (prop) => {
           onPress={() => setModalVisible(false)}
           style={styles.modalContainer}
         ></TouchableOpacity>
+
         <View style={styles.modalCheckoutContainer}>
+          <TouchableOpacity onPress={() => setModalVisible(false)}>
+            <AntDesign name="down" size={20} color="black" />
+          </TouchableOpacity>
           <Text style={styles.modalCheckoutButton}>Order</Text>
+          <ScrollView>
+            <OrderItem dict={prop.dict} />
 
-          <OrderItem dict={prop.dict} />
+            <View style={styles.subtotalContainer}>
+              <Text style={styles.subtotalText}>Time</Text>
+              <Text>{date.toString().slice(0, -18)}</Text>
+            </View>
+            <View style={styles.subtotalContainer}>
+              <Text style={styles.subtotalText}>Subtotal</Text>
+              <Text>${prop.total}</Text>
+            </View>
 
-          <View style={styles.subtotalContainer}>
-            <Text style={styles.subtotalText}>Subtotal</Text>
-            <Text>${prop.total}</Text>
-          </View>
-          <View
-            style={tw`flex-row justify-evenly pt-4 pb-2 mt-auto border-t border-gray-100`}
-          >
-            <Text>{date.toLocaleString()}</Text>
-            <TouchableOpacity
-              onPress={() => setDate(new Date())}
-              style={[
-                tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full`,
-                { backgroundColor: "#A6C4DD" },
-              ]}
+            <View
+              style={tw`flex-row justify-evenly pt-4 pb-2 mt-auto border-t border-gray-100`}
             >
-              <AntDesign name="check" size={15} color="white" />
-              <Text style={tw`text-white text-center`}>Now </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={showDatePicker}
-              style={tw`flex bg-gray-100 flex-row justify-between w-24 px-4 py-3 rounded-full shadow-lg`}
-            >
-              <AntDesign name="clockcircleo" size={15} color="black" />
-              <Text style={tw`text-black text-center`}>Later</Text>
-            </TouchableOpacity>
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="datetime"
-              onConfirm={handleConfirm}
-              onCancel={hideDatePicker}
-              minimumDate={date}
-            />
-          </View>
-          <View style={{ flexDirection: "row", justifyContent: "center" }}>
-            <TouchableOpacity
-              style={{
-                marginTop: 20,
-                backgroundColor: "#A6C4DD",
-                alignItems: "center",
-                borderRadius: 30,
-                width: 300,
-                position: "relative",
-                padding: 13,
-              }}
-              onPress={placeOrder}
-            >
-              <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
-            </TouchableOpacity>
-          </View>
+              <TouchableOpacity
+                onPress={() => setDate(new Date())}
+                style={[
+                  tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full`,
+                  { backgroundColor: "#A6C4DD" },
+                ]}
+              >
+                <AntDesign name="check" size={15} color="white" />
+                <Text style={tw`text-white text-center`}>Now </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={showDatePicker}
+                style={tw`flex bg-gray-100 flex-row justify-between w-24 px-4 py-3 rounded-full shadow-lg`}
+              >
+                <AntDesign name="clockcircleo" size={15} color="black" />
+                <Text style={tw`text-black text-center`}>Later</Text>
+              </TouchableOpacity>
+              <DateTimePickerModal
+                isVisible={isDatePickerVisible}
+                mode="datetime"
+                onConfirm={handleConfirm}
+                onCancel={hideDatePicker}
+                minimumDate={datenow}
+                date={date}
+                display="inline"
+              />
+            </View>
+
+            <View style={{ flexDirection: "row", justifyContent: "center" }}>
+              <TouchableOpacity
+                style={{
+                  marginTop: 20,
+                  backgroundColor: "#A6C4DD",
+                  alignItems: "center",
+                  borderRadius: 30,
+                  width: 300,
+                  position: "relative",
+                  padding: 13,
+                }}
+                onPress={placeOrder}
+              >
+                <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </View>
       </>
     );
