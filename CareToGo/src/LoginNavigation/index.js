@@ -10,6 +10,7 @@ import ForgotPasswordScreen from "../LoginScreens/ForgotPasswordScreen";
 import NewPasswordScreen from "../LoginScreens/NewPasswordScreen";
 import TabNav from "../navigation/TabNavigator/TabNav";
 import Homescreen from "../screens/Homescreen/Homescreen";
+import EditUserProfile from "../screens/EditUserProfile/EditUserProfile";
 
 const Stack = createNativeStackNavigator();
 
@@ -49,6 +50,7 @@ const LoginNavigation = () => {
               headerShown: false,
             }}
           />
+          <Stack.Screen name="EditUserProfile" component={EditUserProfile} />
         </>
       ) : (
         <>
