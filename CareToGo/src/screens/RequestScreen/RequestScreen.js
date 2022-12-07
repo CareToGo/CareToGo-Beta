@@ -14,13 +14,14 @@ import { Order } from "../../models";
 import { useState, useEffect } from "react";
 import tw from "tailwind-react-native-classnames";
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
 export default function Appointments() {
   const { dbUser } = useAuthContext();
-
+  const navigation = useNavigation();
   const [orders, setOrders] = useState([]);
 
   const queryOrder = async (arg) => {
@@ -40,9 +41,13 @@ export default function Appointments() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={tw`flex-row justify-end px-5`}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate("PastOrder")}
+        style={tw`flex-row justify-end px-5`}
+      >
         <Text style={tw`text-lg font-semibold`}>Past Order</Text>
-      </View>
+      </TouchableOpacity>
+
       <Text style={styles.title}> Requests</Text>
       <View style={{ flex: 1 }}>
         <FlatList
@@ -95,7 +100,6 @@ const styles = StyleSheet.create({
   title: {
     fontWeight: "700",
     fontSize: 20,
-
     left: "5%",
   },
   image: {

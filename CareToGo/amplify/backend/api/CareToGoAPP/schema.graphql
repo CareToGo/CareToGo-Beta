@@ -97,7 +97,7 @@ type Worker @model @auth(rules: [{allow: public}]) {
   pswServices: String
   nursingServices: String
   profession: String
-  experience: Int!
+  experience: Int
   bio: String!
   sub: String!
   isVerified: Boolean!

@@ -487,7 +487,7 @@ export const schema = {
                     "name": "experience",
                     "isArray": false,
                     "type": "Int",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "bio": {
@@ -866,5 +866,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "bc2e3c687653a85a8cf6ca0ab78af338"
+    "version": "7f937262e71fca6b6ccfd1f5d222cf94"
 };

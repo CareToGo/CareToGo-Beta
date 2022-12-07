@@ -7,7 +7,8 @@ import { withAuthenticator } from "aws-amplify-react-native/dist/Auth";
 import AuthContextProvider from "./src/contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import BasketContextProvider from "./src/contexts/BasketContext";
-import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import LoginNavigation from "./src/LoginNavigation";
 
 Amplify.configure({
   ...config,
@@ -35,7 +36,7 @@ function App() {
                 style={{ flex: 1 }}
                 keyboardVerticalOffset={Platform.OS === "ios" ? -64 : 0}
               >
-                <SplashNav />
+                <LoginNavigation />
               </KeyboardAvoidingView>
             </StripeProvider>
           </BasketContextProvider>
@@ -45,4 +46,4 @@ function App() {
   );
 }
 
-export default withAuthenticator(App);
+export default App;

@@ -37,7 +37,8 @@ export default function UserProfile() {
   const [percentage, setPercentage] = useState(0);
   const [userbio, setUserBio] = useState(dbUser?.bio || "");
   const [editingbio, setEditBio] = useState(false);
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get("window");
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+    Dimensions.get("window");
 
   const startEdit = () => {
     setEditBio(true);
@@ -161,7 +162,6 @@ export default function UserProfile() {
 
   return (
     <SafeAreaView style={{ backgroundColor: "#FFFFFF" }}>
-
       {/* STATIC TOP HALF */}
       <View style={styles.topContainer}>
         {/* TOP BRIEF COMPONENT */}
@@ -685,7 +685,6 @@ export default function UserProfile() {
         </View>
       </ScrollView>
       {/* SCROLLED LOWER HALF */}
-
     </SafeAreaView>
   );
 }

@@ -179,7 +179,7 @@ type EagerWorker = {
   readonly pswServices?: string | null;
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
-  readonly experience: number;
+  readonly experience?: number | null;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;
@@ -201,7 +201,7 @@ type LazyWorker = {
   readonly pswServices?: string | null;
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
-  readonly experience: number;
+  readonly experience?: number | null;
   readonly bio: string;
   readonly sub: string;
   readonly isVerified: boolean;

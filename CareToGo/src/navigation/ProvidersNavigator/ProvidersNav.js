@@ -2,9 +2,11 @@ import { Image, View, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Homescreen from "../../screens/Homescreen/Homescreen";
 import ContractorDetails from "../../screens/contractordetails/contractordetails";
-import Appointments from "../../screens/appointments/appointments";
+import Appointments from "../../screens/RequestScreen/RequestScreen";
 import C2G from "../../../assets/homespage/C2G.png";
 import { Ionicons } from "@expo/vector-icons";
+import OrderItem from "../../screens/OrderItem/OrderItem";
+import PastOrder from "../../screens/PastOrder/PastOrder";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -37,14 +39,14 @@ const ProvidersNav = () => {
         component={ContractorDetails}
         options={{ headerShown: false }}
       />
-      {/* <HomeStack.Screen
-        name="date-picker"
-        component={Datepicker}
-        options={{ headerShown: false }}
-      /> */}
       <HomeStack.Screen
         name="appointment-order"
         component={Appointments}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="PastOrder"
+        component={PastOrder}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

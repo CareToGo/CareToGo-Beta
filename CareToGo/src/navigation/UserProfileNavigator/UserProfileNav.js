@@ -1,24 +1,30 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import UserProfile from "../../screens/MyProfile/UserProfile";
 import EditProfileNav from "../EditProfileTabNavigator/EditProfileTabNav";
-import EditUserProfile from "../../screens/EditUserProfile/EditUserProfile";
+
 import EditCareProfile from "../../screens/EditCareProfile/EditCareProfile";
-import { Text, View, ScrollView, StyleSheet, TouchableHighlight, Image, Dimensions, Pressable } from "react-native";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Text,
+  View,
+  ScrollView,
+  StyleSheet,
+  TouchableHighlight,
+  Image,
+  Dimensions,
+  Pressable,
+} from "react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useAuthContext } from "../../contexts/AuthContext";
-import { Entypo } from '@expo/vector-icons';
-
+import { Entypo } from "@expo/vector-icons";
 
 const ProfileStack = createNativeStackNavigator();
 
 const UserProfileNav = () => {
   const navigation = useNavigation();
 
-  const {
-    width: SCREEN_WIDTH,
-    height: SCREEN_HEIGHT,
-  } = Dimensions.get('window');
+  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
+    Dimensions.get("window");
 
   const namewidth = SCREEN_WIDTH * 0.75;
   let namesize = 27;
@@ -44,7 +50,7 @@ const UserProfileNav = () => {
         }}
       />
       <ProfileStack.Screen
-        name="EditUserProfile"
+        name="EditProfileNav"
         component={EditProfileNav}
         options={{
           title: "",
@@ -54,7 +60,7 @@ const UserProfileNav = () => {
           headerShown: false,
           headerShadowVisible: false,
           headerTitleAlign: "left",
-          animation: 'slide_from_right',
+          animation: "slide_from_right",
         }}
       />
 

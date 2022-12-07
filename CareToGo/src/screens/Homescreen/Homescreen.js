@@ -37,6 +37,7 @@ export default function Homescreen() {
   ];
   const flip = () => {
     setIsEnabled(!isEnabled);
+    setSelectedWorker(workers);
   };
   const select = () => {
     let array = [];

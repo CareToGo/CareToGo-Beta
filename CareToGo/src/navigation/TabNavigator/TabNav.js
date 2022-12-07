@@ -1,15 +1,13 @@
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
 import ServiceOrder from "../../screens/ServiceOrder/ServiceOrder";
-import Appointments from "../../screens/appointments/appointments";
-import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import UserProfileNav from "../UserProfileNavigator/UserProfileNav";
 import { Text } from "react-native";
 import ProvidersNav from "../ProvidersNavigator/ProvidersNav";
+import RequestNavigator from "../RequestNavigator/RequestNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -31,7 +29,7 @@ export default function TabNav() {
           tabBarLabel: <Text style={{ color: "#001A72" }}>PROVIDERS</Text>,
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Services"
         component={ServiceOrder}
         options={{
@@ -41,10 +39,10 @@ export default function TabNav() {
           ),
           tabBarLabel: <Text style={{ color: "#001A72" }}>SERVICES</Text>,
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="Appointments"
-        component={Appointments}
+        name="Requests"
+        component={RequestNavigator}
         options={{
           headerShown: false,
           tabBarIcon: ({ color }) => (

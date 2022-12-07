@@ -364,16 +364,26 @@ const ContractorDetails = () => {
           },
         ]}
       ></View>
-      <Text style={styles.name}>
-        {route.params.firstName} {route.params.lastName} {`\u2022 `}
-        {route.params.profession}
-        {`\u2022 `}
-        <MaterialCommunityIcons
-          name={route.params.transportationMode.toLowerCase()}
-          size={24}
-          color="white"
-        />
-      </Text>
+      <View
+        style={{
+          position: "absolute",
+          top: height / 4.2,
+          left: "5%",
+        }}
+      >
+        <Text style={styles.name}>
+          {route.params.firstName} {route.params.lastName}
+        </Text>
+        <Text style={styles.name}>
+          {route.params.profession}
+          {`\u2022 `}
+          <MaterialCommunityIcons
+            name={route.params.transportationMode.toLowerCase()}
+            size={24}
+            color="white"
+          />
+        </Text>
+      </View>
 
       <Image
         source={{
@@ -409,9 +419,7 @@ const styles = StyleSheet.create({
   name: {
     fontWeight: "700",
     fontSize: 20,
-    position: "absolute",
-    top: height / 4,
-    left: "5%",
+
     color: "white",
   },
 });

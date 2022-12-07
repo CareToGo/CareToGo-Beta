@@ -35,6 +35,7 @@
     "metro-config": "^0.72.1",
     "react": "17.0.2",
     "react-dom": "17.0.2",
+    "react-hook-form": "^7.40.0",
     "react-native": "0.68.2",
     "react-native-animated-splash-screen": "^2.0.5",
     "react-native-auto-size-text": "^1.1.1",
