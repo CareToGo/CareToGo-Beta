@@ -98,7 +98,7 @@ type Worker @model @auth(rules: [{allow: public}]) {
   nursingServices: String
   profession: String
   experience: Int
-  bio: String!
+  bio: String
   sub: String!
   isVerified: Boolean!
   transportationMode: TransportationModes

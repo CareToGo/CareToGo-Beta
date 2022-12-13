@@ -494,7 +494,7 @@ export const schema = {
                     "name": "bio",
                     "isArray": false,
                     "type": "String",
-                    "isRequired": true,
+                    "isRequired": false,
                     "attributes": []
                 },
                 "sub": {
@@ -866,5 +866,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.1",
-    "version": "7f937262e71fca6b6ccfd1f5d222cf94"
+    "version": "15582b0b79fcd9d45193b4178bd7a487"
 };

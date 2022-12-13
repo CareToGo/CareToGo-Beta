@@ -3,6 +3,7 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { View, ActivityIndicator } from "react-native";
 import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
+import { Text } from "react-native";
 import SignInScreen from "../LoginScreens/SignInScreen";
 import SignUpScreen from "../LoginScreens/SignUpScreen";
 import ConfirmEmailScreen from "../LoginScreens/ConfirmEmailScreen";
@@ -11,8 +12,18 @@ import NewPasswordScreen from "../LoginScreens/NewPasswordScreen";
 import TabNav from "../navigation/TabNavigator/TabNav";
 import Homescreen from "../screens/Homescreen/Homescreen";
 import EditUserProfile from "../screens/EditUserProfile/EditUserProfile";
+import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+import ProvidersNav from "../navigation/ProvidersNavigator/ProvidersNav";
+import RequestNavigator from "../navigation/RequestNavigator/RequestNavigator";
+import UserProfileNav from "../navigation/UserProfileNavigator/UserProfileNav";
+import {
+  FontAwesome5,
+  Entypo,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
+const Tab = createMaterialBottomTabNavigator();
 
 const LoginNavigation = () => {
   const { dbUser, authUser } = useAuthContext();
@@ -40,20 +51,53 @@ const LoginNavigation = () => {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <>
       {user ? (
-        <>
-          <Stack.Screen
-            name="HomeTabs"
-            component={TabNav}
+        <Tab.Navigator
+          activeColor="#ffde59"
+          inactiveColor="#001A72"
+          barStyle={{ backgroundColor: "#FFFFFF" }}
+        >
+          <Tab.Screen
+            name="Providers"
+            component={ProvidersNav}
             options={{
               headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <FontAwesome5 name="user-nurse" size={25} color={color} />
+              ),
+              tabBarLabel: <Text style={{ color: "#001A72" }}>PROVIDERS</Text>,
             }}
           />
-          <Stack.Screen name="EditUserProfile" component={EditUserProfile} />
-        </>
+          <Tab.Screen
+            name="Requests"
+            component={RequestNavigator}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <Entypo name="calendar" size={25} color={color} />
+              ),
+              tabBarLabel: <Text style={{ color: "#001A72" }}>REQUESTS</Text>,
+            }}
+          />
+          <Tab.Screen
+            name="SETTINGS"
+            component={UserProfileNav}
+            options={{
+              headerShown: false,
+              tabBarIcon: ({ color }) => (
+                <MaterialCommunityIcons
+                  name="account-cog"
+                  size={25}
+                  color={color}
+                />
+              ),
+              tabBarLabel: <Text style={{ color: "#001A72" }}>SETTINGS</Text>,
+            }}
+          />
+        </Tab.Navigator>
       ) : (
-        <>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
@@ -62,9 +106,9 @@ const LoginNavigation = () => {
             component={ForgotPasswordScreen}
           />
           <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
-        </>
+        </Stack.Navigator>
       )}
-    </Stack.Navigator>
+    </>
   );
 };
 

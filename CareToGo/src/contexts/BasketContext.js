@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { Auth, DataStore } from "aws-amplify";
-import { Worker, Order } from "../models";
+import { Worker, Order, OrderView } from "../models";
 import { useAuthContext } from "./AuthContext";
 
 const BasketContext = createContext({});
@@ -16,7 +16,11 @@ const BasketContextProvider = ({ children }) => {
       (snapshot) => {
         const { items } = snapshot;
         setWorker(null);
+        items.sort(function (first, second) {
+          return second.rating - first.rating;
+        });
         setWorkers(items);
+        console.log(items);
       }
     );
   };
@@ -41,6 +45,19 @@ const BasketContextProvider = ({ children }) => {
     );
   };
 
+  const createOrderView = async (services, date, worker) => {
+    const newOrder = await DataStore.save(
+      new OrderView({
+        userID: dbUser.id,
+        date: date,
+        name: dbUser.firstname,
+        address: dbUser.address,
+        lat: dbUser.lat,
+        lng: dbUser.lng,
+        service: JSON.stringify(services),
+      })
+    );
+  };
   return (
     <BasketContext.Provider value={{ createOrder, setWorker, workers }}>
       {children}

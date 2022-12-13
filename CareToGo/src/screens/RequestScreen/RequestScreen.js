@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
-export default function Appointments() {
+export default function RequestScreen() {
   const { dbUser } = useAuthContext();
   const navigation = useNavigation();
   const [orders, setOrders] = useState([]);

@@ -180,7 +180,7 @@ type EagerWorker = {
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
   readonly experience?: number | null;
-  readonly bio: string;
+  readonly bio?: string | null;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;
@@ -202,7 +202,7 @@ type LazyWorker = {
   readonly nursingServices?: string | null;
   readonly profession?: string | null;
   readonly experience?: number | null;
-  readonly bio: string;
+  readonly bio?: string | null;
   readonly sub: string;
   readonly isVerified: boolean;
   readonly transportationMode?: TransportationModes | keyof typeof TransportationModes | null;

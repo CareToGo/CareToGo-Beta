@@ -119,8 +119,8 @@ const styles = StyleSheet.create({
     height: height * 0.13,
     resizeMode: "contain",
     position: "absolute",
-    bottom: -153,
-    right: 15,
+    bottom: -height * 0.159,
+    right: "4%",
     borderRadius: 30,
   },
 
