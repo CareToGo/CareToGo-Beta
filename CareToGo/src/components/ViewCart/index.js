@@ -19,6 +19,7 @@ import { createPaymentIntent } from "../../graphql/mutations";
 import { AntDesign } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import tw from "tailwind-react-native-classnames";
+
 const ViewCart = (prop) => {
   const [modalVisible, setModalVisible] = useState(false);
   const { initPaymentSheet, presentPaymentSheet } = useStripe();
@@ -57,14 +58,14 @@ const ViewCart = (prop) => {
     }
   }, [clientSecret]);
 
-  const onAddToOrder = async () => {
+  const onAddToOrder = async (arg) => {
     const keys = Object.keys(prop.dict);
     let service_array = [];
     service_array = services
       .filter((service) => keys.includes(service.name))
       .map((service) => service);
 
-    await createOrder(service_array, prop.total, prop.info);
+    await createOrder(service_array, prop.total, prop.info, arg);
   };
 
   const fetchPaymentIntent = async () => {
@@ -107,7 +108,8 @@ const ViewCart = (prop) => {
   };
 
   const placeOrder = () => {
-    openPaymentSheet();
+    onAddToOrder(date)
+    // openPaymentSheet();
     setModalVisible(false);
   };
 
@@ -162,7 +164,7 @@ const ViewCart = (prop) => {
                 onCancel={hideDatePicker}
                 minimumDate={datenow}
                 date={date}
-                display="inline"
+                // display="inline"
               />
             </View>
 
@@ -187,11 +189,13 @@ const ViewCart = (prop) => {
       </>
     );
   };
+
   return (
     <>
       {prop.dict ? (
         <Modal
           animationType="sliding"
+          hardwareAccelerated={true}
           visible={modalVisible}
           transparent={true}
           onRequestClose={() => setModalVisible(false)}
@@ -201,6 +205,7 @@ const ViewCart = (prop) => {
       ) : (
         <View></View>
       )}
+
       {prop.total ? (
         <View
           style={{
@@ -217,26 +222,25 @@ const ViewCart = (prop) => {
             style={{
               flexDirection: "row",
               justifyContent: "center",
-
               width: "100%",
             }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={{
-                marginTop: 20,
+                top: 6,
                 backgroundColor: "#A6C4DD",
-                padding: 13,
+                padding: 12,
                 borderRadius: 30,
-                width: 300,
+                width: 240,
                 justifyContent: "space-around",
                 position: "relative",
                 alignItems: "center",
                 flexDirection: "row",
               }}
             >
-              <Text style={{ color: "white", fontSize: 20 }}>View Cart </Text>
-              <Text style={{ color: "white", fontSize: 20 }}>
+              <Text style={{ color: "white", fontSize: 21 }}>View Cart</Text>
+              <Text style={{ color: "white", fontSize: 21 }}>
                 ${prop.total}
               </Text>
             </TouchableOpacity>

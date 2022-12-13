@@ -105,5 +105,6 @@ type Worker @model @auth(rules: [{allow: public}]) {
   gender: String!
   isInsured: Boolean!
   languages: String
+  online: Boolean!
 }
  

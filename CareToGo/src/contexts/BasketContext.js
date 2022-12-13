@@ -29,7 +29,7 @@ const BasketContextProvider = ({ children }) => {
     queryWorkers();
   }, []);
 
-  const createOrder = async (services, total, worker) => {
+  const createOrder = async (services, total, worker, arg) => {
     const newOrder = await DataStore.save(
       new Order({
         userID: dbUser.id,
@@ -41,6 +41,7 @@ const BasketContextProvider = ({ children }) => {
         lng: dbUser.lng,
         total: total,
         service: JSON.stringify(services),
+        time: arg.toString().slice(0, -18)
       })
     );
   };

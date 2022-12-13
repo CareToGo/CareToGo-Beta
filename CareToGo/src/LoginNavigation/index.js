@@ -3,12 +3,13 @@ import { useAuthContext } from "../contexts/AuthContext";
 import { View, ActivityIndicator } from "react-native";
 import { Auth } from "aws-amplify";
 import { useEffect, useState } from "react";
-import { Text } from "react-native";
 import SignInScreen from "../LoginScreens/SignInScreen";
 import SignUpScreen from "../LoginScreens/SignUpScreen";
 import ConfirmEmailScreen from "../LoginScreens/ConfirmEmailScreen";
 import ForgotPasswordScreen from "../LoginScreens/ForgotPasswordScreen";
 import NewPasswordScreen from "../LoginScreens/NewPasswordScreen";
+import SplashNav from "../navigation/SplashNavigator/SplashNav";
+import SplashScreen from "../screens/SplashScreen";
 import TabNav from "../navigation/TabNavigator/TabNav";
 import Homescreen from "../screens/Homescreen/Homescreen";
 import EditUserProfile from "../screens/EditUserProfile/EditUserProfile";
@@ -23,10 +24,9 @@ import {
 } from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
-const Tab = createMaterialBottomTabNavigator();
 
 const LoginNavigation = () => {
-  const { dbUser, authUser } = useAuthContext();
+  const { authUser } = useAuthContext();
   const [user, setUser] = useState(undefined);
 
   const checkUser = async () => {
@@ -39,77 +39,82 @@ const LoginNavigation = () => {
       setUser(null);
     }
   };
+
   useEffect(() => {
     checkUser();
   });
+
   if (authUser === undefined) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator />
-      </View>
+      <SplashScreen />
     );
   }
 
   return (
-    <>
-      {user ? (
-        <Tab.Navigator
-          activeColor="#ffde59"
-          inactiveColor="#001A72"
-          barStyle={{ backgroundColor: "#FFFFFF" }}
-        >
-          <Tab.Screen
-            name="Providers"
-            component={ProvidersNav}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ color }) => (
-                <FontAwesome5 name="user-nurse" size={25} color={color} />
-              ),
-              tabBarLabel: <Text style={{ color: "#001A72" }}>PROVIDERS</Text>,
-            }}
-          />
-          <Tab.Screen
-            name="Requests"
-            component={RequestNavigator}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ color }) => (
-                <Entypo name="calendar" size={25} color={color} />
-              ),
-              tabBarLabel: <Text style={{ color: "#001A72" }}>REQUESTS</Text>,
-            }}
-          />
-          <Tab.Screen
-            name="SETTINGS"
-            component={UserProfileNav}
-            options={{
-              headerShown: false,
-              tabBarIcon: ({ color }) => (
-                <MaterialCommunityIcons
-                  name="account-cog"
-                  size={25}
-                  color={color}
-                />
-              ),
-              tabBarLabel: <Text style={{ color: "#001A72" }}>SETTINGS</Text>,
-            }}
-          />
-        </Tab.Navigator>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {authUser ? (
+        <>
+          <Stack.Screen name="SplashNav" component={SplashNav} />
+        </>
       ) : (
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <>
           <Stack.Screen name="SignIn" component={SignInScreen} />
           <Stack.Screen name="SignUp" component={SignUpScreen} />
           <Stack.Screen name="ConfirmEmail" component={ConfirmEmailScreen} />
-          <Stack.Screen
-            name="ForgotPassword"
-            component={ForgotPasswordScreen}
-          />
+          <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
           <Stack.Screen name="NewPassword" component={NewPasswordScreen} />
-        </Stack.Navigator>
+        </>
       )}
-    </>
+    </Stack.Navigator >
   );
 };
 
 export default LoginNavigation;
+
+
+
+
+
+        // <Tab.Navigator
+        //   activeColor="#ffde59"
+        //   inactiveColor="#001A72"
+        //   barStyle={{ backgroundColor: "#FFFFFF" }}
+        // >
+        //   <Tab.Screen
+        //     name="Providers"
+        //     component={ProvidersNav}
+        //     options={{
+        //       headerShown: false,
+        //       tabBarIcon: ({ color }) => (
+        //         <FontAwesome5 name="user-nurse" size={25} color={color} />
+        //       ),
+        //       tabBarLabel: <Text style={{ color: "#001A72" }}>PROVIDERS</Text>,
+        //     }}
+        //   />
+        //   <Tab.Screen
+        //     name="Requests"
+        //     component={RequestNavigator}
+        //     options={{
+        //       headerShown: false,
+        //       tabBarIcon: ({ color }) => (
+        //         <Entypo name="calendar" size={25} color={color} />
+        //       ),
+        //       tabBarLabel: <Text style={{ color: "#001A72" }}>REQUESTS</Text>,
+        //     }}
+        //   />
+        //   <Tab.Screen
+        //     name="SETTINGS"
+        //     component={UserProfileNav}
+        //     options={{
+        //       headerShown: false,
+        //       tabBarIcon: ({ color }) => (
+        //         <MaterialCommunityIcons
+        //           name="account-cog"
+        //           size={25}
+        //           color={color}
+        //         />
+        //       ),
+        //       tabBarLabel: <Text style={{ color: "#001A72" }}>SETTINGS</Text>,
+        //     }}
+        //   />
+        // </Tab.Navigator>

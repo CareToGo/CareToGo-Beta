@@ -4,21 +4,19 @@ import {
   View,
   Image,
   TouchableOpacity,
-  SafeAreaView,
   Dimensions,
+  Platform,
 } from "react-native";
-import { useState, useEffect } from "react";
-import { useNavigation } from "@react-navigation/native";
-import { FontAwesome } from "@expo/vector-icons";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Storage } from "aws-amplify";
 import {
   SharedElement,
   SharedElementTransition,
   nodeFromRef,
 } from "react-native-shared-element";
+import { useState, useEffect } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Storage } from "aws-amplify";
 import StarRating from "react-native-star-rating";
-
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
 
@@ -34,27 +32,39 @@ const Contractor = ({ worker }) => {
       .then((mylink) => setImageLink(mylink))
       .catch((e) => console.log(e));
   };
+
   useEffect(() => {
     fetchLink();
+    console.log(worker.rating)
   }, []);
+
   return (
-    <SafeAreaView style={{ padding: 10 }}>
+    <View style={{ width: '100%', paddingHorizontal: 12 }}>
       <TouchableOpacity
         onPress={pressHandler}
-        style={{ marginBottom: 10, height: height * 0.216, padding: 10 }}
+        style={{ height: 180 }}
       >
+
         <SharedElement id={`${worker?.id}.bg`}>
           <View
             style={[
               StyleSheet.absoluteFillObject,
               {
-                backgroundColor: "#4D80C5",
-                borderRadius: 16,
-                height: height * 0.21,
+                backgroundColor: worker.online ? "#4D80C5" : "lightgray",
+                borderRadius: 12,
+                height: 180,
               },
             ]}
-          />
+          >
+            <Image
+              source={{
+                uri: imageLink,
+              }}
+              style={{...styles.image, opacity: worker.online ? 1.0 : 0.3 }}
+            />
+          </View>
         </SharedElement>
+
         <SharedElement id={`${worker?.id}.name`}>
           <Text style={styles.nurseTitle}>
             {worker?.firstName} {worker?.lastName} {`\u2022 `}
@@ -62,52 +72,64 @@ const Contractor = ({ worker }) => {
               name={worker?.transportationMode.toLowerCase()}
               size={25}
               color="white"
-            />{" "}
+            />
+            {" "}
             {`\u2022 `}
             {worker?.profession}
           </Text>
         </SharedElement>
-        <SharedElement id={`${worker?.id}.image`}>
-          <Image
-            source={{
-              uri: imageLink,
-            }}
-            style={styles.image}
-          />
-        </SharedElement>
 
         <Text style={styles.details}>
-          {worker?.experience} years of Experience
+          {worker?.experience} Years of Experience
         </Text>
 
-        <View
-          style={{
-            flexDirection: "row",
-
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{ flexDirection: "row", padding: 5, alignItems: "center" }}
-          >
-            <Text style={{ color: "white", padding: 0 }}>
-              {" "}
-              5 Km {`\u2022 `} 20 min {`\u2022 `}
-            </Text>
-            <StarRating
-              disabled={true}
-              fullStarColor={"#A6C4DD"}
-              maxStars={5}
-              rating={worker?.rating}
-              starSize={18}
-              containerStyle={{ width: 100 }}
-            />
+        {width > 360 ? (
+          <View style={{ flexDirection: "row", alignItems: "center" }} >
+            <View style={{ flexDirection: "row", padding: 5, alignItems: "center" }} >
+              <Text style={{ color: "white", padding: 0 }}>
+                {" "}5 Km{" "}{`\u2022`}{" "}20 min{" "}{`\u2022`}{" "}
+              </Text>
+              <StarRating
+                disabled={true}
+                fullStarColor={"#ffde59"}
+                maxStars={5}
+                rating={worker?.rating}
+                starSize={18}
+                containerStyle={{ width: 100 }}
+              />
+            </View>
           </View>
-        </View>
+        ) : (
+          <>
+            <View style={{ flexDirection: "row", padding: 5, alignItems: "center", marginBottom: 10 }} >
+              <Text style={{ color: "white", padding: 0 }}>
+                {" "}
+                5 Km{" "}{`\u2022`}{" "}20 min
+              </Text>
+            </View>
+
+            <View style={{ flexDirection: "row", paddingLeft: 6, alignItems: "center" }} >
+              <StarRating
+                disabled={true}
+                fullStarColor={"#ffde59"}
+                maxStars={5}
+                rating={worker?.rating}
+                starSize={18}
+                containerStyle={{ width: 100 }}
+              />
+            </View>
+          </>
+
+
+
+
+        )}
+
+
         <View style={{ padding: 5 }}></View>
         <View style={styles.bg} />
       </TouchableOpacity>
-    </SafeAreaView>
+    </View>
   );
 };
 
@@ -115,13 +137,14 @@ export default Contractor;
 
 const styles = StyleSheet.create({
   image: {
-    width: width * 0.3,
-    height: height * 0.13,
+    width: "30%",
+    height: undefined,
+    aspectRatio: 1,
     resizeMode: "contain",
     position: "absolute",
-    bottom: -height * 0.159,
-    right: "4%",
-    borderRadius: 30,
+    bottom: "5%",
+    right: "3%",
+    borderRadius: 15
   },
 
   nurseTitle: {
@@ -129,7 +152,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     marginTop: 15,
-    marginHorizontal: 10,
+    marginHorizontal: 10
   },
 
   details: {
@@ -140,6 +163,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginBottom: 20,
   },
+
   bg: {
     position: "absolute",
     width: width,

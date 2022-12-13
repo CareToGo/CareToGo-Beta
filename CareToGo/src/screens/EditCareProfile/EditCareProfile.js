@@ -353,8 +353,6 @@ const EditCareProfile = () => {
   );
 };
 
-
-
 export default EditCareProfile;
 
 const styles = StyleSheet.create({

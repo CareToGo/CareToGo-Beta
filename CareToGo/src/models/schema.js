@@ -541,6 +541,13 @@ export const schema = {
                     "isRequired": false,
                     "attributes": []
                 },
+                "online": {
+                    "name": "online",
+                    "isArray": false,
+                    "type": "Boolean",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -865,6 +872,6 @@ export const schema = {
         }
     },
     "nonModels": {},
-    "codegenVersion": "3.3.1",
-    "version": "15582b0b79fcd9d45193b4178bd7a487"
+    "codegenVersion": "3.3.2",
+    "version": "3c053be23212decda622c5ed876aacd7"
 };

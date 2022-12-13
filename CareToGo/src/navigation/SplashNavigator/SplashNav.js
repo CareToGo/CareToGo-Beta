@@ -8,6 +8,7 @@ import {
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNav from "../TabNavigator/TabNav";
 import { useAuthContext } from "../../contexts/AuthContext";
+import SplashScreen from "../../screens/SplashScreen";
 import EditUserProfile from "../../screens/EditUserProfile/EditUserProfile";
 import { useEffect } from "react";
 import AnimatedSplash from "react-native-animated-splash-screen";
@@ -17,54 +18,64 @@ import FirstTimeEdit from "../../screens/FirstTimeEdit/FirstTimeEdit";
 const Stack = createNativeStackNavigator();
 
 const SplashNav = () => {
-  const { dbUser, sub, loading } = useAuthContext();
+  const { authUser, dbUser, loading, queryUser, setLoading, sub } = useAuthContext();
   const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } =
     Dimensions.get("window");
 
   useEffect(() => {
-    console.log("SpashLoading", sub, dbUser, loading);
+    setLoading(true);
+  }, []);
+
+  useEffect(() => {
+    const timeId = setTimeout(() => {
+      setLoading(false);
+    }, 2000)
+    return () => {
+      clearTimeout(timeId);
+    }
+  }, []);
+
+  useEffect(() => {
+    queryUser(authUser.attributes.sub);
   }, []);
 
   return (
-    <AnimatedSplash
-      translucent={false}
-      isLoaded={!loading}
-      logoImage={C2G}
-      backgroundColor={"#FFFFFF"}
-      logoHeight={300}
-      logoWidth={250}
-    >
-      <Stack.Navigator>
-        {!loading && dbUser ? (
-          <Stack.Screen
-            name="HomeTabs"
-            component={TabNav}
-            options={{
-              headerShown: false,
-            }}
-          />
-        ) : (
-          <Stack.Screen
-            name="FirstTimeEditPage"
-            component={FirstTimeEdit}
-            options={{
-              title: "",
-              headerStyle: {
-                backgroundColor: "#FFFFFF",
-              },
-              headerShadowVisible: false,
-              headerTitleAlign: "left",
-              animation: "slide_from_right",
-              headerLeft: () => (
-                <Text style={{ fontSize: SCREEN_WIDTH / 12 }}>
-                  Edit New Profile...
-                </Text>
-              ),
-            }}
-          />
-        )}
-      </Stack.Navigator>
-    </AnimatedSplash>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {!loading ? (dbUser ? (
+        <Stack.Screen
+          name="HomeTabs"
+          component={TabNav}
+          options={{
+            headerShown: false,
+          }}
+        />
+      ) : (
+        <Stack.Screen
+          name="FirstTimeEditPage"
+          component={FirstTimeEdit}
+          options={{
+            title: "",
+            headerStyle: {
+              backgroundColor: "#FFFFFF",
+            },
+            headerShadowVisible: false,
+            headerTitleAlign: "left",
+            animation: "slide_from_right",
+            headerLeft: () => (
+              <Text style={{ fontSize: SCREEN_WIDTH / 12 }}>
+                Edit New Profile...
+              </Text>
+            ),
+          }}
+        />
+      )) : (
+        <Stack.Screen
+          name="SplashingScreen"
+          component={SplashScreen}
+        />
+      )
+      }
+    </Stack.Navigator>
   );
 };
 

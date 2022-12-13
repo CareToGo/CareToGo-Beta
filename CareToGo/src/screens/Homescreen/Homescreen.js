@@ -12,14 +12,16 @@ import {
 import Contractor from "../../components/contractorcomponent/contractor";
 import { useBasketContext } from "../../contexts/BasketContext";
 import c2g from "../../../assets/homespage/C2G.png";
+import { useAuthContext } from "../../contexts/AuthContext";
 import tw from "tailwind-react-native-classnames";
 import { AntDesign } from "@expo/vector-icons";
 import { MultipleSelectList } from "react-native-dropdown-select-list";
 import { useState } from "react";
-
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
+
 export default function Homescreen() {
+  const { dbUser } = useAuthContext();
   const { workers } = useBasketContext();
   const [selected, setSelected] = useState([]);
   const [selectedWorker, setSelectedWorker] = useState(workers);
@@ -35,10 +37,12 @@ export default function Homescreen() {
     { key: "8", value: "Nursing Assessment" },
     { key: "9", value: "IV Therapy" },
   ];
+
   const flip = () => {
     setIsEnabled(!isEnabled);
     setSelectedWorker(workers);
   };
+
   const select = () => {
     let array = [];
     for (let i = 0; i < workers.length; i++) {
@@ -62,11 +66,14 @@ export default function Homescreen() {
       setSelectedWorker(workers);
     }
   };
+
+
+
   return (
     <SafeAreaView style={styles.container}>
       <View
         style={{
-          paddingHorizontal: "4%",
+          paddingHorizontal: 15,
           flexDirection: "row",
           justifyContent: "space-between",
           alignItems: "center",
@@ -102,7 +109,7 @@ export default function Homescreen() {
       <StatusBar backgroundColor="#FFFFFF" barStyle="dark-content" />
       <FlatList
         data={selectedWorker}
-        renderItem={({ item }) => <Contractor worker={item} />}
+        renderItem={({ item }) => <Contractor worker={item} user={dbUser} />}
       />
       <View style={styles.bg} />
     </SafeAreaView>
@@ -112,7 +119,6 @@ export default function Homescreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: "3%",
     backgroundColor: "#FFFFFF",
   },
   bg: {

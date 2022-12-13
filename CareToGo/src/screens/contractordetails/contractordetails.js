@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Dimensions,
   FlatList,
+  Platform,
 } from "react-native";
 import { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -38,9 +39,11 @@ const ContractorDetails = () => {
       .then((mylink) => setImageLink(mylink))
       .catch((e) => console.log(e));
   };
+
   useEffect(() => {
     fetchLink();
   }, []);
+
   const pressNurse = () => {
     setStage("Nurse");
   };
@@ -52,6 +55,7 @@ const ContractorDetails = () => {
   };
 
   const Split = () => {
+
     if (stage == "Contact") {
       return (
         <View style={styles.bg}>
@@ -72,9 +76,10 @@ const ContractorDetails = () => {
                 onPress={pressContact}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -88,9 +93,10 @@ const ContractorDetails = () => {
                 onPress={pressPsw}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: "black",
@@ -104,9 +110,10 @@ const ContractorDetails = () => {
                 onPress={pressNurse}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -122,6 +129,7 @@ const ContractorDetails = () => {
         </View>
       );
     }
+
     if (stage == "Nurse") {
       return (
         <View style={styles.bg}>
@@ -136,9 +144,10 @@ const ContractorDetails = () => {
                 onPress={pressContact}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -151,9 +160,10 @@ const ContractorDetails = () => {
                 onPress={pressPsw}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: "black",
@@ -173,9 +183,10 @@ const ContractorDetails = () => {
                 onPress={pressNurse}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -230,6 +241,7 @@ const ContractorDetails = () => {
         </View>
       );
     }
+
     if (stage == "Psw") {
       return (
         <View style={styles.bg}>
@@ -244,9 +256,10 @@ const ContractorDetails = () => {
                 onPress={pressContact}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -265,9 +278,10 @@ const ContractorDetails = () => {
                 onPress={pressPsw}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                   borderColor: "black",
@@ -282,9 +296,10 @@ const ContractorDetails = () => {
                 onPress={pressNurse}
                 style={{
                   backgroundColor: "#A6C4DD",
-                  height: height * 0.06911,
-                  width: width * 0.14953271,
-                  borderRadius: 32,
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1, 
+                  borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
                 }}
@@ -338,16 +353,16 @@ const ContractorDetails = () => {
       );
     }
   };
+  
   return (
     <View style={{ flex: 1 }}>
       <AntDesign
         name="arrowleft"
         size={28}
         style={{
-          padding: 12,
+          padding: 10,
           position: "absolute",
-          top: height * 0.04,
-          left: "2%",
+          top: Platform.OS == "ios" ? 12 : 0,
           zIndex: 2,
         }}
         onPress={() => {
@@ -360,14 +375,14 @@ const ContractorDetails = () => {
           {
             backgroundColor: "#4D80C5",
             borderRadius: 0,
-            height: height * 0.3 + 32,
+            height: height,
           },
         ]}
       ></View>
       <View
         style={{
           position: "absolute",
-          top: height / 4.2,
+          bottom: height * 0.66,
           left: "5%",
         }}
       >
@@ -401,20 +416,23 @@ const styles = StyleSheet.create({
   bg: {
     position: "absolute",
     width: width,
-    height: height,
+    height: height * 0.66,
     backgroundColor: "white",
-    transform: [{ translateY: height * 0.3 }],
-    borderRadius: 32,
-    paddingTop: height * 0.04535,
+    bottom: 0,
+    borderTopRightRadius: 21,
+    borderTopLeftRadius: 21,
+    paddingTop: 30
   },
   image: {
-    width: width * 0.3,
-    height: height * 0.13,
+    width: undefined,
+    height: height*0.15,
+    aspectRatio:1,
     resizeMode: "contain",
     position: "absolute",
-    top: height / 5.8,
-    right: width * 0.035,
-    borderRadius: 32,
+    bottom: height * 0.642,
+    right: 21,
+    borderRadius: 12,
+    zIndex: 100
   },
   name: {
     fontWeight: "700",

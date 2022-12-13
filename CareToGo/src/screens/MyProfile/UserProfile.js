@@ -31,7 +31,7 @@ import { StatusBar } from "expo-status-bar";
 import { ScrollView } from "react-native-gesture-handler";
 
 export default function UserProfile() {
-  const { dbUser, sub, setDbUser } = useAuthContext();
+  const { dbUser, sub, setDbUser, setAuthUser } = useAuthContext();
   const navigation = useNavigation();
   const [imageLink, setImageLink] = useState();
   const [percentage, setPercentage] = useState(0);
@@ -57,11 +57,14 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchLink();
+    console.log(imageLink)
+    console.log(sub)
   }, []);
 
   const signOut = async () => {
     await DataStore.clear();
     await Auth.signOut();
+    setAuthUser(null);
   };
 
   useEffect(() => {
@@ -145,7 +148,7 @@ export default function UserProfile() {
   };
 
   const editprofile = () => {
-    navigation.navigate("EditUserProfile");
+    navigation.navigate("EditProfileNav");
   };
 
   const updateUser = async () => {
@@ -174,7 +177,7 @@ export default function UserProfile() {
             }}
           >
             <Image
-              source={{ uri: imageLink }}
+              source={{ uri: sub ? imageLink : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3D%2522default%2Bprofile%2Bpicture%2522&psig=AOvVaw3aEPUJs8PYmHvsRStItlVU&ust=1670986762710000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJD3ivXM9fsCFQAAAAAdAAAAABAK" }}
               style={{
                 width: "95%",
                 height: undefined,
