@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome5 } from '@expo/vector-icons';
 import tw from "tailwind-react-native-classnames";
 import ViewCart from "../../components/ViewCart";
 import { Storage } from "aws-amplify";
@@ -32,7 +33,7 @@ const ContractorDetails = () => {
   const [stage, setStage] = useState("Contact");
   const [selected, setSelected] = useState([]);
   const [total, setTotal] = useState(0);
-  const [imageLink, setImageLink] = useState();
+  const [imageLink, setImageLink] = useState(imageLink ? imageLink : null);
 
   const fetchLink = async () => {
     Storage.get(`${route.params.sub}.jpg`)
@@ -42,6 +43,7 @@ const ContractorDetails = () => {
 
   useEffect(() => {
     fetchLink();
+    console.log(route.params)
   }, []);
 
   const pressNurse = () => {
@@ -78,7 +80,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -95,7 +97,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -112,7 +114,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -125,6 +127,89 @@ const ContractorDetails = () => {
                 />
               </TouchableOpacity>
             </View>
+          </View>
+          <View style={{ flex: 1, alignItems: 'center' }}>
+
+            <View style={{ ...styles.infoContainer }}>
+              <View style={{ justifyContent: "center", width: 30 }}>
+                <MaterialIcons name="person-pin" size={30} color="#A6C4DD" />
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  paddingLeft: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "black", fontSize: 18, fontWeight: '300' }}>{route.params.gender}</Text>
+              </View>
+            </View>
+
+            <View style={{ ...styles.infoContainer }}>
+              <View style={{ justifyContent: "center", width: 30 }}>
+                <FontAwesome5 name="notes-medical" size={30} color="#A6C4DD" />
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  paddingLeft: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "black", fontSize: 15 }}>
+                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.experience}</Text>
+                  <Text style={{ fontSize: 18, fontWeight: '300' }}> Years of Experience as </Text>
+                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.profession}</Text>
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ ...styles.infoContainer }}>
+              <View style={{ justifyContent: "center", width: 30 }}>
+                <MaterialCommunityIcons name="transit-connection-variant" size={30} color="#A6C4DD" />
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  paddingLeft: 10,
+                  justifyContent: "center",
+                }}
+              >
+                <Text style={{ color: "black", fontSize: 15 }}>
+                  <Text style={{ fontSize: 18, fontWeight: '300' }}> Currently travelling by </Text>
+                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.transportationMode}</Text>
+                </Text>
+              </View>
+            </View>
+
+            <View style={{ ...styles.infoContainer }}>
+              <View style={{ justifyContent: "center", width: 30 }}>
+                <FontAwesome name="language" size={30} color="#A6C4DD" />
+              </View>
+
+              <View
+                style={{
+                  flex: 1,
+                  paddingLeft: 10,
+                  justifyContent: "flex-start",
+                  alignItems: 'center',
+                  borderWidth: 0,
+                  flexDirection: 'row'
+                }}
+              >
+                {JSON.parse(route.params.languages).map((language) => {
+                  return (
+                    <View key={language} style={{ backgroundColor: "#4D80C5", paddingHorizontal: 12, paddingVertical: 3, margin: 3, borderRadius: 6, }}>
+                      <Text style={{ fontSize: 18, color: "white", fontWeight: '300' }}>{language}</Text>
+                    </View>
+                  );
+                })}
+              </View>
+            </View>
+
           </View>
         </View>
       );
@@ -146,7 +231,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -162,7 +247,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -185,7 +270,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -225,9 +310,8 @@ const ContractorDetails = () => {
                       delete dict[item.name];
                     }
                   }}
-                  style={tw`flex-row items-center justify-evenly p-3 ${
-                    selected[id] && "bg-gray-200"
-                  }`}
+                  style={tw`flex-row items-center justify-evenly p-3 ${selected[id] && "bg-gray-200"
+                    }`}
                 >
                   <View style={tw`px-3 w-5/6`}>
                     <Text style={tw`font-semibold text-lg`}>{name}</Text>
@@ -258,7 +342,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -280,7 +364,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -298,7 +382,7 @@ const ContractorDetails = () => {
                   backgroundColor: "#A6C4DD",
                   height: height * 0.081,
                   width: undefined,
-                  aspectRatio: 1, 
+                  aspectRatio: 1,
                   borderRadius: 1000,
                   alignItems: "center",
                   justifyContent: "center",
@@ -336,9 +420,8 @@ const ContractorDetails = () => {
                       delete dict[item.name];
                     }
                   }}
-                  style={tw`flex-row items-center justify-evenly p-3 ${
-                    selected[id] && "bg-gray-200"
-                  }`}
+                  style={tw`flex-row items-center justify-evenly p-3 ${selected[id] && "bg-gray-200"
+                    }`}
                 >
                   <View style={tw`px-3 w-5/6`}>
                     <Text style={tw`font-semibold text-lg`}>{name}</Text>
@@ -353,7 +436,7 @@ const ContractorDetails = () => {
       );
     }
   };
-  
+
   return (
     <View style={{ flex: 1 }}>
       <AntDesign
@@ -386,17 +469,8 @@ const ContractorDetails = () => {
           left: "5%",
         }}
       >
-        <Text style={styles.name}>
+        <Text style={{ ...styles.name, fontSize: width * 0.7 / (route.params.firstName.length + route.params.lastName.length) }}>
           {route.params.firstName} {route.params.lastName}
-        </Text>
-        <Text style={styles.name}>
-          {route.params.profession}
-          {`\u2022 `}
-          <MaterialCommunityIcons
-            name={route.params.transportationMode.toLowerCase()}
-            size={24}
-            color="white"
-          />
         </Text>
       </View>
 
@@ -419,14 +493,14 @@ const styles = StyleSheet.create({
     height: height * 0.66,
     backgroundColor: "white",
     bottom: 0,
-    borderTopRightRadius: 21,
-    borderTopLeftRadius: 21,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
     paddingTop: 30
   },
   image: {
     width: undefined,
-    height: height*0.15,
-    aspectRatio:1,
+    height: height * 0.15,
+    aspectRatio: 1,
     resizeMode: "contain",
     position: "absolute",
     bottom: height * 0.642,
@@ -435,10 +509,20 @@ const styles = StyleSheet.create({
     zIndex: 100
   },
   name: {
-    fontWeight: "700",
-    fontSize: 20,
-
+    fontWeight: "300",
+    marginBottom: 6,
     color: "white",
+  },
+  infoContainer: {
+    flexDirection: "row",
+    borderColor: "lightgray",
+    paddingBottom: 0,
+    borderRadius: 10,
+    paddingHorizontal: 5,
+    height: height / 15,
+    justifyContent: "center",
+    width: '90%',
+    borderBottomWidth: 0
   },
 });
 

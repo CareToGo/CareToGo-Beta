@@ -15,6 +15,7 @@ const OrderItem = (prop) => {
               borderBottomWidth: 1,
               borderBottomColor: "#999",
             }}
+            key={key}
           >
             <Text style={{ fontWeight: "600", fontSize: 16 }}>{key}</Text>
             <Text style={{ opacity: 0.7, fontSize: 16 }}>

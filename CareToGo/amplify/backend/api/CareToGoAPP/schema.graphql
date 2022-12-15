@@ -106,5 +106,6 @@ type Worker @model @auth(rules: [{allow: public}]) {
   isInsured: Boolean!
   languages: String
   online: Boolean!
+  maxDistance: Int!
 }
  

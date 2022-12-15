@@ -188,6 +188,7 @@ type EagerWorker = {
   readonly isInsured: boolean;
   readonly languages?: string | null;
   readonly online: boolean;
+  readonly maxDistance: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }
@@ -211,6 +212,7 @@ type LazyWorker = {
   readonly isInsured: boolean;
   readonly languages?: string | null;
   readonly online: boolean;
+  readonly maxDistance: number;
   readonly createdAt?: string | null;
   readonly updatedAt?: string | null;
 }

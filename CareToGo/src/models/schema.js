@@ -548,6 +548,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "maxDistance": {
+                    "name": "maxDistance",
+                    "isArray": false,
+                    "type": "Int",
+                    "isRequired": true,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -873,5 +880,5 @@ export const schema = {
     },
     "nonModels": {},
     "codegenVersion": "3.3.2",
-    "version": "3c053be23212decda622c5ed876aacd7"
+    "version": "0d196d769dc08f384cce26af200452ca"
 };

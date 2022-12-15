@@ -25,7 +25,7 @@ const Contractor = ({ worker }) => {
   const pressHandler = () => {
     navigation.navigate("contractor-details", worker);
   };
-  const [imageLink, setImageLink] = useState();
+  const [imageLink, setImageLink] = useState(imageLink ? imageLink : null);
 
   const fetchLink = async () => {
     Storage.get(`${worker.sub}.jpg`)
@@ -35,11 +35,10 @@ const Contractor = ({ worker }) => {
 
   useEffect(() => {
     fetchLink();
-    console.log(worker.rating)
   }, []);
 
   return (
-    <View style={{ width: '100%', paddingHorizontal: 12 }}>
+    <View style={{ width: '100%', paddingHorizontal: 12, marginVertical: 10 }}>
       <TouchableOpacity
         onPress={pressHandler}
         style={{ height: 180 }}

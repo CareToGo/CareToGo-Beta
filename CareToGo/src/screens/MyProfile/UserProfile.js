@@ -33,7 +33,7 @@ import { ScrollView } from "react-native-gesture-handler";
 export default function UserProfile() {
   const { dbUser, sub, setDbUser, setAuthUser } = useAuthContext();
   const navigation = useNavigation();
-  const [imageLink, setImageLink] = useState();
+  const [imageLink, setImageLink] = useState(imageLink ? imageLink : null);
   const [percentage, setPercentage] = useState(0);
   const [userbio, setUserBio] = useState(dbUser?.bio || "");
   const [editingbio, setEditBio] = useState(false);
@@ -57,8 +57,6 @@ export default function UserProfile() {
 
   useEffect(() => {
     fetchLink();
-    console.log(imageLink)
-    console.log(sub)
   }, []);
 
   const signOut = async () => {
@@ -88,7 +86,7 @@ export default function UserProfile() {
       allowsEditing: true,
       mediaTypes: "Images",
       aspect: [1, 1],
-      quality: 1,
+      quality: 0.3,
     });
     handleImagePicked(result);
   };
