@@ -7,12 +7,13 @@ import {
   Dimensions,
   FlatList,
   Platform,
+  ScrollView,
+  Animated,
+  Pressable,
 } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { AntDesign, Entypo, FontAwesome } from "@expo/vector-icons";
-import { MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, Entypo, FontAwesome, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
 import ViewCart from "../../components/ViewCart";
 import { Storage } from "aws-amplify";
@@ -34,6 +35,9 @@ const ContractorDetails = () => {
   const [selected, setSelected] = useState([]);
   const [total, setTotal] = useState(0);
   const [imageLink, setImageLink] = useState(imageLink ? imageLink : null);
+  const fadeAnimA = useRef(new Animated.Value(1)).current
+  const fadeAnimB = useRef(new Animated.Value(1)).current
+  const fadeAnimC = useRef(new Animated.Value(0)).current
 
   const fetchLink = async () => {
     Storage.get(`${route.params.sub}.jpg`)
@@ -46,21 +50,49 @@ const ContractorDetails = () => {
     console.log(route.params)
   }, []);
 
-  const pressNurse = () => {
-    setStage("Nurse");
-  };
   const pressContact = () => {
+    fadeAnimA.setValue(0);
     setStage("Contact");
+    Animated.timing(
+      fadeAnimA,
+      {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true
+      }
+    ).start();
   };
+
   const pressPsw = () => {
+    fadeAnimB.setValue(0);
     setStage("Psw");
+    Animated.timing(
+      fadeAnimB,
+      {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true
+      }
+    ).start();
+  };
+
+  const pressNurse = () => {
+    fadeAnimC.setValue(0);
+    setStage("Nurse");
+    Animated.timing(
+      fadeAnimC,
+      {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true
+      }
+    ).start();
   };
 
   const Split = () => {
-
     if (stage == "Contact") {
       return (
-        <View style={styles.bg}>
+        <View style={{ ...styles.bg }}>
           <View
             style={{
               flexDirection: "row",
@@ -74,7 +106,7 @@ const ContractorDetails = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity
+              <Pressable
                 onPress={pressContact}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -87,11 +119,13 @@ const ContractorDetails = () => {
                 }}
               >
                 <MaterialIcons name="contacts" size={24} color="white" />
-              </TouchableOpacity>
-              <Entypo name="dot-single" size={24} color="#A6C4DD" />
+              </Pressable>
+              <Animated.View style={{ opacity: fadeAnimA }}>
+                <View><Entypo name="dot-single" size={24} color="#A6C4DD" /></View>
+              </Animated.View>
             </View>
             <View style={{}}>
-              <TouchableOpacity
+              <Pressable
                 onPress={pressPsw}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -105,10 +139,10 @@ const ContractorDetails = () => {
                 }}
               >
                 <MaterialIcons name="work" size={24} color="white" />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View style={{}}>
-              <TouchableOpacity
+              <Pressable
                 onPress={pressNurse}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -125,92 +159,225 @@ const ContractorDetails = () => {
                   size={24}
                   color="white"
                 />
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
-          <View style={{ flex: 1, alignItems: 'center' }}>
 
-            <View style={{ ...styles.infoContainer }}>
-              <View style={{ justifyContent: "center", width: 30 }}>
-                <MaterialIcons name="person-pin" size={30} color="#A6C4DD" />
+          <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
+            <Animated.View style={{ opacity: fadeAnimA }}>
+              <View style={{ ...styles.infoContainer }}>
+                <View style={{ justifyContent: "center", width: 30 }}>
+                  <MaterialIcons name="person-pin" size={30} color="#A6C4DD" />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text style={{ color: "black", fontSize: 18, fontWeight: '300' }}>{route.params.gender}</Text>
+                </View>
               </View>
 
-              <View
+              <View style={{ ...styles.infoContainer }}>
+                <View style={{ justifyContent: "center", width: 30 }}>
+                  <FontAwesome5 name="notes-medical" size={30} color="#A6C4DD" />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text style={{ color: "black", fontSize: 15 }}>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.experience}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}> Years of Experience as </Text>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.profession}</Text>
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{ ...styles.infoContainer }}>
+                <View style={{ justifyContent: "center", width: 30 }}>
+                  <MaterialCommunityIcons name="transit-connection-variant" size={30} color="#A6C4DD" />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text style={{ color: "black", fontSize: 15 }}>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}> Currently travelling by </Text>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.transportationMode}</Text>
+                  </Text>
+                </View>
+              </View>
+
+              <View style={{ ...styles.infoContainer }}>
+                <View style={{ justifyContent: "center", width: 30 }}>
+                  <FontAwesome name="language" size={30} color="#A6C4DD" />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    paddingLeft: 10,
+                    justifyContent: "flex-start",
+                    alignItems: 'center',
+                    borderWidth: 0,
+                    flexDirection: 'row'
+                  }}
+                >
+                  {JSON.parse(route.params.languages).map((language) => {
+                    return (
+                      <View key={language} style={{ backgroundColor: "#4D80C5", paddingHorizontal: 12, paddingVertical: 3, margin: 3, borderRadius: 6, }}>
+                        <Text style={{ fontSize: 18, color: "white", fontWeight: '300' }}>{language}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+
+              <View style={{ width: "90%", paddingHorizontal: 5 }}>
+                <View style={{ justifyContent: "center", width: 30 }}>
+                  <MaterialCommunityIcons name="bio" size={30} color="#A6C4DD" />
+                </View>
+
+                <View
+                  style={{
+                    flex: 1,
+                    alignItems: 'flex-start',
+                    backgroundColor: 'lightgray',
+                    padding: 10,
+                    borderRadius: 10
+                  }}
+                >
+                  <Text style={{ color: "black", fontSize: 15, fontWeight: '300', textAlign: 'justify' }}>{route.params.bio ? route.params.bio : "No Bio yet..."}</Text>
+                </View>
+              </View>
+            </Animated.View>
+
+          </ScrollView>
+        </View>
+      );
+    }
+
+    if (stage == "Psw") {
+      return (
+        <View style={styles.bg}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-evenly",
+            }}
+          >
+            <View>
+              <Pressable
+                onPress={pressContact}
                 style={{
-                  flex: 1,
-                  paddingLeft: 10,
+                  backgroundColor: "#A6C4DD",
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1,
+                  borderRadius: 1000,
+                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ color: "black", fontSize: 18, fontWeight: '300' }}>{route.params.gender}</Text>
-              </View>
+                <MaterialIcons name="contacts" size={24} color="white" />
+              </Pressable>
             </View>
-
-            <View style={{ ...styles.infoContainer }}>
-              <View style={{ justifyContent: "center", width: 30 }}>
-                <FontAwesome5 name="notes-medical" size={30} color="#A6C4DD" />
-              </View>
-
-              <View
+            <View
+              style={{
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Pressable
+                onPress={pressPsw}
                 style={{
-                  flex: 1,
-                  paddingLeft: 10,
+                  backgroundColor: "#A6C4DD",
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1,
+                  borderRadius: 1000,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderColor: "black",
+                }}
+              >
+                <MaterialIcons name="work" size={24} color="white" />
+              </Pressable>
+              <Animated.View style={{ opacity: fadeAnimB }}>
+                <View><Entypo name="dot-single" size={24} color="#A6C4DD" /></View>
+              </Animated.View>
+            </View>
+            <View style={{}}>
+              <Pressable
+                onPress={pressNurse}
+                style={{
+                  backgroundColor: "#A6C4DD",
+                  height: height * 0.081,
+                  width: undefined,
+                  aspectRatio: 1,
+                  borderRadius: 1000,
+                  alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <Text style={{ color: "black", fontSize: 15 }}>
-                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.experience}</Text>
-                  <Text style={{ fontSize: 18, fontWeight: '300' }}> Years of Experience as </Text>
-                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.profession}</Text>
-                </Text>
-              </View>
+                <MaterialIcons
+                  name="medical-services"
+                  size={24}
+                  color="white"
+                />
+              </Pressable>
             </View>
-
-            <View style={{ ...styles.infoContainer }}>
-              <View style={{ justifyContent: "center", width: 30 }}>
-                <MaterialCommunityIcons name="transit-connection-variant" size={30} color="#A6C4DD" />
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 10,
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={{ color: "black", fontSize: 15 }}>
-                  <Text style={{ fontSize: 18, fontWeight: '300' }}> Currently travelling by </Text>
-                  <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.transportationMode}</Text>
-                </Text>
-              </View>
-            </View>
-
-            <View style={{ ...styles.infoContainer }}>
-              <View style={{ justifyContent: "center", width: 30 }}>
-                <FontAwesome name="language" size={30} color="#A6C4DD" />
-              </View>
-
-              <View
-                style={{
-                  flex: 1,
-                  paddingLeft: 10,
-                  justifyContent: "flex-start",
-                  alignItems: 'center',
-                  borderWidth: 0,
-                  flexDirection: 'row'
-                }}
-              >
-                {JSON.parse(route.params.languages).map((language) => {
-                  return (
-                    <View key={language} style={{ backgroundColor: "#4D80C5", paddingHorizontal: 12, paddingVertical: 3, margin: 3, borderRadius: 6, }}>
-                      <Text style={{ fontSize: 18, color: "white", fontWeight: '300' }}>{language}</Text>
-                    </View>
-                  );
-                })}
-              </View>
-            </View>
-
           </View>
+
+          <Animated.View style={{ flex: 1, opacity: fadeAnimB }}>
+            <FlatList
+              data={JSON.parse(route.params?.pswServices)}
+              keyExtractor={(item) => item.id}
+              ItemSeparatorComponent={() => (
+                <View style={tw` border-t border-gray-200 flex-shrink py-0`} />
+              )}
+              renderItem={({
+                item: { id, name, description, price },
+                item,
+              }) => (
+                <TouchableOpacity
+                  onPress={() => {
+                    let newSelected = { ...selected };
+                    newSelected[item.id] = !newSelected[item.id];
+                    setSelected(newSelected);
+                    if (newSelected[item.id]) {
+                      setTotal(total + price);
+                      dict[item.name] = price;
+                    } else {
+                      setTotal(total - price);
+                      delete dict[item.name];
+                    }
+                  }}
+                  style={tw`flex-row items-center justify-evenly p-3 ${selected[id] && "bg-gray-200"
+                    }`}
+                >
+                  <View style={tw`px-3 w-5/6`}>
+                    <Text style={tw`font-semibold text-lg`}>{name}</Text>
+                    <Text style={tw`text-gray-500 `}>{description}</Text>
+                  </View>
+                  <Text style={tw`text-lg `}>${price}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </Animated.View>
         </View>
       );
     }
@@ -225,7 +392,7 @@ const ContractorDetails = () => {
             }}
           >
             <View>
-              <TouchableOpacity
+              <Pressable
                 onPress={pressContact}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -238,10 +405,10 @@ const ContractorDetails = () => {
                 }}
               >
                 <MaterialIcons name="contacts" size={24} color="white" />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View style={{}}>
-              <TouchableOpacity
+              <Pressable
                 onPress={pressPsw}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -255,7 +422,7 @@ const ContractorDetails = () => {
                 }}
               >
                 <MaterialIcons name="work" size={24} color="white" />
-              </TouchableOpacity>
+              </Pressable>
             </View>
             <View
               style={{
@@ -264,7 +431,7 @@ const ContractorDetails = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity
+              <Pressable
                 onPress={pressNurse}
                 style={{
                   backgroundColor: "#A6C4DD",
@@ -281,11 +448,14 @@ const ContractorDetails = () => {
                   size={24}
                   color="white"
                 />
-              </TouchableOpacity>
-              <Entypo name="dot-single" size={24} color="#A6C4DD" />
+              </Pressable>
+              <Animated.View style={{ opacity: fadeAnimC }}>
+                <View><Entypo name="dot-single" size={24} color="#A6C4DD" /></View>
+              </Animated.View>
             </View>
           </View>
-          <View style={{ flex: 1 }}>
+
+          <Animated.View style={{ flex: 1, opacity: fadeAnimC }}>
             <FlatList
               data={JSON.parse(route.params?.nursingServices)}
               keyExtractor={(item) => item.id}
@@ -321,117 +491,7 @@ const ContractorDetails = () => {
                 </TouchableOpacity>
               )}
             />
-          </View>
-        </View>
-      );
-    }
-
-    if (stage == "Psw") {
-      return (
-        <View style={styles.bg}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-evenly",
-            }}
-          >
-            <View>
-              <TouchableOpacity
-                onPress={pressContact}
-                style={{
-                  backgroundColor: "#A6C4DD",
-                  height: height * 0.081,
-                  width: undefined,
-                  aspectRatio: 1,
-                  borderRadius: 1000,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <MaterialIcons name="contacts" size={24} color="white" />
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <TouchableOpacity
-                onPress={pressPsw}
-                style={{
-                  backgroundColor: "#A6C4DD",
-                  height: height * 0.081,
-                  width: undefined,
-                  aspectRatio: 1,
-                  borderRadius: 1000,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderColor: "black",
-                }}
-              >
-                <MaterialIcons name="work" size={24} color="white" />
-              </TouchableOpacity>
-              <Entypo name="dot-single" size={24} color="#A6C4DD" />
-            </View>
-            <View style={{}}>
-              <TouchableOpacity
-                onPress={pressNurse}
-                style={{
-                  backgroundColor: "#A6C4DD",
-                  height: height * 0.081,
-                  width: undefined,
-                  aspectRatio: 1,
-                  borderRadius: 1000,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <MaterialIcons
-                  name="medical-services"
-                  size={24}
-                  color="white"
-                />
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={JSON.parse(route.params?.pswServices)}
-              keyExtractor={(item) => item.id}
-              ItemSeparatorComponent={() => (
-                <View style={tw` border-t border-gray-200 flex-shrink py-0`} />
-              )}
-              renderItem={({
-                item: { id, name, description, price },
-                item,
-              }) => (
-                <TouchableOpacity
-                  onPress={() => {
-                    let newSelected = { ...selected };
-                    newSelected[item.id] = !newSelected[item.id];
-                    setSelected(newSelected);
-                    if (newSelected[item.id]) {
-                      setTotal(total + price);
-                      dict[item.name] = price;
-                    } else {
-                      setTotal(total - price);
-                      delete dict[item.name];
-                    }
-                  }}
-                  style={tw`flex-row items-center justify-evenly p-3 ${selected[id] && "bg-gray-200"
-                    }`}
-                >
-                  <View style={tw`px-3 w-5/6`}>
-                    <Text style={tw`font-semibold text-lg`}>{name}</Text>
-                    <Text style={tw`text-gray-500 `}>{description}</Text>
-                  </View>
-                  <Text style={tw`text-lg `}>${price}</Text>
-                </TouchableOpacity>
-              )}
-            />
-          </View>
+          </Animated.View>
         </View>
       );
     }
