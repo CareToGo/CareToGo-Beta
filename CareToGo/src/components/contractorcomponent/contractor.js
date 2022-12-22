@@ -51,7 +51,8 @@ const Contractor = ({ worker }) => {
               {
                 backgroundColor: worker.online ? "#4D80C5" : "lightgray",
                 borderRadius: 12,
-                height: 180,
+                height: 180, elevation: 2,
+                borderRightWidth:1, borderBottomWidth: 1, borderColor: 'lightgray'
               },
             ]}
           >
@@ -118,13 +119,7 @@ const Contractor = ({ worker }) => {
               />
             </View>
           </>
-
-
-
-
         )}
-
-
         <View style={{ padding: 5 }}></View>
         <View style={styles.bg} />
       </TouchableOpacity>

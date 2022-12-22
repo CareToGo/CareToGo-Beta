@@ -50,12 +50,15 @@ export default function UserProfile() {
   };
 
   const fetchLink = async () => {
-    Storage.get(`${sub}.jpg`)
-      .then((mylink) => setImageLink(mylink))
+    Storage.get(`${dbUser.sub}.jpg`)
+      .then((mylink) => { setImageLink(mylink)
+                          console.log(mylink) })
       .catch((e) => console.log(e));
   };
 
   useEffect(() => {
+    console.log(sub)
+    console.log('---', dbUser.sub)
     fetchLink();
   }, []);
 
@@ -175,7 +178,7 @@ export default function UserProfile() {
             }}
           >
             <Image
-              source={{ uri: sub ? imageLink : "https://www.google.com/url?sa=i&url=https%3A%2F%2Fstock.adobe.com%2Fsearch%3Fk%3D%2522default%2Bprofile%2Bpicture%2522&psig=AOvVaw3aEPUJs8PYmHvsRStItlVU&ust=1670986762710000&source=images&cd=vfe&ved=0CBAQjRxqFwoTCJD3ivXM9fsCFQAAAAAdAAAAABAK" }}
+              source={{ uri: imageLink }}
               style={{
                 width: "95%",
                 height: undefined,

@@ -82,11 +82,11 @@ const ConfirmEmailScreen = () => {
             onPress={onResendPress}
             type="SECONDARY"
           />
-          <CustomButton
+          {/* <CustomButton
             text="Back to Sign in"
             onPress={onSignInPressed}
             type="TERTIARY"
-          />
+          /> */}
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -13,16 +13,16 @@ import {
 } from "react-native";
 import { useState, useEffect, useRef } from "react";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { AntDesign, Entypo, FontAwesome, Fontisto, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { AntDesign, Entypo, FontAwesome, Octicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import tw from "tailwind-react-native-classnames";
 import ViewCart from "../../components/ViewCart";
 import { Storage } from "aws-amplify";
-import {
-  SharedElement,
-  SharedElementTransition,
-  nodeFromRef,
-} from "react-native-shared-element";
-import { set } from "react-native-reanimated";
+// import {
+//   SharedElement,
+//   SharedElementTransition,
+//   nodeFromRef,
+// } from "react-native-shared-element";
+// import { set } from "react-native-reanimated";
 
 const width = Dimensions.get("window").width;
 const height = Dimensions.get("window").height;
@@ -36,7 +36,7 @@ const ContractorDetails = () => {
   const [total, setTotal] = useState(0);
   const [imageLink, setImageLink] = useState(imageLink ? imageLink : null);
   const fadeAnimA = useRef(new Animated.Value(1)).current
-  const fadeAnimB = useRef(new Animated.Value(1)).current
+  const fadeAnimB = useRef(new Animated.Value(0)).current
   const fadeAnimC = useRef(new Animated.Value(0)).current
 
   const fetchLink = async () => {
@@ -165,9 +165,10 @@ const ContractorDetails = () => {
 
           <ScrollView contentContainerStyle={{ alignItems: 'center' }}>
             <Animated.View style={{ opacity: fadeAnimA }}>
+
               <View style={{ ...styles.infoContainer }}>
                 <View style={{ justifyContent: "center", width: 30 }}>
-                  <MaterialIcons name="person-pin" size={30} color="#A6C4DD" />
+                  <Octicons name="person-fill" size={30} color="#A6C4DD" />
                 </View>
 
                 <View
@@ -190,7 +191,7 @@ const ContractorDetails = () => {
                   style={{
                     flex: 1,
                     paddingLeft: 10,
-                    justifyContent: "center",
+                    justifyContent: "center"
                   }}
                 >
                   <Text style={{ color: "black", fontSize: 15 }}>
@@ -210,11 +211,11 @@ const ContractorDetails = () => {
                   style={{
                     flex: 1,
                     paddingLeft: 10,
-                    justifyContent: "center",
+                    justifyContent: "center"
                   }}
                 >
                   <Text style={{ color: "black", fontSize: 15 }}>
-                    <Text style={{ fontSize: 18, fontWeight: '300' }}> Currently travelling by </Text>
+                    <Text style={{ fontSize: 18, fontWeight: '300' }}>Currently travelling by </Text>
                     <Text style={{ fontSize: 18, fontWeight: '300' }}>{route.params.transportationMode}</Text>
                   </Text>
                 </View>
@@ -245,21 +246,22 @@ const ContractorDetails = () => {
                 </View>
               </View>
 
-              <View style={{ width: "90%", paddingHorizontal: 5 }}>
-                <View style={{ justifyContent: "center", width: 30 }}>
+              <View style={{ flexDirection: 'column', width: "90%", marginBottom: "3%" }}>
+                <View style={{ width: "100%", width: 60, justifyContent: 'center', paddingHorizontal: 5 }}>
                   <MaterialCommunityIcons name="bio" size={30} color="#A6C4DD" />
                 </View>
 
                 <View
                   style={{
+                    width: "100%",
                     flex: 1,
                     alignItems: 'flex-start',
                     backgroundColor: 'lightgray',
                     padding: 10,
-                    borderRadius: 10
+                    borderRadius: 10,
                   }}
                 >
-                  <Text style={{ color: "black", fontSize: 15, fontWeight: '300', textAlign: 'justify' }}>{route.params.bio ? route.params.bio : "No Bio yet..."}</Text>
+                  <Text style={{ color: "black", fontSize: 15, fontWeight: '400', textAlign: 'auto'}}>{route.params.bio ? route.params.bio : "No Bio yet..."}</Text>
                 </View>
               </View>
             </Animated.View>
@@ -507,6 +509,7 @@ const ContractorDetails = () => {
           position: "absolute",
           top: Platform.OS == "ios" ? 12 : 0,
           zIndex: 2,
+          color:'white',
         }}
         onPress={() => {
           navigation.goBack();
@@ -582,7 +585,6 @@ const styles = StyleSheet.create({
     height: height / 15,
     justifyContent: "center",
     width: '90%',
-    borderBottomWidth: 0
   },
 });
 

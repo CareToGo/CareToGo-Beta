@@ -20,6 +20,7 @@ const BasketContextProvider = ({ children }) => {
           return second.rating - first.rating;
         });
         setWorkers(items);
+        console.log("----------------------------", items)
       }
     );
   };
@@ -58,6 +59,7 @@ const BasketContextProvider = ({ children }) => {
       })
     );
   };
+
   return (
     <BasketContext.Provider value={{ createOrder, setWorker, workers }}>
       {children}

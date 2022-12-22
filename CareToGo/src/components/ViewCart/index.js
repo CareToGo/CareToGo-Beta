@@ -16,7 +16,7 @@ import {
 } from "@stripe/stripe-react-native";
 import { useBasketContext } from "../../contexts/BasketContext";
 import { createPaymentIntent } from "../../graphql/mutations";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, FontAwesome5 } from "@expo/vector-icons";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import tw from "tailwind-react-native-classnames";
 
@@ -38,6 +38,11 @@ const ViewCart = (prop) => {
 
     setServices([...nS, ...pS]);
   }, []);
+
+  useEffect(() => {
+    console.log(prop.dict)
+  }, []);
+
   const showDatePicker = () => {
     setDatePickerVisibility(true);
     setModalVisible(true);
@@ -51,7 +56,7 @@ const ViewCart = (prop) => {
     hideDatePicker();
     setDate(data);
   };
-  
+
   useEffect(() => {
     if (clientSecret) {
       initializePaymentSheet();
@@ -143,7 +148,7 @@ const ViewCart = (prop) => {
               <TouchableOpacity
                 onPress={() => setDate(new Date())}
                 style={[
-                  tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full`,
+                  tw`flex flex-row justify-between w-24 px-4 py-3 rounded-full shadow-md`,
                   { backgroundColor: "#A6C4DD" },
                 ]}
               >
@@ -152,7 +157,7 @@ const ViewCart = (prop) => {
               </TouchableOpacity>
               <TouchableOpacity
                 onPress={showDatePicker}
-                style={tw`flex bg-gray-100 flex-row justify-between w-24 px-4 py-3 rounded-full shadow-lg`}
+                style={tw`flex bg-gray-100 flex-row justify-between w-24 px-4 py-3 rounded-full shadow-md`}
               >
                 <AntDesign name="clockcircleo" size={15} color="black" />
                 <Text style={tw`text-black text-center`}>Later</Text>
@@ -164,7 +169,7 @@ const ViewCart = (prop) => {
                 onCancel={hideDatePicker}
                 minimumDate={datenow}
                 date={date}
-                // display="inline"
+              // display="inline"
               />
             </View>
 
@@ -172,16 +177,16 @@ const ViewCart = (prop) => {
               <TouchableOpacity
                 style={{
                   marginTop: 20,
-                  backgroundColor: "#A6C4DD",
+                  backgroundColor: "#001A72",
                   alignItems: "center",
                   borderRadius: 30,
                   width: 300,
                   position: "relative",
-                  padding: 13,
+                  padding: 12,
                 }}
                 onPress={placeOrder}
               >
-                <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
+                <Text style={{ color: "#ffde59", fontSize: 20 }}>Checkout</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>
@@ -194,7 +199,7 @@ const ViewCart = (prop) => {
     <>
       {prop.dict ? (
         <Modal
-          animationType="sliding"
+          animationType="fade"
           hardwareAccelerated={true}
           visible={modalVisible}
           transparent={true}
@@ -210,39 +215,36 @@ const ViewCart = (prop) => {
         <View
           style={{
             flex: 1,
-            alignItems: "center",
+            alignItems: "flex-end",
             flexDirection: "row",
             position: "absolute",
             justifyContent: "center",
-            bottom: "2%",
+            top: "2%",
+            paddingRight: 15,
             zIndex: 999,
           }}
         >
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "center",
+              justifyContent: "flex-end",
               width: "100%",
             }}
           >
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
               style={{
-                top: 6,
                 backgroundColor: "#A6C4DD",
                 padding: 12,
-                borderRadius: 30,
-                width: 240,
-                justifyContent: "space-around",
+                borderRadius: 100,
+                justifyContent: "center",
                 position: "relative",
                 alignItems: "center",
                 flexDirection: "row",
               }}
             >
-              <Text style={{ color: "white", fontSize: 21 }}>View Cart</Text>
-              <Text style={{ color: "white", fontSize: 21 }}>
-                ${prop.total}
-              </Text>
+              <FontAwesome5 name="cart-plus" size={24} color="black" style={{ transform: [{ rotateZ: modalVisible ? "45deg" : "0deg" }] }} />
+              <Text style={{ color: "white", fontSize: 12, position: 'absolute', top: 6, right: 6, backgroundColor: 'red', borderRadius: 10, width: 15, height: 15, textAlign: 'center' }}>{Object.keys(prop.dict).length}</Text>
             </TouchableOpacity>
           </View>
         </View>

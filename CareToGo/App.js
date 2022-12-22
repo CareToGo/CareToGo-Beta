@@ -10,8 +10,8 @@ import BasketContextProvider from "./src/contexts/BasketContext";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import LoginNavigation from "./src/LoginNavigation";
 import { LogBox } from 'react-native';
-LogBox.ignoreLogs(['new NativeEventEmitter']); // Ignore log notification by message
-LogBox.ignoreAllLogs(); //Ignore all log notifications
+LogBox.ignoreLogs(['new NativeEventEmitter']); 
+LogBox.ignoreAllLogs(); 
 
 Amplify.configure({
   ...config,
