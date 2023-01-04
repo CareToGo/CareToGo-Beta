@@ -58,7 +58,6 @@ const EditCareProfile = () => {
         updated.ver = parseInt(dbUser.ver + 1);
       })
     );
-    console.log(user);
     setDbUser(user);
   };
 

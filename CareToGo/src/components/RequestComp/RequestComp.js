@@ -21,15 +21,14 @@ export default function RequestComp({ order, navigation }) {
 
   useEffect(() => {
     // console.log('----reqcomp----', order);
-    // console.log('----reqcomp----', JSON.parse(order.service));
-    console.log('----reqcomp----', order.Worker.sub);
+    // console.log('----reqcomp----', order.Worker.sub);
+    // console.log('----reqcomp----', JSON.parse(order.service).length);
   }, []);
 
   const fetchLink = async () => {
     Storage.get(`${order.Worker.sub}.jpg`)
       .then((mylink) => {
         setImageLink(mylink)
-        // console.log(mylink)
       })
       .catch((e) => console.log(e));
   };
@@ -40,15 +39,52 @@ export default function RequestComp({ order, navigation }) {
 
 
   return (
-    <View style={{ flex: 1, borderBottomWidth: 1, borderColor: 'lightgray', paddingHorizontal: 15, height: 180, paddingVertical: 15 }}>
-      <View style={{ height: "100%", justifyContent:'center', width: 100 }}>
+    <View style={{ flex: 1, borderBottomWidth: 1, borderColor: 'lightgray', paddingHorizontal: "6%", height: 180, paddingVertical: 30, flexDirection: 'row' }}>
+      <View style={{ height: "100%", justifyContent: 'center', width: "36%" }}>
         <Image
           source={{
             uri: imageLink,
           }}
-          style={{ resizeMode: 'contain', height: 100, width: 100, borderRadius: 10 }}
+          style={{ resizeMode: 'contain', width: '100%', height: undefined, aspectRatio: 1, borderRadius: 10 }}
         />
       </View>
+
+      <View style={{ height: "100%", width: "64%", borderWidth: 0, alignItems: 'center', paddingLeft: 15 }}>
+        <View style={{ width: "100%" }}>
+          <Text style={{ fontSize: 21, fontWeight: "600" }}>
+            {order.Worker.firstName} {order.Worker.lastName} {`\u2022`} {order.Worker.profession}
+          </Text>
+        </View>
+
+        <View style={{ width: "100%", marginVertical: 1 }}>
+          <Text style={{ fontSize: 14, fontWeight: "400" }}>
+            {`\u2022`} {JSON.parse(order.service).length} {JSON.parse(order.service).length == 1 ? ('service') : ('services')} for ${order.total}
+          </Text>
+        </View>
+
+        <View style={{ width: "100%", marginVertical: 1 }}>
+          <Text style={{ fontSize: 14, fontWeight: "400" }}>
+            {`\u2022`} {order.time}
+          </Text>
+        </View>
+
+        <View style={{ width: "100%", marginVertical: 1 }}>
+          <Text style={{ fontSize: 14, fontWeight: "400" }}>
+            {`\u2022`} Status: {order.status == 'NEW' ? ("Waiting for Response") : ("Accepted")}
+          </Text>
+        </View>
+
+        <TouchableOpacity style={{ width: "100%" }}>
+          <Text style={{ fontSize: 15, fontWeight: "500", padding: 5, borderRadius: 10, backgroundColor:'#001A72', textAlign:"center", color: "#ffde59" }}>
+            View
+          </Text>
+        </TouchableOpacity>
+
+        
+
+      </View>
+
+
 
 
       {/* <View

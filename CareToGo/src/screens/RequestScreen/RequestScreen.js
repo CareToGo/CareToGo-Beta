@@ -62,7 +62,7 @@ export default function RequestScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white'
+    backgroundColor: 'white',
   },
   title: {
     fontWeight: "300",

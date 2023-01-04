@@ -266,9 +266,7 @@ const EditUserProfile = () => {
 
   return (
     <View style={{ backgroundColor: "#FFFFFF", paddingTop: 10 }}>
-      <ScrollView
-        contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}
-      >
+      <ScrollView contentContainerStyle={{ alignItems: "center", height: SCREEN_HEIGHT }}>
         {/* FORM */}
         <View style={{ ...styles.mainContainer }}>
           <View style={{ ...styles.inputContainer }}>
@@ -283,7 +281,7 @@ const EditUserProfile = () => {
               style={{
                 flexDirection: "row",
                 justifyContent: "center",
-                width: SCREEN_WIDTH * 0.9 - 60,
+                width: SCREEN_WIDTH * 0.9 - 55,
                 borderColor: "lightgray",
                 borderBottomWidth: 1,
               }}

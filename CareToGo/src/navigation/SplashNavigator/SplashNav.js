@@ -41,7 +41,7 @@ const SplashNav = () => {
 
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      {!loading ? (dbUser ? (
+      {!loading ? (!dbUser ? (
         <Stack.Screen
           name="HomeTabs"
           component={TabNav}
